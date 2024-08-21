@@ -5,21 +5,16 @@ import { Typewriter } from "react-simple-typewriter";
 import ProfileSettingsModal from '../profile/index.jsx';
 import ResumeTipsModal from '../resumeTips/index.jsx';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function Dashboard() {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
-  const appEnv = 'prod';
-  const apiUrl = import.meta.env.API_URL;
   const [userDetails, setUserDetails] = useState(null);
-  const accessToken = new URLSearchParams(window.location.search).get('oauth');
+  const accessToken = Cookies.get('ACCESS_TOKEN');
 
   useEffect(() => {
-    if (appEnv === 'prod') {
-      //cookie based implementation
-    } else {
       fetchTokenFromUri();
-    }
   }, []);
 
   const fetchTokenFromUri = () => {
@@ -31,7 +26,7 @@ function Dashboard() {
   }
 
   const fetchUserDetailsFromToken = async (e) => {
-    try {
+    try {    
       const response = await axios.get(`http://localhost:8080/auth/current-user`, {
         headers: { 'Authorization': `Bearer ${accessToken}` },
         withCredentials: true,
