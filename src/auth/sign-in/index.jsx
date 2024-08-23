@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
+import { FaGoogle } from 'react-icons/fa';
 
 
 function SignInPage() {
@@ -40,8 +40,8 @@ function SignInPage() {
           e.preventDefault();
           try {
                const response = await axios.post('http://localhost:8080/auth/token', creds);
-               localStorage.setItem('JWT_TOKEN', response.data.token);
-               localStorage.setItem('username', formData.username);
+               sessionStorage.setItem('JWT_TOKEN', response.data.token);
+               sessionStorage.setItem('username', formData.username);
                navigate('/dashboard'); // Redirect to dashboard
           } catch (error) {
                console.error('Login failed:', error);
@@ -61,12 +61,8 @@ function SignInPage() {
      };
 
      const handleGoogleLogin = () => {
-          localStorage.setItem('GOOGLE_OAUTH2_TOKEN', 'default');
+          sessionStorage.setItem('GOOGLE_OAUTH2_TOKEN', 'default');
           window.location.href = 'http://localhost:8080/oauth2/authorization/google';
-     };
-
-     const handleGithubLogin = () => {
-          window.location.href = 'http://localhost:8080/oauth2/authorization/github';
      };
 
      return (
@@ -149,12 +145,7 @@ function SignInPage() {
                          <div className="mt-8 space-y-4">
                               <p className="text-sm text-gray-400">Or sign in with</p>
                               <div className="flex justify-center space-x-8">
-                                   <button onClick={handleGithubLogin} className="bg-gray-600 hover:bg-gray-500 text-white py-3 px-6 rounded-lg flex items-center">
-                                        <FaGithub className="w-6 h-6 mr-2" />
-                                        GitHub
-                                   </button>
-
-                                   <button onClick={handleGoogleLogin} className="bg-gray-600 hover:bg-gray-500 text-white py-3 px-6 rounded-lg flex items-center">
+                                   <button onClick={handleGoogleLogin} className="bg-gray-800  text-white py-3 px-6 rounded-lg flex items-center">
                                         <FaGoogle className="w-6 h-6 mr-2" />
                                         Google
                                    </button>

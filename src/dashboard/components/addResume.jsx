@@ -1,47 +1,83 @@
-import { PlusSquare } from 'lucide-react'
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogTitle
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { v4 as uuidv4 } from 'uuid';
 
 function AddResume() {
+  const navigate = useNavigate();
   const [openDialog, setOpenDialog] = React.useState(false)
   const [resumeTitle, setResumeTitle] = React.useState();
 
-  const onCreate = () => {
-    const uuid = uuidv4();
-    console.log(resumeTitle, uuid)
+  const buildResume = () => {
+    navigate('/user/dashboard'); 
   }
+
   return (
     <div>
-      <div className='p-14 py-24 border border-gray-800 items-center flex justify-center bg-gray-800 cursor-pointer border-dashed rounded-lg w-40 hover:scale-105 transition-all hover:shadow-md' onClick={() => setOpenDialog(true)}>
-        <PlusSquare />
+      <div
+        className="flex items-center justify-center  p-6 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+
+        onClick={() => setOpenDialog(true)}
+      >
+        <div className="flex items-center justify-center mb-4 bg-gray-800 rounded-full p-4 shadow-lg">
+          <svg
+            className="h-16 w-16 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </div>
       </div>
 
-      <Dialog open={openDialog}>      
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create New Resume</DialogTitle>
-            <DialogDescription>
-              Put a title for your resume
-              <Input className='mt-2 mb-2' placeholder='Title' onChange={(e) => setResumeTitle(e.target.value)}/>
-            </DialogDescription>
-            <div className='flex justify-end gap-5'>
-              <Button onClick={() => setOpenDialog(false)} variant='ghost'>Cancel</Button>
-              <Button disabled={!resumeTitle} onClick={() => onCreate()}>Confirm</Button>
-            </div>
+
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="bg-gray-900 text-gray-100 rounded-lg border-none shadow-lg">
+          <DialogHeader className="pb-4 flex justify-between">
+            <DialogTitle className="text-xl font-light text-gray-200 tracking-wide">
+              Create New Resume
+            </DialogTitle>
           </DialogHeader>
+          <DialogDescription className="text-gray-400">
+            Put a title for your resume
+            <Input
+              className="mt-2 mb-2 bg-gray-800 text-gray-100 border-none rounded focus:ring-2 focus:ring-blue-600 placeholder-gray-500"
+              placeholder="Title"
+              onChange={(e) => setResumeTitle(e.target.value)}
+            />
+          </DialogDescription>
+          <div className="flex justify-end gap-5 mt-4">
+            <Button
+              onClick={() => setOpenDialog(false)}
+              className="text-gray-300 border-none"
+            >
+              Cancel
+            </Button>
+            <Button
+              disabled={!resumeTitle}
+              onClick={() => buildResume()}
+              className="bg-blue-600 hover:bg-blue-700 text-white border-none"
+            >
+              Confirm
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
-
     </div>
   )
 }

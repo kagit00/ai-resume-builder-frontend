@@ -67,3 +67,99 @@
     @apply bg-background text-foreground;
   }
 }
+/* global.css */
+.custom-scrollbar {
+  height: 100vh; /* Adjust as needed */
+  overflow: hidden; /* Hide scrollbar initially */
+  position: relative; /* For positioning the pseudo-elements */
+}
+
+/* WebKit browsers (Chrome, Safari) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+  opacity: 0; /* Hide scrollbar initially */
+  transition: opacity 0.3s ease; /* Smooth transition for opacity */
+}
+
+/* Scrollbar Handle */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #1e3a8a; /* Navy blue base color */
+  border-radius: 10px; /* Rounded corners for the handle */
+  border: 3px solid #1e3a8a; /* Match border color to thumb to avoid white border */
+  background-image: linear-gradient(180deg, #001f3f, #003366); /* Navy blue gradient */
+  transition: background-image 0.3s ease, transform 0.3s ease; /* Smooth transition for gradient and transform */
+}
+
+/* Scrollbar Handle on Hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(180deg, #003366, #004080); /* Darker navy blue gradient on hover */
+  transform: scale(1.1); /* Slightly enlarge thumb on hover */
+}
+
+/* Scrollbar Track (background) */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #00274d; /* Dark navy blue for the track */
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Show scrollbar on hover */
+.custom-scrollbar:hover::-webkit-scrollbar {
+  opacity: 1; /* Show scrollbar on hover */
+}
+
+/* Optional: Show scrollbar on active scrolling */
+.custom-scrollbar:active::-webkit-scrollbar {
+  opacity: 1; /* Show scrollbar while scrolling */
+}
+
+/* Optional: Use JavaScript to force visibility */
+.custom-scrollbar {
+  overflow: auto; /* Enable scrolling */
+}
+
+/* Hide scrollbar but keep scrolling functionality */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0px; /* Hide scrollbar width */
+  background: transparent; /* Hide scrollbar track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent; /* Hide scrollbar thumb */
+}
+
+/* Display scrollbar when scrolling */
+.custom-scrollbar-scrolling::-webkit-scrollbar {
+  width: 12px; /* Reapply width when scrolling */
+  opacity: 1; /* Ensure visibility */
+}
+
+/* Global Styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #1a202c; /* Dark background color */
+}
+
+#root {
+  height: 100%;
+}
+
+/* For WebKit browsers (Chrome, Safari) */
+.hidden-scrollbar::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.hidden-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* For Firefox */
+.hidden-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}

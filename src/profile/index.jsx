@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 
 const ProfileSettingsModal = ({ onClose }) => {
      const [viewingProfile, setViewingProfile] = useState(false);
-     const username = localStorage.getItem('GOOGLE_OAUTH2_USERNAME');
-     const name = localStorage.getItem('GOOGLE_OAUTH2_NAME');
-     const memberSince = localStorage.getItem('GOOGLE_OAUTH2_USER_MEMBER_SINCE').slice(0, 4);
-     const bio = localStorage.getItem('GOOGLE_OAUTH2_USER_BIO');
+     const username = sessionStorage.getItem('GOOGLE_OAUTH2_USERNAME');
+     const name = sessionStorage.getItem('GOOGLE_OAUTH2_NAME');
+     const memberSince = sessionStorage.getItem('GOOGLE_OAUTH2_USER_MEMBER_SINCE') 
+     const bio = sessionStorage.getItem('GOOGLE_OAUTH2_USER_BIO');
 
      return (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
@@ -74,7 +74,7 @@ const ProfileSettingsModal = ({ onClose }) => {
                                         </p>
                                         <p className="flex items-center text-gray-300 text-base mb-4">
                                              <span className="bg-gray-700 text-white px-2 py-1 rounded-lg mr-4">Member Since</span>
-                                             <span>{memberSince}</span>
+                                             <span>{memberSince? memberSince.slice(0, 4) : ""}</span>
                                         </p>
                                         <p className="flex items-center text-gray-300 text-base">
                                              <span className="bg-gray-700 text-white px-2 py-1 rounded-lg mr-4">Bio</span>
