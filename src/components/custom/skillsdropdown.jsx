@@ -37,13 +37,13 @@ const SkillsDropdown = ({ skills, handleSkillsUpdate }) => {
       <div className="relative">
         <button
           onClick={toggleDropdown}
-          className="bg-gray-700 text-gray-100 border-none rounded-lg w-full py-2 px-3 md:px-4 leading-tight focus:outline-none focus:bg-gray-600 transition duration-200 ease-in-out"
+          className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
         >
           {selectedSkills.length > 0 ? 'Select Skills' : 'Select Skills'}
         </button>
         {dropdownOpen && (
-          <div className="absolute bg-gray-800 border border-gray-600 rounded-lg mt-1 w-full z-10">
-            <div className="max-h-60 overflow-y-auto">
+          <div className="absolute bg-zinc-900 rounded-lg mt-1 w-full z-10">
+            <div className="max-h-60 overflow-y-auto hidden-scrollbar">
               {skillOptions.map((skill, index) => (
                 <div
                   key={index}

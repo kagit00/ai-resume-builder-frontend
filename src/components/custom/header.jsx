@@ -1,20 +1,21 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function Header() {
      const location = useLocation();
      const navigate = useNavigate();
-     const jwtToken = sessionStorage.getItem('JWT_TOKEN');
-     const googleAuthToken = sessionStorage.getItem('GOOGLE_OAUTH2_TOKEN');
+     const jwtToken = Cookies.set('JWT_TOKEN');
+     const googleAuthToken = Cookies.get('GOOGLE_OAUTH2_TOKEN');
 
      const logOut = () => {
-          sessionStorage.clear();
+          Cookies.remove('GOOGLE_OAUTH2_TOKEN')
           navigate('/');
      }
 
      return (
-          <header className="w-full py-3 bg-gradient-to-r from-gray-900 via-gray-800 to-black text-gray-100 fixed top-0 left-0 z-50">
+          <header className="w-full py-3 bg-black text-gray-100 fixed top-0 left-0 z-50">
                <div className="max-w-screen-xl mx-auto px-4 flex justify-between items-center">
                     <p className="flex text-2xl text-white tracking-wide">
                          <svg id="logo-35" width="50" height="39" viewBox="0 0 50 39" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" class="ccompli1" fill="#007AFF"></path> <path d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z" class="ccustom" fill="#312ECB"></path> </svg>

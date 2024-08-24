@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 
 
-const ProfileSettingsModal = ({ onClose }) => {
+const ProfileSettingsModal = ({ onClose, userDetails }) => {
      const [viewingProfile, setViewingProfile] = useState(false);
-     const username = sessionStorage.getItem('GOOGLE_OAUTH2_USERNAME');
-     const name = sessionStorage.getItem('GOOGLE_OAUTH2_NAME');
-     const memberSince = sessionStorage.getItem('GOOGLE_OAUTH2_USER_MEMBER_SINCE') 
-     const bio = sessionStorage.getItem('GOOGLE_OAUTH2_USER_BIO');
 
      return (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-               <div className="bg-gray-900 text-white rounded-2xl shadow-xl w-full max-w-md p-8 relative">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-100 z-50">
+               <div className="text-white rounded-2xl shadow-xl w-full max-w-md p-8 relative">
                     <button
                          onClick={onClose}
                          className="absolute top-4 right-4 text-gray-400 hover:text-white focus:outline-none"
@@ -19,22 +15,22 @@ const ProfileSettingsModal = ({ onClose }) => {
                     </button>
                     {!viewingProfile ? (
                          <>
-                              <h2 className="text-xl md:text-2xl lg:text-3xl mb-6 font-thin text-white">Profile Settings</h2>
+                              <h2 className="text-xl md:text-2xl lg:text-xl mb-6 font-normal text-white">Profile Settings</h2>
                               <ul className="space-y-4">
-                                   <li className="hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                   <li className="hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                         Upgrade To Premium
                                    </li>
-                                   <li className="hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                   <li className="hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                         Change Password
                                    </li>
-                                   <li className="hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                   <li className="hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                         Manage Email Notifications
                                    </li>
                                    <li
                                         onClick={() => {
                                              setViewingProfile(true);
                                         }}
-                                        className="hover:bg-gray-800 p-4 rounded-lg cursor-pointer transition-colors duration-300"
+                                        className="hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300"
                                    >
                                         View Profile
                                    </li>
@@ -63,22 +59,22 @@ const ProfileSettingsModal = ({ onClose }) => {
                                    Profile Details
                               </h2>
                               <div className="space-y-6">
-                                   <div className="p-6 rounded-lg shadow-md bg-gray-900">
+                                   <div className="p-6 rounded-lg shadow-md bg-black bg-opacity-100 z-50">
                                         <p className="flex items-center text-gray-300 text-base mb-4">
-                                             <span className="bg-gray-700 text-white px-2 py-1 rounded-lg mr-4">Email</span>
-                                             <span>{username}</span>
+                                             <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Email</span>
+                                             <span>{userDetails.username}</span>
                                         </p>
                                         <p className="flex items-center text-gray-300 text-base mb-4">
-                                             <span className="bg-gray-700 text-white px-2 py-1 rounded-lg mr-4">Name</span>
-                                             <span>{name}</span>
+                                             <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Name</span>
+                                             <span>{userDetails.name}</span>
                                         </p>
                                         <p className="flex items-center text-gray-300 text-base mb-4">
-                                             <span className="bg-gray-700 text-white px-2 py-1 rounded-lg mr-4">Member Since</span>
-                                             <span>{memberSince? memberSince.slice(0, 4) : ""}</span>
+                                             <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Member Since</span>
+                                             <span>{userDetails.timestamp? userDetails.timestamp.slice(0, 4) : ""}</span>
                                         </p>
                                         <p className="flex items-center text-gray-300 text-base">
-                                             <span className="bg-gray-700 text-white px-2 py-1 rounded-lg mr-4">Bio</span>
-                                             <span>{bio? bio : 'Nothing to show as of now'}</span>
+                                             <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Bio</span>
+                                             <span>{userDetails.bio? userDetails.bio : 'Nothing to show as of now'}</span>
                                         </p>
                                    </div>
                               </div>

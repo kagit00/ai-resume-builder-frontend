@@ -11,7 +11,7 @@ function Dashboard() {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const accessToken = Cookies.get('ACCESS_TOKEN');
+  const accessToken = Cookies.get('GOOGLE_OAUTH2_TOKEN');
 
   useEffect(() => {
     fetchTokenFromUri();
@@ -20,7 +20,6 @@ function Dashboard() {
   const fetchTokenFromUri = () => {
     if (accessToken) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      sessionStorage.setItem('GOOGLE_OAUTH2_TOKEN', accessToken);
       fetchUserDetailsFromToken();
     }
   }
@@ -33,25 +32,13 @@ function Dashboard() {
       });
 
       const userDetails = response.data;
-      if (userDetails) {
-        setUserDetails(userDetails);
-        sessionStorage.setItem('GOOGLE_OAUTH2_USERNAME', userDetails.username);
-        sessionStorage.setItem('GOOGLE_OAUTH2_NAME', userDetails.name);
-        sessionStorage.setItem('GOOGLE_OAUTH2_USER_MEMBER_SINCE', userDetails.timestamp);
-        sessionStorage.setItem('GOOGLE_OAUTH2_USER_BIO', userDetails.bio);
-      } else {
-        setErrorMessage('Failed to fetch user details.');
-      }
+      if (userDetails) setUserDetails(userDetails);
+      else setErrorMessage('Failed to fetch user details.');
     } catch (error) {
       console.error('Login failed:', error);
-
-      if (error.response) {
-        setErrorMessage(`Login failed: ${error.response.data.message}`);
-      } else if (error.request) {
-        setErrorMessage('Login failed: No response from the server.');
-      } else {
-        setErrorMessage('Login failed: An unexpected error occurred.');
-      }
+      if (error.response) setErrorMessage(`Login failed: ${error.response.data.message}`);
+      else if (error.request) setErrorMessage('Login failed: No response from the server.');
+      else setErrorMessage('Login failed: An unexpected error occurred.');
     }
   };
 
@@ -74,7 +61,7 @@ function Dashboard() {
   return (
     <div className="bg-black text-white min-h-screen flex flex-col font-sans overflow-x-hidden">
       <Header />
-      <section id="home" className="relative flex-1 flex flex-col bg-gradient-to-r from-gray-900 via-gray-800 to-black py-20 px-10">
+      <section id="home" className="relative flex-1 flex flex-col py-20 px-10">
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 rounded-lg -z-10"></div>
@@ -95,7 +82,7 @@ function Dashboard() {
 
               <p className="text-sm md:text-md lg:text-lg leading-relaxed text-gray-400 font-light">
                 <span className="font-bold bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600 text-transparent">
-                  Click on the '+' 
+                  Click on the '+'
                 </span>
                 {' '} and make your professional resumes effortlessly. Our tools help you craft standout resumes, showcasing your skills and experience to potential employers.
               </p>
@@ -109,13 +96,13 @@ function Dashboard() {
 
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="flex items-center justify-center bg-gray-900 rounded-3xl hover:shadow-3xl hover:scale-105">
-              <AddResume />
+            <div className="flex items-center justify-center bg-transparent rounded-3xl hover:shadow-3xl hover:scale-105">
+              <AddResume userDetails={userDetails}/>
             </div>
 
-            <div className="relative p-6 rounded-3xl shadow-2xl flex flex-col bg-gray-800 overflow-hidden hover:shadow-3xl transition-colors duration-300">
+            <div className="relative p-6 rounded-3xl shadow-2xl flex flex-col bg-zinc-900 overflow-hidden hover:shadow-3xl transition-colors duration-300">
               <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
-              <h4 className="text-xl md:text-2xl lg:text-3xl mb-5 font-thin text-white">Resume Tips</h4>
+              <h4 className="text-xl md:text-xl lg:text-2xl mb-5 font-normal text-white">Resume Tips</h4>
               <p className="relative text-gray-300 mb-6">
                 Discover best practices for resume writing to ensure your application stands out from the crowd.
               </p>
@@ -136,9 +123,9 @@ function Dashboard() {
             </div>
 
 
-            <div className="relative p-6 rounded-3xl shadow-2xl flex flex-col bg-gray-800 overflow-hidden hover:shadow-3xl transition-transform duration-300">
+            <div className="relative p-6 rounded-3xl shadow-3xl flex flex-col bg-zinc-900 overflow-hidden hover:shadow-3xl transition-transform duration-300">
               <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
-              <h4 className="text-xl md:text-2xl lg:text-3xl mb-5 font-thin text-white">Profile Settings</h4>
+              <h4 className="text-xl md:text-xl lg:text-2xl mb-5 font-normal text-white">Profile Settings</h4>
               <p className="relative text-gray-300 mb-6">
                 Customize your profile to reflect your personal and professional identity accurately. Also view your profile details.
               </p>
@@ -154,7 +141,7 @@ function Dashboard() {
               >
                 Settings
               </button>
-              {isProfileModalOpen && <ProfileSettingsModal onClose={handleCloseProfileModal} />}
+              {isProfileModalOpen && <ProfileSettingsModal onClose={handleCloseProfileModal} userDetails={userDetails}/>}
             </div>
 
           </div>

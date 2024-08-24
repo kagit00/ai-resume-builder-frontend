@@ -9,15 +9,19 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { v4 as uuidv4 } from 'uuid';
 
-function AddResume() {
+function AddResume({userDetails}) {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = React.useState(false)
   const [resumeTitle, setResumeTitle] = React.useState();
+  const resumeDetails = {
+    userDetails: userDetails,
+    resumeTitle: resumeTitle
+  }
 
   const buildResume = () => {
-    navigate('/user/dashboard'); 
+    navigate('/user/dashboard/resumeBuilder', {state: resumeDetails}); 
+    console.log(resumeDetails)
   }
 
   return (
@@ -47,16 +51,16 @@ function AddResume() {
 
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="bg-gray-900 text-gray-100 rounded-lg border-none shadow-lg">
+        <DialogContent className="bg-zinc-900 text-gray-100 rounded-lg border-none shadow-4xl">
           <DialogHeader className="pb-4 flex justify-between">
-            <DialogTitle className="text-xl font-light text-gray-200 tracking-wide">
+            <DialogTitle className="text-xl font-normal text-gray-200 tracking-wide">
               Create New Resume
             </DialogTitle>
           </DialogHeader>
           <DialogDescription className="text-gray-400">
             Put a title for your resume
             <Input
-              className="mt-2 mb-2 bg-gray-800 text-gray-100 border-none rounded focus:ring-2 focus:ring-blue-600 placeholder-gray-500"
+              className="mt-2 mb-2 bg-zinc-900 text-gray-100 border-none rounded focus:ring-2 focus:ring-blue-600 placeholder-gray-500"
               placeholder="Title"
               onChange={(e) => setResumeTitle(e.target.value)}
             />
@@ -64,7 +68,7 @@ function AddResume() {
           <div className="flex justify-end gap-5 mt-4">
             <Button
               onClick={() => setOpenDialog(false)}
-              className="text-gray-300 border-none"
+              className="text-gray-300 border-none bg-transparent"
             >
               Cancel
             </Button>

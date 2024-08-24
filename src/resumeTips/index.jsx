@@ -2,15 +2,15 @@ import React from 'react';
 
 const ResumeTipsModal = ({ onClose }) => {
      return (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-               <div className="bg-gray-900 text-white rounded-lg shadow-xl w-full max-w-md p-8 relative">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50">
+               <div className=" text-white rounded-lg shadow-xl w-full max-w-md p-8 relative">
                     <button
                          onClick={onClose}
                          className="absolute top-4 right-4 text-gray-400 hover:text-white focus:outline-none transition-colors duration-300"
                     >
                          &times;
                     </button>
-                    <h2 className="text-xl md:text-2xl lg:text-3xl mb-6 font-thin text-white">Resume Creation Tips</h2>
+                    <h2 className="text-xl md:text-xl lg:text-2xl mb-6 font-normal text-white">Resume Creation Tips</h2>
                     <div className="flex justify-center mb-6">
                          <svg
                               width="80"

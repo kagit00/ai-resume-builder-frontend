@@ -3,7 +3,7 @@ import { FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer id="contact" className="py-12 bg-gradient-to-r from-gray-900 via-gray-800 to-black text-center text-gray-400">
+    <footer id="contact" className="py-12 bg-black text-center text-gray-400">
         <div className="container mx-auto px-4 md:px-8">
           <p className="text-sm mb-6">&copy; 2024 ResumedAI. All rights reserved.</p>
           <div className="flex justify-center space-x-6">

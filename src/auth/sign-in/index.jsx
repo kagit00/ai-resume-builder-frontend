@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaGoogle } from 'react-icons/fa';
+import Cookies from 'js-cookie';
 
 
 function SignInPage() {
@@ -40,9 +41,8 @@ function SignInPage() {
           e.preventDefault();
           try {
                const response = await axios.post('http://localhost:8080/auth/token', creds);
-               sessionStorage.setItem('JWT_TOKEN', response.data.token);
-               sessionStorage.setItem('username', formData.username);
-               navigate('/dashboard'); // Redirect to dashboard
+               Cookies.set('JWT_TOKEN', response.data.token);
+               navigate('/user/dashboard');
           } catch (error) {
                console.error('Login failed:', error);
                setErrorMessage('Login failed. Please check your credentials.');
@@ -61,7 +61,6 @@ function SignInPage() {
      };
 
      const handleGoogleLogin = () => {
-          sessionStorage.setItem('GOOGLE_OAUTH2_TOKEN', 'default');
           window.location.href = 'http://localhost:8080/oauth2/authorization/google';
      };
 
@@ -69,9 +68,9 @@ function SignInPage() {
           <div className="bg-black text-white min-h-screen flex flex-col font-sans overflow-x-hidden">
                <section
                     id="home"
-                    className="relative flex-1 flex flex-col justify-center items-center text-center bg-gradient-to-r from-gray-900 to-black h-full w-full"
+                    className="relative flex-1 flex flex-col justify-center items-center text-center h-full w-full"
                >
-                    <div className="bg-gray-800 text-white p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-md">
+                    <div className="bg-zinc-900 text-white p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-md">
                          <h2 className="text-xl md:text-2xl mb-6">
                               {isSignIn ? 'Sign In To resumed.' : 'Sign Up To resumed.'}
                          </h2>
@@ -84,7 +83,7 @@ function SignInPage() {
                                         required
                                         type="text"
                                         placeholder="E-mail Id"
-                                        className="bg-gray-700 text-white w-full py-3 px-4 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="bg-zinc-800 text-white w-full py-3 px-4 rounded-lg shadow-inner focus:outline-none"
                                    />
                               </div>
                               {!isSignIn && (
@@ -97,7 +96,7 @@ function SignInPage() {
                                                   required
                                                   type="text"
                                                   placeholder="Name"
-                                                  className="bg-gray-700 text-white w-full py-3 px-4 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                  className="bg-zinc-800 text-white w-full py-3 px-4 rounded-lg shadow-inner focus:outline-none"
                                              />
                                         </div>
                                         <div>
@@ -108,7 +107,7 @@ function SignInPage() {
                                                   required
                                                   type="password"
                                                   placeholder="Password"
-                                                  className="bg-gray-700 text-white w-full py-3 px-4 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                  className="bg-zinc-800 text-white w-full py-3 px-4 rounded-lg shadow-inner focus:outline-none"
                                              />
                                         </div>
                                    </div>
@@ -123,7 +122,7 @@ function SignInPage() {
                                              required
                                              type="password"
                                              placeholder="Password"
-                                             className="bg-gray-700 text-white w-full py-3 px-4 rounded-lg shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                             className="bg-zinc-800 text-white w-full py-3 px-4 rounded-lg shadow-inner focus:outline-none"
                                         />
                                    </div>
                               )}
@@ -145,7 +144,7 @@ function SignInPage() {
                          <div className="mt-8 space-y-4">
                               <p className="text-sm text-gray-400">Or sign in with</p>
                               <div className="flex justify-center space-x-8">
-                                   <button onClick={handleGoogleLogin} className="bg-gray-800  text-white py-3 px-6 rounded-lg flex items-center">
+                                   <button onClick={handleGoogleLogin} className="bg-transparent  text-white py-3 px-6 rounded-lg flex items-center">
                                         <FaGoogle className="w-6 h-6 mr-2" />
                                         Google
                                    </button>
