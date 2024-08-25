@@ -67,7 +67,7 @@ function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 rounded-lg -z-10"></div>
 
             <div className="relative z-10 max-w-3xl mx-auto px-6 py-4">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 font-light text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 animate-gradientPulse drop-shadow-lg">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 font-light text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 to-zinc-900 animate-gradientPulse drop-shadow-lg">
                 <span className="inline-block">
                   <Typewriter
                     words={["Hello", "Hola", "Namaste"]}
@@ -80,7 +80,7 @@ function Dashboard() {
                 </span>
               </h2>
 
-              <p className="text-sm md:text-md lg:text-lg leading-relaxed text-gray-400 font-light">
+              <p className="text-sm md:text-md lg:text-lg leading-relaxed text-gray-400 font-normal">
                 <span className="font-bold bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600 text-transparent">
                   Click on the '+'
                 </span>
@@ -100,7 +100,7 @@ function Dashboard() {
               <AddResume userDetails={userDetails}/>
             </div>
 
-            <div className="relative p-6 rounded-3xl shadow-2xl flex flex-col bg-zinc-900 overflow-hidden hover:shadow-3xl transition-colors duration-300">
+            <div className="relative p-6 rounded-3xl shadow-2xl flex flex-col bg-gradient-to-r from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-colors duration-300">
               <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
               <h4 className="text-xl md:text-xl lg:text-2xl mb-5 font-normal text-white">Resume Tips</h4>
               <p className="relative text-gray-300 mb-6">
@@ -123,7 +123,7 @@ function Dashboard() {
             </div>
 
 
-            <div className="relative p-6 rounded-3xl shadow-3xl flex flex-col bg-zinc-900 overflow-hidden hover:shadow-3xl transition-transform duration-300">
+            <div className="relative p-6 rounded-3xl shadow-3xl flex flex-col bg-gradient-to-r from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-transform duration-300">
               <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
               <h4 className="text-xl md:text-xl lg:text-2xl mb-5 font-normal text-white">Profile Settings</h4>
               <p className="relative text-gray-300 mb-6">

@@ -6,7 +6,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
      return (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-100 z-50">
-               <div className="text-white rounded-2xl shadow-xl w-full max-w-md p-8 relative">
+               <div className="text-white rounded-2xl shadow-xl w-full max-w-md p-8 relative bg-gradient-to-r from-zinc-900 to-black">
                     <button
                          onClick={onClose}
                          className="absolute top-4 right-4 text-gray-400 hover:text-white focus:outline-none"
@@ -59,7 +59,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    Profile Details
                               </h2>
                               <div className="space-y-6">
-                                   <div className="p-6 rounded-lg shadow-md bg-black bg-opacity-100 z-50">
+                                   <div className="p-6 rounded-lg shadow-md bg-opacity-100 z-50">
                                         <p className="flex items-center text-gray-300 text-base mb-4">
                                              <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Email</span>
                                              <span>{userDetails.username}</span>

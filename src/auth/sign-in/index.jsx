@@ -71,8 +71,8 @@ function SignInPage() {
                     className="relative flex-1 flex flex-col justify-center items-center text-center h-full w-full"
                >
                     <div className="bg-zinc-900 text-white p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-md">
-                         <h2 className="text-xl md:text-2xl mb-6">
-                              {isSignIn ? 'Sign In To resumed.' : 'Sign Up To resumed.'}
+                         <h2 className="text-xl md:text-2xl mb-6 font-thin">
+                              {isSignIn ? 'Sign In To Resumed.' : 'Sign Up To Resumed.'}
                          </h2>
                          <form className="space-y-6" onSubmit={isSignIn ? handleSignIn : handleSignUp}>
                               <div>

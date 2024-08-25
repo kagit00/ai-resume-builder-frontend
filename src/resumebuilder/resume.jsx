@@ -44,7 +44,8 @@ const Resume = ({userDetails, addedSummary, additionalDetails, experienceList, e
                                              </div>
                                              <p className="text-gray-600 text-xs font-semibold">{exp.startYear} -- {exp.endYear}</p>
                                         </div>
-                                        <p className="text-gray-600 text-xs inline-block ml-2">{exp.details}</p>
+                                        <p style={{ fontSize: '10px' }} 
+                                        className="text-gray-600 font-semibold inline-block ml-2">{exp.details}</p>
                                    </div>
                               ))
                          ) : (

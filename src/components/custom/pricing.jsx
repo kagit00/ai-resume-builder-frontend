@@ -4,7 +4,7 @@ function Pricing() {
   return (
     <section id="pricing" className="py-20 bg-black">
         <div className="container mx-auto px-4 md:px-8 text-center">
-          <h3 className="text-4xl md:text-5xl lg:text-6xl mb-12 text-white">Pricing Plans</h3>
+          <h3 className="text-4xl md:text-5xl lg:text-6xl py-20 font-thin text-white">Pricing Plans</h3>
           <div className="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-6">
             <div className=" p-6 md:p-8 rounded-3xl shadow-2xl w-full max-w-xs">
               <h4 className="text-xl md:text-2xl font-semibold mb-4 text-gray-100">Basic Plan</h4>
@@ -25,7 +25,7 @@ function Pricing() {
                 <li className="mb-3">Priority support</li>
                 <li className="mb-3">Resume review by experts</li>
               </ul>
-              <button className="bg-blue-500 text-white py-3 px-6 md:py-3 md:px-8 rounded-full shadow-xl transform hover:scale-105 transition-transform duration-300 text-base md:text-lg font-semibold hover:bg-gray-100">Subscribe</button>
+              <button className="bg-blue-500 text-white py-3 px-6 md:py-3 md:px-8 rounded-full shadow-xl transform hover:scale-105 transition-transform duration-300 text-base md:text-lg font-semibold">Subscribe</button>
             </div>
           </div>
         </div>

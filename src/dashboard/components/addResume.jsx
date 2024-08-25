@@ -31,7 +31,7 @@ function AddResume({userDetails}) {
 
         onClick={() => setOpenDialog(true)}
       >
-        <div className="flex items-center justify-center mb-4 bg-gray-800 rounded-full p-4 shadow-lg">
+        <div className="flex items-center justify-center mb-4 bg-gradient-to-r from-zinc-900 to-black rounded-full p-4 shadow-lg">
           <svg
             className="h-16 w-16 text-white"
             xmlns="http://www.w3.org/2000/svg"
