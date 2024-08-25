@@ -21,7 +21,6 @@ function AddResume({userDetails}) {
 
   const buildResume = () => {
     navigate('/user/dashboard/resumeBuilder', {state: resumeDetails}); 
-    console.log(resumeDetails)
   }
 
   return (

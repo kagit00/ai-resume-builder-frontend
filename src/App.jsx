@@ -3,6 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { Navigate, Outlet } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const scrollRef = useRef(null);
@@ -32,6 +34,7 @@ function App() {
 
   return (
       <div className="custom-scrollbar">
+        <ToastContainer />
         <Outlet />
       </div>
   )

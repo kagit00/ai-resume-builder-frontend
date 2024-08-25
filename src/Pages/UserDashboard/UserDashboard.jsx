@@ -1,17 +1,18 @@
-import Header from '@/components/custom/header'
+import Header from '@/components/custom/Home/Header/GlobalHeader.jsx'
 import React, { useState, useEffect } from 'react';
-import AddResume from './components/addResume';
-import { Typewriter } from "react-simple-typewriter";
-import ProfileSettingsModal from '../profile/index.jsx';
-import ResumeTipsModal from '../resumeTips/index.jsx';
+import AddResume from '@/components/custom/UserDashboard/AddResume.jsx';
+import ProfileSettingsModal from '@/components/custom/UserDashboard/ProfileSettingsModal.jsx';
+import ResumeTipsModal from '@/components/custom/UserDashboard/ResumeTipsModal.jsx';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { fetchUserDetailsFromToken } from '@/services/ApiService.js'
+import HeroSection from '@/components/custom/UserDashboard/HeroSection.jsx';
+import { getGoogleOauth2Token } from '@/utils/AuthUtils';
 
-function Dashboard() {
+function UserDashboard() {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const accessToken = Cookies.get('GOOGLE_OAUTH2_TOKEN');
+  const accessToken = getGoogleOauth2Token()
 
   useEffect(() => {
     fetchTokenFromUri();
@@ -20,26 +21,14 @@ function Dashboard() {
   const fetchTokenFromUri = () => {
     if (accessToken) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      fetchUserDetailsFromToken();
+      getUserDetails()
     }
   }
 
-  const fetchUserDetailsFromToken = async (e) => {
-    try {
-      const response = await axios.get(`http://localhost:8080/auth/current-user`, {
-        headers: { 'Authorization': `Bearer ${accessToken}` },
-        withCredentials: true,
-      });
-
-      const userDetails = response.data;
-      if (userDetails) setUserDetails(userDetails);
-      else setErrorMessage('Failed to fetch user details.');
-    } catch (error) {
-      console.error('Login failed:', error);
-      if (error.response) setErrorMessage(`Login failed: ${error.response.data.message}`);
-      else if (error.request) setErrorMessage('Login failed: No response from the server.');
-      else setErrorMessage('Login failed: An unexpected error occurred.');
-    }
+  const getUserDetails = async () => {
+    const result = await fetchUserDetailsFromToken(accessToken);
+    if (result.error) setErrorMessage(result.error);
+    else setUserDetails(result);
   };
 
   const handleOpenProfileModal = () => {
@@ -65,39 +54,16 @@ function Dashboard() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 rounded-lg -z-10"></div>
-
-            <div className="relative z-10 max-w-3xl mx-auto px-6 py-4">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 font-light text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 to-zinc-900 animate-gradientPulse drop-shadow-lg">
-                <span className="inline-block">
-                  <Typewriter
-                    words={["Hello", "Hola", "Namaste"]}
-                    cursor
-                    cursorStyle="_"
-                    typeSpeed={80}
-                    deleteSpeed={60}
-                    delaySpeed={1000}
-                  />
-                </span>
-              </h2>
-
-              <p className="text-sm md:text-md lg:text-lg leading-relaxed text-gray-400 font-normal">
-                <span className="font-bold bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600 text-transparent">
-                  Click on the '+'
-                </span>
-                {' '} and make your professional resumes effortlessly. Our tools help you craft standout resumes, showcasing your skills and experience to potential employers.
-              </p>
-            </div>
-
+            <HeroSection/>
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
               <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 opacity-30 blur-md -z-20"></div>
               <div className="absolute w-40 h-40 rounded-full bg-gradient-to-r from-blue-300 to-purple-400 opacity-10 blur-sm -z-30"></div>
             </div>
           </div>
 
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="flex items-center justify-center bg-transparent rounded-3xl hover:shadow-3xl hover:scale-105">
-              <AddResume userDetails={userDetails}/>
+              <AddResume userDetails={userDetails} />
             </div>
 
             <div className="relative p-6 rounded-3xl shadow-2xl flex flex-col bg-gradient-to-r from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-colors duration-300">
@@ -141,7 +107,7 @@ function Dashboard() {
               >
                 Settings
               </button>
-              {isProfileModalOpen && <ProfileSettingsModal onClose={handleCloseProfileModal} userDetails={userDetails}/>}
+              {isProfileModalOpen && <ProfileSettingsModal onClose={handleCloseProfileModal} userDetails={userDetails} />}
             </div>
 
           </div>
@@ -151,4 +117,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default UserDashboard

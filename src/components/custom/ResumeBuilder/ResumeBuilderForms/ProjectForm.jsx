@@ -1,5 +1,5 @@
 import React from 'react';
-import AISuggestionsButton from './AISuggestionButton.jsx'
+import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
 
 const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, editingIndex, setEditingIndex }) => {
 
@@ -83,22 +83,20 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
                          </div>
                     </div>
 
-                    <div className="relative mb-6">
-                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="details">
+                    <div className=" mb-6">
+                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="projectDetails">
                               Project Details
                          </label>
-                         <div className="relative">
+                         <div>
                               <textarea
-                                   id="details"
-                                   name="details"
+                                   id="projectDetails"
+                                   name="projectDetails"
                                    value={project.projectDetails}
                                    onChange={handleProjectDetailChange}
-                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 text-xs"
+                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
                                    rows="5"
-                                   style={{ fontFamily: 'Helvetica' }}
                                    placeholder="Enter project details or click on the bottom-right button to write with AI"
                               />
-                              <AISuggestionsButton />
                          </div>
                     </div>
 

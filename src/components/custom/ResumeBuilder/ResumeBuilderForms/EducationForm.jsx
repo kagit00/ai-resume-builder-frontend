@@ -1,5 +1,4 @@
 import React from 'react';
-import AISuggestionsButton from './AISuggestionButton.jsx'
 
 const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex }) => {
     const handleEducationDetailChange = (e) => {
@@ -117,9 +116,8 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                             name="details"
                             value={education.details}
                             onChange={handleEducationDetailChange}
-                            className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 text-xs"
+                            className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
                             rows="5"
-                            style={{ fontFamily: 'Helvetica' }}
                             placeholder="Enter education details or click on the bottom-right button to write with AI"
                         />
                     </div>

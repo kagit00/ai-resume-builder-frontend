@@ -1,18 +1,13 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { setJwtToken, getGoogleOauth2Token, logOut } from '@/utils/AuthUtils';
 
-function Header() {
+function GlobalHeader() {
      const location = useLocation();
      const navigate = useNavigate();
-     const jwtToken = Cookies.set('JWT_TOKEN');
-     const googleAuthToken = Cookies.get('GOOGLE_OAUTH2_TOKEN');
-
-     const logOut = () => {
-          Cookies.remove('GOOGLE_OAUTH2_TOKEN')
-          navigate('/');
-     }
+     const jwtToken = setJwtToken()
+     const googleAuthToken = getGoogleOauth2Token()
 
      return (
           <header className="w-full py-3 bg-black text-gray-100 fixed top-0 left-0 z-50">
@@ -68,8 +63,7 @@ function Header() {
                     )}
                </div>
           </header>
-
      )
 }
 
-export default Header
+export default GlobalHeader

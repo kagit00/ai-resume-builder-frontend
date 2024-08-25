@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import Header from '@/components/custom/header';
-import Resume from './resume.jsx'
-import SkillsDropdown from '../components/custom/SkillsDropdown.jsx';
-import ProjectForm from '@/components/custom/ProjectForm.jsx';
-import LanguageForm from '@/components/custom/LanguageForm.jsx';
-import EducationForm from '@/components/custom/EducationForm.jsx';
-import ExperienceForm from '@/components/custom/ExperienceForm.jsx';
-import AdditionalDetailsForm from '@/components/custom/AdditionalDetailsForm.jsx';
-import AISuggestionsButton from '@/components/custom/AISuggestionButton.jsx'
+import GlobalHeader from '@/components/custom/Home/Header/GlobalHeader.jsx';
+import ResumePreview from '../../components/custom/ResumeBuilder/ResumePreview/ResumePreview.jsx'
+import SkillsDropdown from '@/components/custom/ResumeBuilder/DropDowns/SkillsDropdown.jsx';
+import ProjectForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/ProjectForm.jsx';
+import LanguageForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/LanguageForm.jsx';
+import EducationForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/EducationForm.jsx';
+import ExperienceForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/ExperienceForm.jsx';
+import AdditionalDetailsForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/AdditionalDetailsForm.jsx';
+import AISuggestionsButton from '@/components/custom/ResumeBuilder/Buttons/AISuggestionButton.jsx'
 import { useLocation } from 'react-router-dom';
+import { getGoogleOauth2Token } from '@/utils/AuthUtils.js';
+import { getGenerateSuggestions } from '@/services/ApiService';
 
 const ResumeBuilder = () => {
      const [summary, setSummary] = useState('');
@@ -32,6 +34,7 @@ const ResumeBuilder = () => {
      const userDetails = resumeDetails.userDetails;
      const resumeTitle = resumeDetails.resumeTitle
      const [truncatedText, setTruncatedText] = useState('')
+     const accessToken = getGoogleOauth2Token()
 
      const sections = [
           { title: 'Summary', value: summary, setValue: setSummary, placeholder: 'Enter your qualification summary or click on the bottom-right button to write with AI' },
@@ -44,7 +47,7 @@ const ResumeBuilder = () => {
      ];
 
      useEffect(() => {
-          setTruncatedText(truncateText(resumeTitle, 5))
+          setTruncatedText(truncateText(resumeTitle, 7))
      }, []);
 
      const handleAddSummary = () => {
@@ -53,9 +56,10 @@ const ResumeBuilder = () => {
           }
      };
 
-     const handleUpdateValue = (newValue) => {
-          setValue(newValue);
-          updateSectionValue(newValue);
+     const handleGenerateSuggestions = async () => {
+          const suggestions = await getGenerateSuggestions(resumeTitle, 'summary', accessToken);
+          setSummary(suggestions.generatedSuggestion);
+          setAddedSummary(suggestions.generatedSuggestion)
      };
 
      const handleNext = () => {
@@ -80,10 +84,10 @@ const ResumeBuilder = () => {
      const currentSection = sections[currentStep];
 
      return (
-          <div>
-               <Header />
+          <>
+               <GlobalHeader />
                <div className="pt-10 md:pt-15 lg:pt-20 flex flex-col h-screen bg-black text-gray-100 md:flex-row">
-                    <div className="w-full md:w-1/2 p-6 md:p-8 shadow-3xl flex flex-col justify-between relative overflow-auto hidden-scrollbar md:ml-4 lg:ml-6 md:mr-8 lg:mr-10">
+                    <div className="w-full md:w-1/2 p-6 md:p-8 shadow-3xl flex flex-col relative overflow-hidden md:ml-4 lg:ml-6 md:mr-8 lg:mr-10">
                          <header className="bg-zinc-950 absolute top-0 left-0 w-full p-5 z-10 shadow-2xl flex items-center justify-between">
                               <p className="text-sm md:text-sm lg:text-lg font-normal text-white text-shadow-lg">
                                    {truncatedText}
@@ -92,14 +96,13 @@ const ResumeBuilder = () => {
 
 
                          {/* Step Content */}
-                         <div className="pt-20 flex-1 mb-4 overflow-auto hidden-scrollbar">
+                         <div className="pt-20 flex-1 overflow-auto hidden-scrollbar mb-4">
                               <p className="text-xl md:text-2xl font-thin mb-6 border-b border-gray-700 pb-2">
                                    {currentSection.title} Details
                               </p>
 
                               {currentStep === 0 ? (
                                    <>
-
                                         <div className="relative mb-6">
                                              <label className="block text-gray-400 text-sm mb-2" htmlFor={sections[currentStep].title.toLowerCase()}>
                                                   {sections[currentStep].title}
@@ -109,12 +112,11 @@ const ResumeBuilder = () => {
                                                        id={sections[currentStep].title.toLowerCase()}
                                                        value={sections[currentStep].value}
                                                        onChange={(e) => sections[currentStep].setValue(e.target.value)}
-                                                       className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 text-xs"
+                                                       className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                                                        rows="5"
-                                                       style={{ fontFamily: 'Helvetica' }}
                                                        placeholder={sections[currentStep].placeholder}
                                                   />
-                                                  <AISuggestionsButton resumeTitle={resumeTitle} sectionType={sections[currentStep].title} onUpdate={handleUpdateValue} />
+                                                  <AISuggestionsButton onClick={handleGenerateSuggestions} />
                                              </div>
                                         </div>
 
@@ -132,7 +134,7 @@ const ResumeBuilder = () => {
                                         <EducationForm education={education} setEducation={setEducation} educationList={educationList} setEducationList={setEducationList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} />
                                    ) :
                                         currentStep === 2 ? (
-                                             <ExperienceForm experience={experience} setExperience={setExperience} experienceList={experienceList} setExperienceList={setExperienceList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} />
+                                             <ExperienceForm experience={experience} setExperience={setExperience} experienceList={experienceList} setExperienceList={setExperienceList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resumeTitle={resumeTitle} />
                                         ) : currentStep === 3 ? (
                                              <ProjectForm project={project} setProjects={setProjects} projectsList={projectsList} setProjectsList={setProjectsList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} />
                                         )
@@ -175,9 +177,9 @@ const ResumeBuilder = () => {
                               </div>
                          </div>
                     </div>
-                    <Resume userDetails={userDetails} addedSummary={addedSummary} additionalDetails={additionalDetails} experienceList={experienceList} educationList={educationList} projectsList={projectsList} skills={skills} languagesList={languagesList} setExperienceList={setExperienceList} />
+                    <ResumePreview userDetails={userDetails} addedSummary={addedSummary} additionalDetails={additionalDetails} experienceList={experienceList} educationList={educationList} projectsList={projectsList} skills={skills} languagesList={languagesList} setExperienceList={setExperienceList} />
                </div>
-          </div>
+          </>
 
      );
 };

@@ -1,33 +1,8 @@
 import React from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 
-const AISuggestionsButton = ({ resumeTitle, sectionType, onUpdate }) => {
-  const accessToken = Cookies.get('GOOGLE_OAUTH2_TOKEN');
-
-  const handleGenerateSuggestions = async () => {
-    try {
-      const response = await axios.post('http://localhost:8080/resume/generate-details', null, {
-        params: { resumeTitle, sectionType },
-        headers: { 'Authorization': `Bearer ${accessToken}` },
-        withCredentials: true,
-      });
-
-      if (response.data.success) {
-        // Update the text area with the generated text
-        console.log(response)
-        onUpdate(response.data.generatedText);
-      } else {
-        alert('Failed to generate details.');
-      }
-    } catch (error) {
-      console.error('Error generating details:', error);
-      alert('An error occurred while generating details.');
-    }
-  };
-
+const AISuggestionsButton = ({ onClick }) => {
   return (
-    <button onClick={handleGenerateSuggestions}
+    <button onClick={onClick}
       className="mb-2 absolute right-2 bottom-2 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-400"
       style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }}
     >

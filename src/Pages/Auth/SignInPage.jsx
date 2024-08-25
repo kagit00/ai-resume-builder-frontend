@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { FaGoogle } from 'react-icons/fa';
-import Cookies from 'js-cookie';
-
+import { registerUser } from '@/services/ApiService';
+import { doGoogleLogIn } from '@/services/ApiService';
+import { doJWtLogIn } from '@/services/ApiService';
+import { setJwtToken } from '@/utils/AuthUtils';
 
 function SignInPage() {
      const navigate = useNavigate();
@@ -39,29 +40,18 @@ function SignInPage() {
 
      const handleSignIn = async (e) => {
           e.preventDefault();
-          try {
-               const response = await axios.post('http://localhost:8080/auth/token', creds);
-               Cookies.set('JWT_TOKEN', response.data.token);
+          const response = await doJWtLogIn(creds)
+          if (response.status === 200) {
+               setJwtToken(response.token);
                navigate('/user/dashboard');
-          } catch (error) {
+          } else {
                console.error('Login failed:', error);
                setErrorMessage('Login failed. Please check your credentials.');
           }
      };
 
      const handleSignUp = async (e) => {
-          try {
-               const response = await axios.post('http://localhost:8080/users', formData);
-               console.log('User signed up successfully:', response.data);
-               // You can redirect the user or show a success message here
-          } catch (error) {
-               console.error('There was an error signing up:', error);
-               setErrorMessage('Sign up failed. Please try again.');
-          }
-     };
-
-     const handleGoogleLogin = () => {
-          window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+          const response = await registerUser(formData);
      };
 
      return (
@@ -144,7 +134,7 @@ function SignInPage() {
                          <div className="mt-8 space-y-4">
                               <p className="text-sm text-gray-400">Or sign in with</p>
                               <div className="flex justify-center space-x-8">
-                                   <button onClick={handleGoogleLogin} className="bg-transparent  text-white py-3 px-6 rounded-lg flex items-center">
+                                   <button onClick={doGoogleLogIn} className="bg-transparent  text-white py-3 px-6 rounded-lg flex items-center">
                                         <FaGoogle className="w-6 h-6 mr-2" />
                                         Google
                                    </button>

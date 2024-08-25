@@ -1,9 +1,20 @@
 import React from 'react';
-import AISuggestionsButton from './AISuggestionButton.jsx'
+import { getGenerateSuggestions } from '@/services/ApiService';
+import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
+import { getGoogleOauth2Token } from '@/utils/AuthUtils.js';
 
-const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex }) => {
+const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resumeTitle }) => {
+     const [suggestions, setSuggestions] = React.useState('');
+     const accessToken = getGoogleOauth2Token()
+     const sectionType = 'experience'
+
      const handleExperienceDetailChange = (e) => {
           setExperience({ ...experience, [e.target.name]: e.target.value });
+     };
+
+     const handleGenerateSuggestions = async () => {
+          const suggestions = await getGenerateSuggestions(resumeTitle, sectionType, accessToken);
+          setExperience(prevExperience => { return { ...prevExperience, details: suggestions.generatedSuggestion }; });
      };
 
      const handleAddExperience = () => {
@@ -143,12 +154,11 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                               name="details"
                               value={experience.details}
                               onChange={handleExperienceDetailChange}
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 text-xs" 
+                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               rows="5"
-                              style={{ fontFamily: 'Helvetica' }}
                               placeholder="Enter experience details or click on the bottom-right button to write with AI"
                          />
-                         <AISuggestionsButton/>
+                         <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>
                </div>
 

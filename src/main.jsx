@@ -3,11 +3,11 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import SignInPage from './auth/sign-in/index.jsx'
-import HomePage from './home/index.jsx'
-import Dashboard from './dashboard/index.jsx'
-import ResumeBuilder from './resumebuilder/index.jsx'
-import ProtectedRoute from './routeprotection/index.jsx';
+import SignInPage from './Pages/Auth/SignInPage.jsx'
+import Home from '@/Pages/Home/Home.jsx'
+import UserDashboard from '@/Pages/UserDashboard/UserDashboard.jsx'
+import ResumeBuilder from '@/Pages/ResumeBuilder/ResumeBuilder.jsx'
+import ProtectedRoutes from '@/Pages/Auth/ProtectedRoutes.jsx';
 import './index.css'
 
 const router = createBrowserRouter([
@@ -17,24 +17,24 @@ const router = createBrowserRouter([
       {
         path: '/user/dashboard',
         element: (
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
+          <ProtectedRoutes>
+            <UserDashboard />
+          </ProtectedRoutes>
         )
       },
       {
         path: '/user/dashboard/resumebuilder',
         element: (
-          <ProtectedRoute>
+          <ProtectedRoutes>
             <ResumeBuilder />
-          </ProtectedRoute>
+          </ProtectedRoutes>
         )
       }
     ]
   },
   {
     path: '/',
-    element: <HomePage />
+    element: <Home />
   },
   {
     path: '/auth/sign-in',
