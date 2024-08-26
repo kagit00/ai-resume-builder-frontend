@@ -6,29 +6,29 @@ import ResumeTipsModal from '@/components/custom/UserDashboard/ResumeTipsModal.j
 import axios from 'axios';
 import { fetchUserDetailsFromToken } from '@/services/ApiService.js'
 import HeroSection from '@/components/custom/UserDashboard/HeroSection.jsx';
-import { getGoogleOauth2Token } from '@/utils/AuthUtils';
+import { getGoogleOauth2Token, getJwtToken } from '@/utils/AuthUtils';
 
 function UserDashboard() {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const accessToken = getGoogleOauth2Token()
-
+  const jwtToken = getJwtToken()
+  const googleOauth2Token = getGoogleOauth2Token();
+  const accessToken = (jwtToken === undefined || jwtToken === 'undefined') ? (googleOauth2Token === undefined || googleOauth2Token === 'undefined' ? null : googleOauth2Token)  : jwtToken;
+  
   useEffect(() => {
     fetchTokenFromUri();
   }, []);
 
   const fetchTokenFromUri = () => {
     if (accessToken) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       getUserDetails()
     }
   }
 
   const getUserDetails = async () => {
     const result = await fetchUserDetailsFromToken(accessToken);
-    if (result.error) setErrorMessage(result.error);
-    else setUserDetails(result);
+    setUserDetails(result);
   };
 
   const handleOpenProfileModal = () => {

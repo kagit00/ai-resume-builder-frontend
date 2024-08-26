@@ -1,12 +1,12 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { setJwtToken, getGoogleOauth2Token, logOut } from '@/utils/AuthUtils';
+import { getJwtToken, getGoogleOauth2Token, logOut } from '@/utils/AuthUtils';
 
 function GlobalHeader() {
      const location = useLocation();
      const navigate = useNavigate();
-     const jwtToken = setJwtToken()
+     const jwtToken = getJwtToken()
      const googleAuthToken = getGoogleOauth2Token()
 
      return (
@@ -30,16 +30,6 @@ function GlobalHeader() {
                                    <li>
                                         <a href="#pricing" className="hover:text-gray-400 transition duration-300 ease-in-out">Pricing</a>
                                    </li>
-                                   {!jwtToken && !googleAuthToken && (
-                                        <li>
-                                             <a
-                                                  href="/auth/sign-in"
-                                                  className="hover:text-gray-200 transition duration-300 ease-in-out bg-gray-600 text-white py-3 px-6 rounded-full shadow-lg transform hover:scale-105"
-                                             >
-                                                  Get Started
-                                             </a>
-                                        </li>
-                                   )}
                               </ul>
                          )}
                     </nav>

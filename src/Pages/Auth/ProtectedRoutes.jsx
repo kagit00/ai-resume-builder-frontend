@@ -1,8 +1,8 @@
 import React from 'react';
-import { logOut } from '@/utils/AuthUtils';
+import { logOut, logOutForced } from '@/utils/AuthUtils';
 
 const ProtectedRoutes = ({ children }) => {
-    logOut()
+    logOutForced()
     return children;
 };
 

@@ -3,12 +3,13 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import SignInPage from './Pages/Auth/SignInPage.jsx'
+import Auth from '@/Pages/Auth/Auth.jsx'
 import Home from '@/Pages/Home/Home.jsx'
 import UserDashboard from '@/Pages/UserDashboard/UserDashboard.jsx'
 import ResumeBuilder from '@/Pages/ResumeBuilder/ResumeBuilder.jsx'
 import ProtectedRoutes from '@/Pages/Auth/ProtectedRoutes.jsx';
 import './index.css'
+import ResumeDownload from './Pages/ResumeDownload/ResumeDownload.jsx'
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
             <ResumeBuilder />
           </ProtectedRoutes>
         )
+      },
+      {
+        path: '/user/dashboard/resumebuilder/download',
+        element: (
+          <ProtectedRoutes>
+            <ResumeDownload />
+          </ProtectedRoutes>
+        )
       }
     ]
   },
@@ -38,7 +47,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/auth/sign-in',
-    element: <SignInPage />
+    element: <Auth />
   }
 ])
 

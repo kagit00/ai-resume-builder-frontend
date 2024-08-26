@@ -47,6 +47,7 @@ const ResumeBuilder = () => {
      ];
 
      useEffect(() => {
+          console.log(userDetails)
           setTruncatedText(truncateText(resumeTitle, 7))
      }, []);
 
@@ -57,7 +58,7 @@ const ResumeBuilder = () => {
      };
 
      const handleGenerateSuggestions = async () => {
-          const suggestions = await getGenerateSuggestions(resumeTitle, 'summary', accessToken);
+          const suggestions = await getGenerateSuggestions(resumeTitle, 'overview', accessToken);
           setSummary(suggestions.generatedSuggestion);
           setAddedSummary(suggestions.generatedSuggestion)
      };
@@ -82,7 +83,6 @@ const ResumeBuilder = () => {
      }
 
      const currentSection = sections[currentStep];
-
      return (
           <>
                <GlobalHeader />
@@ -93,7 +93,6 @@ const ResumeBuilder = () => {
                                    {truncatedText}
                               </p>
                          </header>
-
 
                          {/* Step Content */}
                          <div className="pt-20 flex-1 overflow-auto hidden-scrollbar mb-4">
@@ -177,7 +176,7 @@ const ResumeBuilder = () => {
                               </div>
                          </div>
                     </div>
-                    <ResumePreview userDetails={userDetails} addedSummary={addedSummary} additionalDetails={additionalDetails} experienceList={experienceList} educationList={educationList} projectsList={projectsList} skills={skills} languagesList={languagesList} setExperienceList={setExperienceList} />
+                    <ResumePreview userDetails={userDetails} addedSummary={addedSummary} additionalDetailsList={additionalDetailsList} experienceList={experienceList} educationList={educationList} projectsList={projectsList} skills={skills} languagesList={languagesList} setExperienceList={setExperienceList} />
                </div>
           </>
 

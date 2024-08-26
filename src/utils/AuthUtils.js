@@ -3,12 +3,17 @@ import Cookies from 'js-cookie';
 export const isGoogleAuthTokenExpired = () => {
      const expiresAt = Cookies.get('GOOGLE_OAUTH2_TOKEN_EXPIRATION');
      if (!expiresAt) return true;
-     return expiresAt  < new Date().getTime();
+     return expiresAt < new Date().getTime();
 };
-
 export const logOut = () => {
-     const jwtToken = Cookies.get('JWT_TOKEN');
-     const googleAuthToken = Cookies.get('GOOGLE_OAUTH2_TOKEN');
+     removeJwtToken()
+     removeOauth2Token()
+     window.location.href = "/auth/sign-in";
+}
+
+export const logOutForced = () => {
+     const jwtToken = getJwtToken()
+     const googleAuthToken = getGoogleOauth2Token()
      if (!jwtToken && !googleAuthToken || (googleAuthToken && isGoogleAuthTokenExpired())) {
           removeJwtToken()
           removeOauth2Token()
@@ -34,5 +39,5 @@ export const removeOauth2Token = () => {
 }
 
 export const setJwtToken = (token) => {
-     Cookies.set('JWT_TOKEN');
+     Cookies.set('JWT_TOKEN', token);
 }

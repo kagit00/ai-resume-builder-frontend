@@ -1,9 +1,17 @@
 import React from 'react';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
-const ResumePreview = ({userDetails, addedSummary, additionalDetails, experienceList, educationList, projectsList, skills, languagesList }) => {
+const ResumePreview = ({userDetails, addedSummary, additionalDetailsList, experienceList, educationList, projectsList, skills, languagesList }) => {
      const name = userDetails.name
      const email = userDetails.username
+     let linkedinProfileLink = ''
+     let githubLink = ''
+     let phoneNumber = ''
+     if (additionalDetailsList.length > 0) {
+          linkedinProfileLink = additionalDetailsList[0].linkedinProfileLink
+          githubLink = additionalDetailsList[0].githubLink
+          phoneNumber = additionalDetailsList[0].phoneNumber
+     }
      return (
           <div className="w-full md:w-1/2 p-6 md:p-8 shadow-3xl rounded-3xl flex flex-col justify-between relative overflow-auto hidden-scrollbar md:ml-4 lg:ml-6 md:mr-8 lg:mr-10">
                <div className="p-4 mt-4 bg-gray-100 max-w-4xl font-sans text-xs mx-auto shadow-md">
@@ -13,13 +21,13 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetails, experience
                          <div style={{ fontSize: '10px' }} className="text-gray-700 font-semibold leading-tight flex justify-center items-center gap-2 mb-2">
                               <span>{email}</span>
                               <span className="text-gray-700">|</span>
-                              <span>7718389537</span>
+                              <span>{phoneNumber}</span>
                               <span className="text-gray-700">|</span>
-                              <a href={additionalDetails.linkedinProfileLink} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
+                              <a href={linkedinProfileLink} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                    <FaLinkedin className=" h-4" />
                               </a>
                               <span className="text-gray-700 mx-1">|</span>
-                              <a href={additionalDetails.githubLink} className="text-gray-800 hover:underline" target="_blank" rel="noopener noreferrer">
+                              <a href={githubLink} className="text-gray-800 hover:underline" target="_blank" rel="noopener noreferrer">
                                    <FaGithub className=" h-4" />
                               </a>
                          </div>
@@ -49,7 +57,8 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetails, experience
                                    </div>
                               ))
                          ) : (
-                              <p className="text-gray-700 text-xs">No experience details provided</p>
+                              <p style={{ fontSize: '10px' }} 
+                                        className="text-gray-700 font-semibold leading-tight"></p>
                          )}
                     </section>
 
@@ -71,7 +80,7 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetails, experience
                                    </div>
                               ))
                          ) : (
-                              <p className="text-gray-700 text-xs">No education details provided</p>
+                              <p className="text-gray-700 text-xs"></p>
                          )}
                     </section>
 
@@ -91,7 +100,7 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetails, experience
                                    </div>
                               ))
                          ) : (
-                              <p className="text-gray-700 text-xs">No projects provided</p>
+                              <p className="text-gray-700 text-xs"></p>
                          )}
                     </section>
 
@@ -113,7 +122,7 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetails, experience
                                    </div>
                               ))
                          ) : (
-                              <p className="text-gray-700 text-xs">No languages added yet.</p>
+                              <p className="text-gray-700 text-xs"></p>
                          )}
                     </section>
                </div>
