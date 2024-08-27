@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUser, doGoogleLogIn, doJWtLogIn } from '@/services/ApiService';
-import { setJwtToken } from '@/utils/AuthUtils';
-import { FaGoogle, FaCheckCircle, FaTimesCircle, FaInfoCircle } from 'react-icons/fa';
+import { registerUser, doGoogleLogIn, doJWtLogIn, fetchUserDetailsFromToken } from '@/services/ApiService';
+import { FaGoogle, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 function Auth() {
      const navigate = useNavigate();
@@ -87,7 +86,6 @@ function Auth() {
 
      const toggleForm = (e) => {
         e.preventDefault();
-        console.log('Toggling isSignIn from', isSignIn);
         setIsSignIn(!isSignIn);
     };
 

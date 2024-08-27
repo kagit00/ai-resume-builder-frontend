@@ -3,31 +3,24 @@ import React, { useState, useEffect } from 'react';
 import AddResume from '@/components/custom/UserDashboard/AddResume.jsx';
 import ProfileSettingsModal from '@/components/custom/UserDashboard/ProfileSettingsModal.jsx';
 import ResumeTipsModal from '@/components/custom/UserDashboard/ResumeTipsModal.jsx';
-import axios from 'axios';
 import { fetchUserDetailsFromToken } from '@/services/ApiService.js'
 import HeroSection from '@/components/custom/UserDashboard/HeroSection.jsx';
-import { getGoogleOauth2Token, getJwtToken } from '@/utils/AuthUtils';
 
 function UserDashboard() {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const jwtToken = getJwtToken()
-  const googleOauth2Token = getGoogleOauth2Token();
-  const accessToken = (jwtToken === undefined || jwtToken === 'undefined') ? (googleOauth2Token === undefined || googleOauth2Token === 'undefined' ? null : googleOauth2Token)  : jwtToken;
   
   useEffect(() => {
     fetchTokenFromUri();
   }, []);
 
   const fetchTokenFromUri = () => {
-    if (accessToken) {
       getUserDetails()
-    }
   }
 
   const getUserDetails = async () => {
-    const result = await fetchUserDetailsFromToken(accessToken);
+    const result = await fetchUserDetailsFromToken();
     setUserDetails(result);
   };
 

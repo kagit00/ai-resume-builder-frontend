@@ -1,13 +1,9 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { getJwtToken, getGoogleOauth2Token, logOut } from '@/utils/AuthUtils';
+import { logOut } from '@/utils/AuthUtils';
 
 function GlobalHeader() {
      const location = useLocation();
-     const navigate = useNavigate();
-     const jwtToken = getJwtToken()
-     const googleAuthToken = getGoogleOauth2Token()
 
      return (
           <header className="w-full py-3 bg-black text-gray-100 fixed top-0 left-0 z-50">
@@ -33,7 +29,7 @@ function GlobalHeader() {
                               </ul>
                          )}
                     </nav>
-                    {(jwtToken || googleAuthToken) && location.pathname.startsWith('/user/') && (
+                    {location.pathname.startsWith('/user/') && (
                          <a onClick={logOut} className="cursor-pointer text-white hover:text-red-500 transition duration-300 ease-in-out">
                               <svg
                                    xmlns="http://www.w3.org/2000/svg"

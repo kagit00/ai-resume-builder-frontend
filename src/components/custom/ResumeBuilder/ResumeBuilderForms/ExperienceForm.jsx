@@ -1,11 +1,9 @@
 import React from 'react';
 import { getGenerateSuggestions } from '@/services/ApiService';
 import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
-import { getGoogleOauth2Token } from '@/utils/AuthUtils.js';
 
 const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resumeTitle }) => {
      const [suggestions, setSuggestions] = React.useState('');
-     const accessToken = getGoogleOauth2Token()
      const sectionType = 'experience'
 
      const handleExperienceDetailChange = (e) => {
@@ -13,7 +11,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
      };
 
      const handleGenerateSuggestions = async () => {
-          const suggestions = await getGenerateSuggestions(resumeTitle, sectionType, accessToken);
+          const suggestions = await getGenerateSuggestions(resumeTitle, sectionType);
           setExperience(prevExperience => { return { ...prevExperience, details: suggestions.generatedSuggestion }; });
      };
 

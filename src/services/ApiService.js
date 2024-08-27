@@ -3,11 +3,14 @@ import { toast } from 'react-toastify';
 import { logOutForced, setJwtToken, getJwtToken } from '@/utils/AuthUtils';
 
 const API_BASE_URL = 'http://localhost:8080';
+const jwtToken = getJwtToken()
 
-export const fetchUserDetailsFromToken = async (accessToken) => {
+export const fetchUserDetailsFromToken = async () => {
      try {
           const response = await axios.get(`${API_BASE_URL}/auth/current-user`, {
-               headers: { 'Authorization': `Bearer ${accessToken}` },
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+               },
                withCredentials: true,
           });
           toast.success(`Welcome to your dashboard, ${response.data.name}`, {
@@ -28,12 +31,14 @@ export const fetchUserDetailsFromToken = async (accessToken) => {
      }
 };
 
-export const getGenerateSuggestions = async (title, sectionType, accessToken) => {
+export const getGenerateSuggestions = async (title, sectionType) => {
      logOutForced()
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/ai/suggestions`, null, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+               },
                params: { title, sectionType },
-               headers: { 'Authorization': `Bearer ${accessToken}` },
                withCredentials: true,
           });
           toast.success('AI Suggestion Successfully Generated', {
@@ -80,7 +85,7 @@ export const doJWtLogIn = async (creds) => {
      try {
           const response = await axios.post(`${API_BASE_URL}/auth/token`, creds);
           console.log('User logged in successfully:', response.data);
-          setJwtToken(response.data.token);
+          setJwtToken(response.data)
           window.location.href = '/user/dashboard';
           toast.success('Successfully logged in.', {
                style: {

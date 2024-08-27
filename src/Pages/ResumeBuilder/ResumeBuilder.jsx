@@ -10,7 +10,6 @@ import ExperienceForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms
 import AdditionalDetailsForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/AdditionalDetailsForm.jsx';
 import AISuggestionsButton from '@/components/custom/ResumeBuilder/Buttons/AISuggestionButton.jsx'
 import { useLocation } from 'react-router-dom';
-import { getGoogleOauth2Token } from '@/utils/AuthUtils.js';
 import { getGenerateSuggestions } from '@/services/ApiService';
 
 const ResumeBuilder = () => {
@@ -34,7 +33,6 @@ const ResumeBuilder = () => {
      const userDetails = resumeDetails.userDetails;
      const resumeTitle = resumeDetails.resumeTitle
      const [truncatedText, setTruncatedText] = useState('')
-     const accessToken = getGoogleOauth2Token()
 
      const sections = [
           { title: 'Summary', value: summary, setValue: setSummary, placeholder: 'Enter your qualification summary or click on the bottom-right button to write with AI' },
@@ -58,7 +56,7 @@ const ResumeBuilder = () => {
      };
 
      const handleGenerateSuggestions = async () => {
-          const suggestions = await getGenerateSuggestions(resumeTitle, 'overview', accessToken);
+          const suggestions = await getGenerateSuggestions(resumeTitle, 'overview');
           setSummary(suggestions.generatedSuggestion);
           setAddedSummary(suggestions.generatedSuggestion)
      };
