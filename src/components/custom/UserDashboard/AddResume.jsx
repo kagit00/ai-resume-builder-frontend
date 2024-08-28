@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { createResume } from '@/services/ApiService';
 
 function AddResume({userDetails}) {
   const navigate = useNavigate();
@@ -16,10 +17,15 @@ function AddResume({userDetails}) {
   const [resumeTitle, setResumeTitle] = React.useState();
   const resumeDetails = {
     userDetails: userDetails,
-    resumeTitle: resumeTitle
+    resumeTitle: resumeTitle,
   }
 
-  const buildResume = () => {
+  const resume = {
+    'title': resumeTitle,
+  }
+
+  const buildResume = async () => {
+    await createResume(resume, userDetails.id)
     navigate('/user/dashboard/resumeBuilder', {state: resumeDetails}); 
   }
 

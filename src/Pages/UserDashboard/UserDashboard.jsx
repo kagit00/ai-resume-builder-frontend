@@ -3,25 +3,36 @@ import React, { useState, useEffect } from 'react';
 import AddResume from '@/components/custom/UserDashboard/AddResume.jsx';
 import ProfileSettingsModal from '@/components/custom/UserDashboard/ProfileSettingsModal.jsx';
 import ResumeTipsModal from '@/components/custom/UserDashboard/ResumeTipsModal.jsx';
-import { fetchUserDetailsFromToken } from '@/services/ApiService.js'
+import { fetchUserDetailsFromToken, getResumeListByUserId } from '@/services/ApiService.js'
 import HeroSection from '@/components/custom/UserDashboard/HeroSection.jsx';
+import DownloadableResumes from '@/components/custom/UserDashboard/DownloadableResumes';
+import PendingResumes from '@/components/custom/UserDashboard/PendingResumes';
+
 
 function UserDashboard() {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  
+  const [pendingResumes, setPendingResumes] = useState([])
+  const [downloadableResumes, setDownloadableResumes] = useState([])
+
   useEffect(() => {
-    fetchTokenFromUri();
+    getDashboardDetails()
   }, []);
 
-  const fetchTokenFromUri = () => {
-      getUserDetails()
-  }
 
-  const getUserDetails = async () => {
+  const getDashboardDetails = async () => {
+    //user details
     const result = await fetchUserDetailsFromToken();
     setUserDetails(result);
+
+    //resume list
+    const resumes = await getResumeListByUserId(result.id)
+    const inProgressResumes = resumes.filter(resume => resume.status === 'IN_PROGRESS');
+    setPendingResumes(inProgressResumes)
+
+    const completedResumes = resumes.filter(resume => resume.status === 'COMPLETED');
+    setDownloadableResumes(completedResumes)
   };
 
   const handleOpenProfileModal = () => {
@@ -47,7 +58,7 @@ function UserDashboard() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 rounded-lg -z-10"></div>
-            <HeroSection/>
+            <HeroSection />
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
               <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 opacity-30 blur-md -z-20"></div>
               <div className="absolute w-40 h-40 rounded-full bg-gradient-to-r from-blue-300 to-purple-400 opacity-10 blur-sm -z-30"></div>
@@ -106,8 +117,13 @@ function UserDashboard() {
           </div>
         </div>
       </section>
+
+      <PendingResumes pendingResumes={pendingResumes}/>
+      <DownloadableResumes downloadableResumes={downloadableResumes}/>
     </div>
   )
 }
 
 export default UserDashboard
+
+

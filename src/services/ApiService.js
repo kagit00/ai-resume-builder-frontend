@@ -6,6 +6,7 @@ const API_BASE_URL = 'http://localhost:8080';
 const jwtToken = getJwtToken()
 
 export const fetchUserDetailsFromToken = async () => {
+     logOutForced()
      try {
           const response = await axios.get(`${API_BASE_URL}/auth/current-user`, {
                headers: {
@@ -97,6 +98,74 @@ export const doJWtLogIn = async (creds) => {
      } catch (error) {
           console.error('Login failed:', error);
           toast.error('An error occurred while logging in the user.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const createResume = async (resume, userId) => {
+     try {
+          const response = await axios.post(`${API_BASE_URL}/resume/${userId}`, resume, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+               },
+               withCredentials: true,
+          });
+          toast.success('Resume initiated successfully.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+          return response.data;
+     } catch (error) {
+          toast.error('Error while creating resume', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const getResumeListByUserId = async (userId) => {
+     try {
+          const response = await axios.get(`${API_BASE_URL}/resume/user/${userId}`, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+               },
+               withCredentials: true,
+          });
+          return response.data;
+     } catch (error) {
+          toast.error('Error while fetching resumes', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const deleteResume = async (resumeId) => {
+     try {
+          await axios.delete(`${API_BASE_URL}/resume/${resumeId}`, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+               },
+               withCredentials: true,
+          });
+          toast.success('Resume deleted successfully.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while deleting resume', {
                style: {
                     backgroundColor: '#18181b',
                     color: '#fff'
