@@ -1,11 +1,12 @@
 import React from 'react';
+import { saveLanguage } from '@/services/ApiService';
 
-const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList, editingIndex, setEditingIndex }) => {
+const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume }) => {
      const handleLanguageDetailChange = (e) => {
           setLanguages({ ...languages, [e.target.name]: e.target.value });
      };
 
-     const handleAddLanguage = () => {
+     const handleAddLanguage = async () => {
           if (editingIndex !== null) {
                const updatedLanguagesList = languagesList.map((lang, index) =>
                     index === editingIndex ? languages : lang
@@ -15,7 +16,8 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
           } else {
                setLanguagesList([...languagesList, languages]);
           }
-          setLanguages({ languageName: '', expertise: '' });
+          await saveLanguage(languages, resume.id)
+          setLanguages({ name: '', proficiencyLevel: '' });
      };
 
      return (
@@ -23,28 +25,28 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
                <>
 
                     <div className="mb-6">
-                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="languageName">
+                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="name">
                               Language Name
                          </label>
                          <input
-                              id="languageName"
-                              name="languageName"
-                              value={languages.languageName || ''}
+                              id="name"
+                              name="name"
+                              value={languages.name || ''}
                               onChange={handleLanguageDetailChange}
                               className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Language Name"
                          />
                          <div className="mt-4 mb-4">
-                              <p className="text-gray-300 text-sm md:text-base mb-2">Expertise</p>
+                              <p className="text-gray-300 text-sm md:text-base mb-2">proficiencyLevel</p>
                               <div className="flex gap-4">
-                                   {['Naive', 'Expert', 'Fluent', 'Native'].map((level) => (
+                                   {['NATIVE', 'EXPERT', 'FLUENT', 'NATIVE'].map((level) => (
                                         <label key={level} className="inline-flex items-center text-gray-300">
                                              <input
                                                   type="radio"
-                                                  name="expertise"
+                                                  name="proficiencyLevel"
                                                   value={level}
-                                                  checked={languages.expertise === level}
-                                                  onChange={(e) => setLanguages({ ...languages, expertise: e.target.value })}
+                                                  checked={languages.proficiencyLevel === level}
+                                                  onChange={(e) => setLanguages({ ...languages, proficiencyLevel: e.target.value })}
                                                   className="form-radio h-4 w-4 text-gray-600 transition duration-200 ease-in-out"
                                              />
                                              <span className="ml-2">{level}</span>

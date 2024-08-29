@@ -10,9 +10,10 @@ export const fetchUserDetailsFromToken = async () => {
      try {
           const response = await axios.get(`${API_BASE_URL}/auth/current-user`, {
                headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
                },
-               withCredentials: true,
+               withCredentials: !jwtToken,
           });
           toast.success(`Welcome to your dashboard, ${response.data.name}`, {
                style: {
@@ -37,10 +38,11 @@ export const getGenerateSuggestions = async (title, sectionType) => {
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/ai/suggestions`, null, {
                headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
                },
                params: { title, sectionType },
-               withCredentials: true,
+               withCredentials: !jwtToken,
           });
           toast.success('AI Suggestion Successfully Generated', {
                style: {
@@ -107,12 +109,14 @@ export const doJWtLogIn = async (creds) => {
 }
 
 export const createResume = async (resume, userId) => {
+     logOutForced()
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${userId}`, resume, {
                headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
                },
-               withCredentials: true,
+               withCredentials: !jwtToken,
           });
           toast.success('Resume initiated successfully.', {
                style: {
@@ -132,13 +136,16 @@ export const createResume = async (resume, userId) => {
 }
 
 export const getResumeListByUserId = async (userId) => {
+     logOutForced()
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/user/${userId}`, {
                headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
                },
-               withCredentials: true,
+               withCredentials: !jwtToken,
           });
+          console.log(response.data)
           return response.data;
      } catch (error) {
           toast.error('Error while fetching resumes', {
@@ -151,12 +158,14 @@ export const getResumeListByUserId = async (userId) => {
 }
 
 export const deleteResume = async (resumeId) => {
+     logOutForced()
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}`, {
                headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
                },
-               withCredentials: true,
+               withCredentials: !jwtToken,
           });
           toast.success('Resume deleted successfully.', {
                style: {
@@ -166,6 +175,218 @@ export const deleteResume = async (resumeId) => {
           });
      } catch (error) {
           toast.error('Error while deleting resume', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const saveSummary = async (summary, resumeId) => {
+     logOutForced()
+     try {
+          await axios.post(`${API_BASE_URL}/resume/${resumeId}/summary`, summary, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
+               },
+               withCredentials: !jwtToken,
+          });
+          toast.success('Summary saved.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while saving summary', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const saveEducation = async (education, resumeId) => {
+     logOutForced()
+     const sectionType = 'EDUCATION'
+     try {
+          await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, education, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
+               },
+               withCredentials: !jwtToken,
+          });
+          toast.success('Education details saved.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while saving education details', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const saveExperience = async (experience, resumeId) => {
+     logOutForced()
+     const sectionType = 'EXPERIENCE'
+     try {
+          await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, experience, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
+               },
+               withCredentials: !jwtToken,
+          });
+          toast.success('Experience details saved.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while saving experience details', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const saveProject = async (project, resumeId) => {
+     logOutForced()
+     const sectionType = 'PROJECT'
+     console.log("-----", !jwtToken)
+     try {
+          await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, project, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
+               },
+               withCredentials: !jwtToken,
+          });
+          toast.success('Project details saved.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while saving project details', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const saveLanguage = async (language, resumeId) => {
+     logOutForced()
+     try {
+          await axios.post(`${API_BASE_URL}/resume/${resumeId}/language`, language, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
+               },
+               withCredentials: !jwtToken,
+          });
+          toast.success('Language details saved.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while saving language details', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const saveSkills = async (skills, resumeId) => {
+     logOutForced()
+     try {
+          await axios.post(`${API_BASE_URL}/resume/${resumeId}/skills`, skills, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
+               },
+               withCredentials: !jwtToken,
+          });
+          toast.success('Skills saved.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while saving skills', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const saveAdditionalDetails = async (additionalDetails, resumeId) => {
+     logOutForced()
+     try {
+          await axios.post(`${API_BASE_URL}/resume/${resumeId}/additional-details`, additionalDetails, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
+               },
+               withCredentials: !jwtToken,
+          });
+          toast.success('Additional details saved.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while saving additional details', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const updateResumeStatus = async (resumeId) => {
+     logOutForced()
+     try {
+          await axios.put(`${API_BASE_URL}/resume/${resumeId}/status-update`, null, {
+               headers: {
+                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
+                    'Content-Type': 'application/json',
+               },
+               withCredentials: !jwtToken,
+          });
+          toast.success('Resume saved.', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     } catch (error) {
+          toast.error('Error while saving resume', {
                style: {
                     backgroundColor: '#18181b',
                     color: '#fff'

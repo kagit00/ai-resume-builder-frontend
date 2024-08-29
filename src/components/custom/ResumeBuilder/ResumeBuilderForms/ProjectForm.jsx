@@ -1,13 +1,13 @@
 import React from 'react';
-import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
+import { saveProject } from '@/services/ApiService';
 
-const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, editingIndex, setEditingIndex }) => {
+const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, editingIndex, setEditingIndex, resume }) => {
 
      const handleProjectDetailChange = (e) => {
           setProjects({ ...project, [e.target.name]: e.target.value });
      };
 
-     const handleAddProject = () => {
+     const handleAddProject = async () => {
           if (editingIndex !== null) {
                const updatedProjectsList = projectsList.map((proj, index) =>
                     index === editingIndex ? project : proj
@@ -17,7 +17,8 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
           } else {
                setProjectsList([...projectsList, project]);
           }
-          setProjects({ projectName: '', startYear: '', endYear: '', projectDetails: '' });
+          await saveProject(project, resume.id)
+          setProjects({ title: '', startDate: '', endDate: '', description: '' });
      };
 
      const handleEditProject = (index) => {
@@ -29,7 +30,7 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
           const updatedProjectsList = projectsList.filter((_, i) => i !== index);
           setProjectsList(updatedProjectsList);
           if (editingIndex === index) {
-               setProjects({ projectName: '', startYear: '', endYear: '', projectDetails: '' });
+               setProjects({ title: '', startDate: '', endDate: '', description: '' });
                setEditingIndex(null);
           }
      };
@@ -38,13 +39,13 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
           <div>
                <>
                     <div className="mb-6">
-                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="projectName">
+                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="title">
                               Project Name
                          </label>
                          <input
-                              id="projectName"
-                              name="projectName"
-                              value={project.projectName}
+                              id="title"
+                              name="title"
+                              value={project.title}
                               onChange={handleProjectDetailChange}
                               className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Project Name"
@@ -53,13 +54,13 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
 
                     <div className="flex flex-col md:flex-row gap-4 mb-6">
                          <div className="w-full md:w-1/2">
-                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startYear">
+                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startDate">
                                    Start Year
                               </label>
                               <input
-                                   id="startYear"
-                                   name="startYear"
-                                   value={project.startYear}
+                                   id="startDate"
+                                   name="startDate"
+                                   value={project.startDate}
                                    onChange={handleProjectDetailChange}
                                    type="number"
                                    className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
@@ -68,13 +69,13 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
                          </div>
 
                          <div className="w-full md:w-1/2">
-                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="endYear">
+                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="endDate">
                                    End Year (or Present)
                               </label>
                               <input
-                                   id="endYear"
-                                   name="endYear"
-                                   value={project.endYear}
+                                   id="endDate"
+                                   name="endDate"
+                                   value={project.endDate}
                                    onChange={handleProjectDetailChange}
                                    type="text"
                                    className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
@@ -84,14 +85,14 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
                     </div>
 
                     <div className=" mb-6">
-                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="projectDetails">
+                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
                               Project Details
                          </label>
                          <div>
                               <textarea
-                                   id="projectDetails"
-                                   name="projectDetails"
-                                   value={project.projectDetails}
+                                   id="description"
+                                   name="description"
+                                   value={project.description}
                                    onChange={handleProjectDetailChange}
                                    className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
                                    rows="5"
@@ -107,7 +108,7 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
                                    className="bg-zinc-900 text-gray-100 rounded-full py-1 px-4 cursor-pointer flex items-center space-x-2"
                                    onClick={() => handleEditProject(index)}
                               >
-                                   <span>{proj.projectName}</span>
+                                   <span>{proj.title}</span>
                                    <button
                                         className="text-white"
                                         onClick={(e) => {

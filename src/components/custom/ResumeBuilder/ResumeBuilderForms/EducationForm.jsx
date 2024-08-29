@@ -1,11 +1,12 @@
 import React from 'react';
+import { saveEducation } from '@/services/ApiService';
 
-const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex }) => {
+const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
     const handleEducationDetailChange = (e) => {
         setEducation({ ...education, [e.target.name]: e.target.value });
     };
 
-    const handleAddEducation = () => {
+    const handleAddEducation = async () => {
         if (editingIndex !== null) {
             const updatedEducationList = educationList.map((ed, index) =>
                 index === editingIndex ? education : ed
@@ -15,7 +16,8 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
         } else {
             setEducationList([...educationList, education]);
         }
-        setEducation({ degree: '', schoolName: '', location: '', startYear: '', endYear: '', details: '' });
+        await saveEducation(education, resume.id)
+        setEducation({ title: '', organization: '', location: '', startDate: '', endDate: '', description: '' });
     };
 
     const handleDeleteEducation = (indexToRemove) => {
@@ -33,13 +35,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
         <div>
             <>
                 <div className="mb-6">
-                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="degree">
+                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="title">
                         Degree or Equivalent
                     </label>
                     <input
-                        id="degree"
-                        name="degree"
-                        value={education.degree}
+                        id="title"
+                        name="title"
+                        value={education.title}
                         onChange={handleEducationDetailChange}
                         className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                         placeholder="Degree or Equivalent"
@@ -61,13 +63,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                 </div>
 
                 <div className="mb-6">
-                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="schoolName">
+                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="organization">
                         School/University Name
                     </label>
                     <input
-                        id="schoolName"
-                        name="schoolName"
-                        value={education.schoolName}
+                        id="organization"
+                        name="organization"
+                        value={education.organization}
                         onChange={handleEducationDetailChange}
                         className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                         placeholder="School/University Name"
@@ -76,13 +78,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
 
                 <div className="flex flex-col md:flex-row gap-4 mb-6">
                     <div className="w-full md:w-1/2">
-                        <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startYear">
+                        <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startDate">
                             Start Year
                         </label>
                         <input
-                            id="startYear"
-                            name="startYear"
-                            value={education.startYear}
+                            id="startDate"
+                            name="startDate"
+                            value={education.startDate}
                             onChange={handleEducationDetailChange}
                             type="number"
                             className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
@@ -91,13 +93,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                     </div>
 
                     <div className="w-full md:w-1/2">
-                        <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="endYear">
+                        <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="endDate">
                             End Year (or Present)
                         </label>
                         <input
-                            id="endYear"
-                            name="endYear"
-                            value={education.endYear}
+                            id="endDate"
+                            name="endDate"
+                            value={education.endDate}
                             onChange={handleEducationDetailChange}
                             type="text"
                             className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
@@ -107,18 +109,18 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                 </div>
 
                 <div className="relative mb-6">
-                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="details">
-                        Education Details
+                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
+                        Education description
                     </label>
                     <div className="relative">
                         <textarea
-                            id="details"
-                            name="details"
-                            value={education.details}
+                            id="description"
+                            name="description"
+                            value={education.description}
                             onChange={handleEducationDetailChange}
                             className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
                             rows="5"
-                            placeholder="Enter education details or click on the bottom-right button to write with AI"
+                            placeholder="Enter education description or click on the bottom-right button to write with AI"
                         />
                     </div>
                 </div>
@@ -136,7 +138,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                     {educationList.map((ed, index) => (
                         <div key={index} className="inline-block bg-gray-800 text-gray-100 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
                             <span onClick={() => handleEditEducation(index)} className="cursor-pointer">
-                                {ed.degree}
+                                {ed.title}
                             </span>
                             <button
                                 onClick={() => handleDeleteEducation(index)}

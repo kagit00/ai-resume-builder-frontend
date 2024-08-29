@@ -70,46 +70,53 @@ function UserDashboard() {
               <AddResume userDetails={userDetails} />
             </div>
 
-            <div className="relative p-6 rounded-3xl shadow-2xl flex flex-col bg-gradient-to-r from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-colors duration-300">
+            <div className="relative p-6 rounded-sm shadow-2xl flex flex-col bg-gradient-to-l from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-colors duration-300">
               <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
-              <h4 className="text-xl md:text-xl lg:text-2xl mb-5 font-normal text-white">Resume Tips</h4>
-              <p className="relative text-gray-300 mb-6">
+              <h4 className="text-lg font-semibold text-white mb-2 truncate">Resume Tips</h4>
+              <p className="text-sm font-semibold text-gray-400 leading-relaxed mb-8">
                 Discover best practices for resume writing to ensure your application stands out from the crowd.
               </p>
               <div className="relative flex items-center justify-center mb-6">
-                <div className="p-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
-                  <svg className="h-20 w-20 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 16.5a3 3 0 01-3-3V7.5A3 3 0 019.75 4.5m0 12a1.5 1.5 0 003 0m-3-8V7.5m0 0a1.5 1.5 0 013 0M12 20h.01" />
+                <div className="p-4 rounded-full bg-gradient-to-r from-black via to-blue-900 shadow-xl hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
+                  <svg className="h-20 w-60 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                    <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                   </svg>
                 </div>
               </div>
               <button
                 onClick={handleOpenResumeTipsModal}
-                className="absolute top-4 right-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2 px-4 rounded-full shadow-md transform hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out text-sm font-medium"
+                className="absolute top-4 right-4 text-white shadow-md transform hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out"
               >
-                Tips
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-8 4a1 1 0 100-2 1 1 0 000 2zm.75-3.25a.75.75 0 00-1.5 0v-5.5a.75.75 0 011.5 0v5.5z" clipRule="evenodd" />
+                </svg>
               </button>
               {isResumeTipsModalOpen && <ResumeTipsModal onClose={handleCloseResumeTipsModal} />}
             </div>
 
 
-            <div className="relative p-6 rounded-3xl shadow-3xl flex flex-col bg-gradient-to-r from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-transform duration-300">
+            <div className="relative p-6 rounded-sm shadow-3xl flex flex-col bg-gradient-to-l from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-transform duration-300">
               <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
-              <h4 className="text-xl md:text-xl lg:text-2xl mb-5 font-normal text-white">Profile Settings</h4>
-              <p className="relative text-gray-300 mb-6">
+              <h4 className="text-lg font-semibold text-white mb-2 truncate">Profile Settings</h4>
+              <p className="text-sm font-semibold text-gray-400 leading-relaxed mb-4">
                 Customize your profile to reflect your personal and professional identity accurately. Also view your profile details.
               </p>
               <div className="relative flex items-center justify-center mb-6">
-                <div className="p-4 rounded-full bg-gradient-to-r from-green-500 to-teal-600 shadow-lg hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
-                  <svg className="h-20 w-20 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="p-4 rounded-full bg-gradient-to-r from-black to-blue-900 shadow-lg hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
+                  <svg className="h-20 w-60 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l2 2-2 2m-6-6l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l-2 2 2 2m12-6l-2-2 2-2m0 0l2 2-2 2m0-2V6" />
                   </svg>
                 </div>
               </div>
               <button onClick={handleOpenProfileModal}
-                className="absolute top-4 right-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2 px-4 rounded-full shadow-md transform hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out text-sm font-medium"
+                className="absolute top-4 right-4 text-white shadow-md transform hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out"
               >
-                Settings
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 5 15.4a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 5.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 18.4 9c.67 0 1.28.26 1.74.73a1.65 1.65 0 0 0 .33 1.82v.09h0z"></path>
+                </svg>
               </button>
               {isProfileModalOpen && <ProfileSettingsModal onClose={handleCloseProfileModal} userDetails={userDetails} />}
             </div>
@@ -117,9 +124,8 @@ function UserDashboard() {
           </div>
         </div>
       </section>
-
-      <PendingResumes pendingResumes={pendingResumes}/>
-      <DownloadableResumes downloadableResumes={downloadableResumes}/>
+      <PendingResumes pendingResumes={pendingResumes} />
+      <DownloadableResumes downloadableResumes={downloadableResumes} />
     </div>
   )
 }

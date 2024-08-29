@@ -1,8 +1,8 @@
 import React from 'react';
-import { getGenerateSuggestions } from '@/services/ApiService';
+import { getGenerateSuggestions, saveExperience } from '@/services/ApiService';
 import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
 
-const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resumeTitle }) => {
+const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
      const [suggestions, setSuggestions] = React.useState('');
      const sectionType = 'experience'
 
@@ -11,11 +11,11 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
      };
 
      const handleGenerateSuggestions = async () => {
-          const suggestions = await getGenerateSuggestions(resumeTitle, sectionType);
-          setExperience(prevExperience => { return { ...prevExperience, details: suggestions.generatedSuggestion }; });
+          const suggestions = await getGenerateSuggestions(resume.title, sectionType);
+          setExperience(prevExperience => { return { ...prevExperience, description: suggestions.generatedSuggestion }; });
      };
 
-     const handleAddExperience = () => {
+     const handleAddExperience = async () => {
           if (editingIndex !== null) {
                const updatedExperienceList = experienceList.map((exp, index) =>
                     index === editingIndex ? experience : exp
@@ -25,7 +25,8 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
           } else {
                setExperienceList([...experienceList, experience]);
           }
-          setExperience({ jobTitle: '', jobLocation: '', companyName: '', startYear: '', endYear: '', details: '' });
+          await saveExperience(experience, resume.id)
+          setExperience({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' });
      };
 
      const handleEditExperience = (index) => {
@@ -50,7 +51,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                               className="bg-zinc-900 text-gray-100 py-1 px-3 rounded-full flex items-center space-x-2 cursor-pointer transition duration-200 ease-in-out"
                          >
                               <span onClick={() => handleEditExperience(index)}>
-                                   {exp.jobTitle} at {exp.companyName}
+                                   {exp.title} at {exp.organization}
                               </span>
                               <button
                                    className="text-red-500 hover:text-red-700 focus:outline-none"
@@ -65,13 +66,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                <div className="flex flex-col md:flex-row gap-4 mb-6">
                     <div className="w-full md:w-1/2">
                          <div>
-                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="jobTitle">
+                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="title">
                                    Job Title
                               </label>
                               <input
-                                   id="jobTitle"
-                                   name="jobTitle"
-                                   value={experience.jobTitle}
+                                   id="title"
+                                   name="title"
+                                   value={experience.title}
                                    onChange={handleExperienceDetailChange}
                                    className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Job Title"
@@ -81,13 +82,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
 
                     <div className="w-full md:w-1/2">
                          <div>
-                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="jobLocation">
+                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="location">
                                    Job Location
                               </label>
                               <input
-                                   id="jobLocation"
-                                   name="jobLocation"
-                                   value={experience.jobLocation}
+                                   id="location"
+                                   name="location"
+                                   value={experience.location}
                                    onChange={handleExperienceDetailChange}
                                    className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Job Location"
@@ -97,13 +98,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                </div>
 
                <div className="mb-6">
-                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="companyName">
+                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="organization">
                          Company Name
                     </label>
                     <input
-                         id="companyName"
-                         name="companyName"
-                         value={experience.companyName}
+                         id="organization"
+                         name="organization"
+                         value={experience.organization}
                          onChange={handleExperienceDetailChange}
                          className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                          placeholder="Company Name"
@@ -112,13 +113,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
 
                <div className="flex flex-col md:flex-row gap-4 mb-6">
                     <div className="w-full md:w-1/2">
-                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startYear">
+                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startDate">
                               Start Year
                          </label>
                          <input
-                              id="startYear"
-                              name="startYear"
-                              value={experience.startYear}
+                              id="startDate"
+                              name="startDate"
+                              value={experience.startDate}
                               onChange={handleExperienceDetailChange}
                               type="number"
                               className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
@@ -127,13 +128,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                     </div>
 
                     <div className="w-full md:w-1/2">
-                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="endYear">
+                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="endDate">
                               End Year (or Present)
                          </label>
                          <input
-                              id="endYear"
-                              name="endYear"
-                              value={experience.endYear}
+                              id="endDate"
+                              name="endDate"
+                              value={experience.endDate}
                               onChange={handleExperienceDetailChange}
                               type="text"
                               className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
@@ -143,18 +144,18 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                </div>
 
                <div className="relative mb-6">
-                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="details">
-                         Details
+                    <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
+                         description
                     </label>
                     <div className="relative">
                          <textarea
-                              id="details"
-                              name="details"
-                              value={experience.details}
+                              id="description"
+                              name="description"
+                              value={experience.description}
                               onChange={handleExperienceDetailChange}
                               className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               rows="5"
-                              placeholder="Enter experience details or click on the bottom-right button to write with AI"
+                              placeholder="Enter experience description or click on the bottom-right button to write with AI"
                          />
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>

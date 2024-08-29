@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { saveSkills } from '@/services/ApiService';
 
 const skillOptions = [
   'JavaScript', 'Python', 'Java', 'C#', 'C++', 'TypeScript', 'HTML', 'CSS', 'React', 'Angular',
@@ -9,7 +10,7 @@ const skillOptions = [
   'Git', 'GitHub', 'GitLab', 'Jira', 'Confluence', 'Slack', 'Teams', 'Figma', 'Sketch', 'Adobe XD'
 ];
 
-const SkillsDropdown = ({ skills, handleSkillsUpdate }) => {
+const SkillsDropdown = ({ handleSkillsUpdate }) => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -23,8 +24,9 @@ const SkillsDropdown = ({ skills, handleSkillsUpdate }) => {
     );
   };
 
-  const handleAddSkills = () => {
+  const handleAddSkills = async () => {
     handleSkillsUpdate(selectedSkills);
+    await saveSkills(selectedSkills)
     setSelectedSkills([]);
     setDropdownOpen(false);
   };

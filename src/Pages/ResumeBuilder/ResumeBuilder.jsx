@@ -10,7 +10,7 @@ import ExperienceForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms
 import AdditionalDetailsForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/AdditionalDetailsForm.jsx';
 import AISuggestionsButton from '@/components/custom/ResumeBuilder/Buttons/AISuggestionButton.jsx'
 import { useLocation } from 'react-router-dom';
-import { getGenerateSuggestions } from '@/services/ApiService';
+import { getGenerateSuggestions, saveSummary, updateResumeStatus } from '@/services/ApiService';
 
 const ResumeBuilder = () => {
      const [summary, setSummary] = useState('');
@@ -29,7 +29,7 @@ const ResumeBuilder = () => {
      const [additionalDetails, setAdditionalDetails] = useState({ phoneNumber: '', githubLink: '', linkedinProfileLink: '' })
      const [additionalDetailsList, setAdditionalDetailsList] = useState([])
      const location = useLocation();
-     const resumeDetails = location.state;
+     const { resume, resumeDetails } = location.state || {};
      const userDetails = resumeDetails.userDetails;
      const resumeTitle = resumeDetails.resumeTitle
      const [truncatedText, setTruncatedText] = useState('')
@@ -49,11 +49,16 @@ const ResumeBuilder = () => {
           setTruncatedText(truncateText(resumeTitle, 7))
      }, []);
 
-     const handleAddSummary = () => {
+     const handleAddSummary = async () => {
           if (currentStep === 0) {
                setAddedSummary(summary);
+               await saveSummary({ details: summary }, resume.id)
           }
      };
+
+     const updateResume = async () => {
+          await updateResumeStatus(resume.id)
+     }
 
      const handleGenerateSuggestions = async () => {
           const suggestions = await getGenerateSuggestions(resumeTitle, 'overview');
@@ -128,19 +133,19 @@ const ResumeBuilder = () => {
                                    </>
                               )
                                    : currentStep === 1 ? (
-                                        <EducationForm education={education} setEducation={setEducation} educationList={educationList} setEducationList={setEducationList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} />
+                                        <EducationForm education={education} setEducation={setEducation} educationList={educationList} setEducationList={setEducationList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume}/>
                                    ) :
                                         currentStep === 2 ? (
-                                             <ExperienceForm experience={experience} setExperience={setExperience} experienceList={experienceList} setExperienceList={setExperienceList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resumeTitle={resumeTitle} />
+                                             <ExperienceForm experience={experience} setExperience={setExperience} experienceList={experienceList} setExperienceList={setExperienceList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume}/>
                                         ) : currentStep === 3 ? (
-                                             <ProjectForm project={project} setProjects={setProjects} projectsList={projectsList} setProjectsList={setProjectsList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} />
+                                             <ProjectForm project={project} setProjects={setProjects} projectsList={projectsList} setProjectsList={setProjectsList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume} />
                                         )
                                              : currentStep === 4 ? (
-                                                  <LanguageForm languages={languages} setLanguages={setLanguages} languagesList={languagesList} setLanguagesList={setLanguagesList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} />
+                                                  <LanguageForm languages={languages} setLanguages={setLanguages} languagesList={languagesList} setLanguagesList={setLanguagesList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume} />
                                              ) : currentStep === 5 ? (
-                                                  <SkillsDropdown skills={skills} handleSkillsUpdate={handleSkillsUpdate} />
+                                                  <SkillsDropdown handleSkillsUpdate={handleSkillsUpdate} />
                                              ) : currentStep === 6 && (
-                                                  <AdditionalDetailsForm additionalDetails={additionalDetails} setAdditionalDetails={setAdditionalDetails} additionalDetailsList={additionalDetailsList} setAdditionalDetailsList={setAdditionalDetailsList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} />
+                                                  <AdditionalDetailsForm additionalDetails={additionalDetails} setAdditionalDetails={setAdditionalDetails} additionalDetailsList={additionalDetailsList} setAdditionalDetailsList={setAdditionalDetailsList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume} />
                                              )
                               }
 
@@ -164,7 +169,7 @@ const ResumeBuilder = () => {
                                         </button>
                                    ) : (
                                         <button
-                                             onClick={() => alert('Resume Submitted!')}
+                                             onClick={() => updateResume()}
                                              className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
                                         >
                                              <CheckCircleIcon className="w-6 h-6" />

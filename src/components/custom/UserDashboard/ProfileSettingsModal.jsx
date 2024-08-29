@@ -6,7 +6,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
      return (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-100 z-50">
-               <div className="text-white rounded-2xl shadow-xl w-full max-w-md p-8 relative bg-gradient-to-r from-zinc-900 to-black">
+               <div className="text-white rounded-2xl shadow-xl w-full max-w-md p-8 relative bg-gradient-to-l from-zinc-900 to-black">
                     <button
                          onClick={onClose}
                          className="absolute top-4 right-4 text-gray-400 hover:text-white focus:outline-none"

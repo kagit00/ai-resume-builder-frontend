@@ -1,11 +1,12 @@
 import React from 'react';
+import { saveAdditionalDetails } from '@/services/ApiService';
 
-const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additionalDetailsList, setAdditionalDetailsList, editingIndex, setEditingIndex }) => {
+const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additionalDetailsList, setAdditionalDetailsList, editingIndex, setEditingIndex, resume }) => {
      const handleAdditionalDetailChange = (e) => {
           setAdditionalDetails({ ...additionalDetails, [e.target.name]: e.target.value });
      };
 
-     const handleAddAdditionalDetails = () => {
+     const handleAddAdditionalDetails = async () => {
           if (editingIndex !== null) {
                const updatedAdditionalDetailsList = additionalDetailsList.map((detail, index) =>
                     index === editingIndex ? additionalDetails : detail
@@ -15,7 +16,8 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additi
           } else {
                setAdditionalDetailsList([...additionalDetailsList, additionalDetails]);
           }
-          setAdditionalDetails({ phoneNumber: '', githubLink: '', linkedinProfileLink: '' });
+          await saveAdditionalDetails(additionalDetails, resume.id)
+          setAdditionalDetails({ phoneNumber: '', githubLink: '', linkedInProfileLink: '' });
      };
 
      return (
@@ -46,13 +48,13 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additi
                               placeholder="Github Link"
                          />
 
-                         <label className="mt-5 block text-gray-300 text-sm md:text-base mb-2" htmlFor="linkedinProfileLink">
+                         <label className="mt-5 block text-gray-300 text-sm md:text-base mb-2" htmlFor="linkedInProfileLink">
                               LinkedIn Profile Link
                          </label>
                          <input
-                              id="linkedinProfileLink"
-                              name="linkedinProfileLink"
-                              value={additionalDetails.linkedinProfileLink || ''}
+                              id="linkedInProfileLink"
+                              name="linkedInProfileLink"
+                              value={additionalDetails.linkedInProfileLink || ''}
                               onChange={handleAdditionalDetailChange}
                               className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out mb-6"
                               placeholder="LinkedIn Profile Link"

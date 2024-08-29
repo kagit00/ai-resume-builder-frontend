@@ -3,7 +3,7 @@ import React from 'react';
 const ResumeTipsModal = ({ onClose }) => {
      return (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-100 z-50">
-               <div className=" text-white rounded-lg shadow-xl w-full max-w-md bg-gradient-to-r from-zinc-900 to-black p-8 relative">
+               <div className=" text-white rounded-lg shadow-xl w-full max-w-md bg-gradient-to-l from-zinc-900 to-black p-8 relative">
                     <button
                          onClick={onClose}
                          className="absolute top-4 right-4 text-gray-400 hover:text-white focus:outline-none transition-colors duration-300"

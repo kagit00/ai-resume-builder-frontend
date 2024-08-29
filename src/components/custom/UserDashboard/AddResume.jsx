@@ -25,8 +25,8 @@ function AddResume({userDetails}) {
   }
 
   const buildResume = async () => {
-    await createResume(resume, userDetails.id)
-    navigate('/user/dashboard/resumeBuilder', {state: resumeDetails}); 
+    const response = await createResume(resume, userDetails.id)
+    navigate('/user/dashboard/resumeBuilder', {state: { resume: response, resumeDetails } }); 
   }
 
   return (

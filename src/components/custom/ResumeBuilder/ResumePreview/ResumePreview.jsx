@@ -4,11 +4,11 @@ import { FaLinkedin, FaGithub } from 'react-icons/fa';
 const ResumePreview = ({userDetails, addedSummary, additionalDetailsList, experienceList, educationList, projectsList, skills, languagesList }) => {
      const name = userDetails.name
      const email = userDetails.username
-     let linkedinProfileLink = ''
+     let linkedInProfileLink = ''
      let githubLink = ''
      let phoneNumber = ''
      if (additionalDetailsList.length > 0) {
-          linkedinProfileLink = additionalDetailsList[0].linkedinProfileLink
+          linkedInProfileLink = additionalDetailsList[0].linkedInProfileLink
           githubLink = additionalDetailsList[0].githubLink
           phoneNumber = additionalDetailsList[0].phoneNumber
      }
@@ -23,7 +23,7 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetailsList, experi
                               <span className="text-gray-700">|</span>
                               <span>{phoneNumber}</span>
                               <span className="text-gray-700">|</span>
-                              <a href={linkedinProfileLink} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
+                              <a href={linkedInProfileLink} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                    <FaLinkedin className=" h-4" />
                               </a>
                               <span className="text-gray-700 mx-1">|</span>
@@ -47,13 +47,13 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetailsList, experi
                                    <div key={index} className="mb-3 border-b border-gray-300 pb-2">
                                         <div className="flex justify-between items-start">
                                              <div>
-                                                  <h3 className="font-semibold text-black">{exp.jobTitle}</h3>
-                                                  <p className="text-gray-600 text-xs">{exp.companyName}, {exp.jobLocation}</p>
+                                                  <h3 className="font-semibold text-black">{exp.title}</h3>
+                                                  <p className="text-gray-600 text-xs">{exp.organization}, {exp.location}</p>
                                              </div>
-                                             <p style={{ fontSize: '10px' }} className="text-gray-600 leading-tight font-semibold">{exp.startYear} - {exp.endYear}</p>
+                                             <p style={{ fontSize: '10px' }} className="text-gray-600 leading-tight font-semibold">{exp.startDate} - {exp.endDate}</p>
                                         </div>
                                         <p style={{ fontSize: '10px' }} 
-                                        className="text-gray-700 font-semibold leading-tight">{exp.details}</p>
+                                        className="text-gray-700 font-semibold leading-tight">{exp.description}</p>
                                    </div>
                               ))
                          ) : (
@@ -70,13 +70,13 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetailsList, experi
                                    <div key={index} className="mb-3 border-b border-gray-300 pb-2">
                                         <div className="flex justify-between items-start">
                                              <div>
-                                                  <h3 className="font-semibold text-gray-800">{edu.degree} </h3>
-                                                  <p className="text-gray-600 text-xs inline-block">{edu.schoolName}, {edu.location}</p>
+                                                  <h3 className="font-semibold text-gray-800">{edu.title} </h3>
+                                                  <p className="text-gray-600 text-xs inline-block">{edu.organization}, {edu.location}</p>
 
                                              </div>
-                                             <p style={{ fontSize: '10px' }} className="text-gray-600 leading-tight font-semibold">{edu.startYear} - {edu.endYear}</p>
+                                             <p style={{ fontSize: '10px' }} className="text-gray-600 leading-tight font-semibold">{edu.startDate} - {edu.endDate}</p>
                                         </div>
-                                        <p style={{ fontSize: '10px' }} className="text-gray-700 font-semibold leading-tight">{edu.details}</p>
+                                        <p style={{ fontSize: '10px' }} className="text-gray-700 font-semibold leading-tight">{edu.description}</p>
                                    </div>
                               ))
                          ) : (
@@ -92,11 +92,11 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetailsList, experi
                                    <div key={index} className="mb-3 border-b border-gray-300 pb-2">
                                         <div className="flex justify-between items-start">
                                              <div>
-                                                  <h3 className="font-semibold text-gray-800">{proj.projectName}</h3>
+                                                  <h3 className="font-semibold text-gray-800">{proj.title}</h3>
                                              </div>
-                                             <p style={{ fontSize: '10px' }} className="text-gray-600 leading-tight font-semibold">{proj.startYear} - {proj.endYear}</p>
+                                             <p style={{ fontSize: '10px' }} className="text-gray-600 leading-tight font-semibold">{proj.startDate} - {proj.endDate}</p>
                                         </div>
-                                        <p style={{ fontSize: '10px' }} className="text-gray-700 font-semibold leading-tight">{proj.projectDetails}</p>
+                                        <p style={{ fontSize: '10px' }} className="text-gray-700 font-semibold leading-tight">{proj.description}</p>
                                    </div>
                               ))
                          ) : (
@@ -117,7 +117,7 @@ const ResumePreview = ({userDetails, addedSummary, additionalDetailsList, experi
                               languagesList.map((lang, index) => (
                                    <div key={index} className="mb-2">
                                         <p className="text-gray-700 text-xs">
-                                             <strong>{lang.languageName}</strong>: {lang.expertise}
+                                             <strong>{lang.name}</strong>: {lang.proficiencyLevel}
                                         </p>
                                    </div>
                               ))

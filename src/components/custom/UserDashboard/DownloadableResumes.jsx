@@ -44,8 +44,8 @@ const DownloadableResumes = ({ downloadableResumes }) => {
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={2}
-                stroke="blue"
-                className="w-6 h-6 p-1 hover:shadow-xl hover:scale-110 transition-transform cursor-pointer"
+                stroke="currentColor"
+                className="w-6 h-6 p-1 rounded-full bg-white text-blue-500 hover:bg-blue-200 transition-colors cursor-pointer"
               >
                 <path
                   strokeLinecap="round"
