@@ -1,45 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { getLanguages, saveLanguage, updateLanguage, deleteLanguage } from '@/services/ApiService';
-import { FiTrash2 } from 'react-icons/fi'; // Import trash icon from react-icons
+import { FiTrash2 } from 'react-icons/fi';
 
-const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume, resumeDetails}) => {
+const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume }) => {
      const [languageId, setLanguageId] = useState('')
-     useEffect(() => {
-          if (resumeDetails.isEditMode) {
-               getLanguage()
-          }
-     }, []);
-     console.log(languagesList)
+     const isDisabled = !language.name || !language.proficiencyLevel 
 
-     const getLanguage = async () => {
+     useEffect(() => {
+          getAllLanguagesForResume()
+     }, []);
+
+     const getAllLanguagesForResume = async () => {
           const languages = await getLanguages(resume.id);
           setLanguagesList(languages);
      }
 
      const handleLanguageDetailChange = (e) => {
-          setLanguages({ ...languages, [e.target.name]: e.target.value });
+          setLanguage({ ...language, [e.target.name]: e.target.value });
      };
 
      const handleAddLanguage = async () => {
           if (editingIndex !== null) {
                const updatedLanguagesList = languagesList.map((lang, index) =>
-                    index === editingIndex ? languages : lang
+                    index === editingIndex ? language : lang
                );
                setLanguagesList(updatedLanguagesList);
-               await updateLanguage(resume.id, languageId, languages)
+               await updateLanguage(resume.id, languageId, language)
                setEditingIndex(null);
           } else {
-               const lang = await saveLanguage(resume.id, languages);
+               const lang = await saveLanguage(resume.id, language);
                setLanguagesList([...languagesList, lang]);
                setLanguageId(lang.id)
           }
-          setLanguages({ name: '', proficiencyLevel: '' });
+          setLanguage({ name: '', proficiencyLevel: '' });
      };
 
      const handleEditLanguage = (index) => {
           const languageToEdit = languagesList[index];
           setLanguageId(languagesList[index].id)
-          setLanguages(languageToEdit);
+          setLanguage(languageToEdit);
           setEditingIndex(index);
      };
 
@@ -55,7 +54,7 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
      return (
           <div>
                <>
-                    {/* Display the list of added languages with delete icon */}
+                    {/* Display the list of added language with delete icon */}
                     <div className="mb-6">
                          <ul className="flex flex-wrap gap-2">
                               {languagesList.map((lang, index) => (
@@ -84,7 +83,7 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
                          <input
                               id="name"
                               name="name"
-                              value={languages.name || ''}
+                              value={language.name || ''}
                               onChange={handleLanguageDetailChange}
                               className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Language Name"
@@ -98,8 +97,8 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
                                                   type="radio"
                                                   name="proficiencyLevel"
                                                   value={level}
-                                                  checked={languages.proficiencyLevel === level}
-                                                  onChange={(e) => setLanguages({ ...languages, proficiencyLevel: e.target.value })}
+                                                  checked={language.proficiencyLevel === level}
+                                                  onChange={(e) => setLanguage({ ...language, proficiencyLevel: e.target.value })}
                                                   className="form-radio h-4 w-4 text-gray-600 transition duration-200 ease-in-out"
                                              />
                                              <span className="ml-2">{level}</span>
@@ -109,11 +108,15 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
                          </div>
 
                          <button
-                              onClick={handleAddLanguage}
-                              className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
-                         >
-                              {editingIndex !== null ? 'Update' : 'Add'}
-                         </button>
+                         onClick={handleAddLanguage}
+                         className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
+                              ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                              : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+                              }`}
+                         disabled={isDisabled}
+                    >
+                         <span>{editingIndex !== null ? 'Update' : 'Add'}</span>
+                    </button>
                     </div>
                </>
           </div>

@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { saveAdditionalDetails, getAdditionalDetails, updateAdditionalDetails } from '@/services/ApiService';
-import { areAllFieldsFilled } from '@/utils/BasicUtils';
 
-const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additionalDetailsList, setAdditionalDetailsList, editingIndex, setEditingIndex, resume, resumeDetails }) => {
-     const [additionalDetailsId, setAdditionalDetailsId] = useState('')
+const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedAdditionalDetails, setAddedAdditionalDetails, resume, resumeDetails }) => {
 
      useEffect(() => {
-          if (resumeDetails.isEditMode) {
-               getResumeAddtionalDetails(resume.id);
-          }
+          getResumeAddtionalDetails(resume.id);
      }, []);
 
      const getResumeAddtionalDetails = async () => {
           const ad = await getAdditionalDetails(resume.id)
-          setAdditionalDetails(ad);
+          if ((ad.phoneNumber && ad.phoneNumber.length > 0) ||
+               (ad.linkedInProfileLink && ad.linkedInProfileLink.length > 0) ||
+               (ad.githubLink && ad.githubLink.length > 0)) {
+               setAdditionalDetails(ad);
+               setAddedAdditionalDetails(ad)
+          }
+     }
+
+     const areAllFieldsFilled = (additionalDetails) => {
+          return (additionalDetails.phoneNumber && additionalDetails.phoneNumber.length > 0) ||
+          (additionalDetails.linkedInProfileLink && additionalDetails.linkedInProfileLink.length > 0) ||
+          (additionalDetails.githubLink && additionalDetails.githubLink.length > 0);
      }
 
      const handleAdditionalDetailChange = (e) => {
@@ -21,18 +28,15 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additi
      };
 
      const handleAddAdditionalDetails = async () => {
-          if (editingIndex !== null || resumeDetails.isEditMode) {
-               const updatedAdditionalDetailsList = additionalDetailsList.map((detail, index) =>
-                    index === editingIndex ? additionalDetails : detail
-               );
+          if (resumeDetails.isEditMode || areAllFieldsFilled(addedAdditionalDetails)) {
+               console.log ()
                await updateAdditionalDetails(resume.id, additionalDetails.id, additionalDetails)
-               setAdditionalDetails(additionalDetails); //temporry change
-               setAdditionalDetailsList(updatedAdditionalDetailsList);
-               setEditingIndex(null);
+               setAdditionalDetails(additionalDetails);
+               setAddedAdditionalDetails(additionalDetails)
           } else {
                const ad = await saveAdditionalDetails(additionalDetails, resume.id)
                setAdditionalDetails(ad); //temporary change
-               setAdditionalDetailsList([...additionalDetailsList, ad]);
+               setAddedAdditionalDetails(ad)
           }
      };
 
@@ -77,25 +81,24 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additi
                          />
 
                          <div className="flex space-x-4">
-                              {areAllFieldsFilled(additionalDetails) && (
-                                   (resumeDetails.isEditMode || editingIndex !== null) ? (
-                                        <>
-                                             <button
-                                                  onClick={handleAddAdditionalDetails}
-                                                  className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
-                                             >
-                                                  <span>Update</span>
-                                             </button>
-                                        </>
-                                   ) : (
+                              {(resumeDetails.isEditMode && additionalDetails) ? (
+                                   <>
                                         <button
                                              onClick={handleAddAdditionalDetails}
                                              className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
                                         >
-                                             <span>Add</span>
+                                             <span>Update</span>
                                         </button>
-                                   )
-                              )}
+                                   </>
+                              ) : (
+                                   <button
+                                        onClick={handleAddAdditionalDetails}
+                                        className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
+                                   >
+                                        <span>Add</span>
+                                   </button>
+                              )
+                              }
                          </div>
                     </div>
                </>

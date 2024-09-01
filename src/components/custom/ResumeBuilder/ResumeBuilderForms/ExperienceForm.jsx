@@ -2,24 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { getGenerateSuggestions, saveExperience, updateExperience, deleteExperience, getExperiences } from '@/services/ApiService';
 import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
-import { areAllFieldsFilled } from '@/utils/BasicUtils';
 import { FiTrash2 } from 'react-icons/fi';
 
-const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume, resumeDetails }) => {
+const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
      const [suggestions, setSuggestions] = React.useState('');
      const [experienceId, setExperienceId] = React.useState('');
      const sectionType = 'experience'
+     const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
+     const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !experience.description;
 
      useEffect(() => {
-          if (resumeDetails.isEditMode) {
-               getExperience()
-          }
+          getAllExperiencesForResume()
      }, []);
 
-     const getExperience = async () => {
+     const getAllExperiencesForResume = async () => {
           const experiences = await getExperiences(resume.id)
           setExperienceList(experiences)
      }
+
+     const handleCheckboxChange = () => {
+          setIsCurrentlyEnrolled(!isCurrentlyEnrolled);
+          if (!isCurrentlyEnrolled) {
+               setEducation((prev) => ({
+                    ...prev,
+                    endDate: '',
+               }));
+          }
+     };
 
      const handleExperienceDetailChange = (e) => {
           setExperience({ ...experience, [e.target.name]: e.target.value });
@@ -39,8 +48,8 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                await updateExperience(experience, experienceId, resume.id)
                setEditingIndex(null);
           } else {
-               setExperienceList([...experienceList, experience]);
                const ex = await saveExperience(experience, resume.id)
+               setExperienceList([...experienceList, ex]);
                setExperienceId(ex.id);
           }
           setExperience({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' });
@@ -139,8 +148,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                          <CustomDatePicker
                               id="startDate"
                               selectedDate={experience.startDate}
-                              onDateChange={(date) => handleExperienceDetailChange({ target: { name: 'startDate', value: date.toISOString().split('T')[0] } })}
+                              onDateChange={(date) =>
+                                   handleExperienceDetailChange({
+                                        target: { name: 'startDate', value: date.toISOString().split('T')[0] }
+                                   })
+                              }
                               placeholder="Start Date"
+                              maxDate={experience.endDate ? new Date(experience.endDate) : new Date()} // Prevents selecting a start date after the end date
                          />
                     </div>
 
@@ -151,9 +165,29 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                          <CustomDatePicker
                               id="endDate"
                               selectedDate={experience.endDate}
-                              onDateChange={(date) => handleExperienceDetailChange({ target: { name: 'endDate', value: date.toISOString().split('T')[0] } })}
+                              onDateChange={(date) =>
+                                   handleExperienceDetailChange({
+                                        target: { name: 'endDate', value: date.toISOString().split('T')[0] }
+                                   })
+                              }
                               placeholder="End Date"
+                              maxDate={new Date()} // Disables future dates
+                              minDate={experience.startDate ? new Date(experience.startDate) : null} // Prevents selecting an end date before the start date
+                              disabled={isCurrentlyEnrolled} // Disable field if checkbox is checked
                          />
+                    </div>
+
+                    <div className="flex items-center">
+                         <input
+                              type="checkbox"
+                              id="currentlyEnrolled"
+                              className="mr-2"
+                              checked={isCurrentlyEnrolled}
+                              onChange={handleCheckboxChange}
+                         />
+                         <label className="text-gray-300 text-xs" htmlFor="currentlyEnrolled">
+                              Currently Enrolled
+                         </label>
                     </div>
                </div>
 
@@ -174,16 +208,16 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>
                </div>
-               {areAllFieldsFilled(experience) &&
-                    <button
-                         onClick={handleAddExperience}
-                         className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
-                    >
-                         <span>
-                              {editingIndex !== null ? 'Update' : 'Add'}
-                         </span>
-                    </button>
-               }
+               <button
+                    onClick={handleAddExperience}
+                    className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
+                         ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                         : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+                         }`}
+                    disabled={isDisabled}
+               >
+                    <span>{editingIndex !== null ? 'Update' : 'Add'}</span>
+               </button>
 
           </div>
      );

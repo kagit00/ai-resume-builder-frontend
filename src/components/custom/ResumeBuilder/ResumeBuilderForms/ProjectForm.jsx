@@ -3,22 +3,32 @@ import { saveProject, updateProject, deleteProject, getProjects } from '@/servic
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
 
-const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, editingIndex, setEditingIndex, resume, resumeDetails }) => {
+const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editingIndex, setEditingIndex, resume }) => {
      const [projectId, setProjectId] = useState('')
+     const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
+     const isDisabled = !project.title || !project.location || !project.organization || !project.startDate || !project.description;
 
      useEffect(() => {
-          if (resumeDetails.isEditMode) {
-               getProject()
-          }
+          getAllProjectsForResume()
      }, []);
 
-     const getProject = async () => {
+     const getAllProjectsForResume = async () => {
           const projects = await getProjects(resume.id)
           setProjectsList(projects)
      }
 
      const handleProjectDetailChange = (e) => {
-          setProjects({ ...project, [e.target.name]: e.target.value });
+          setProject({ ...project, [e.target.name]: e.target.value });
+     };
+
+     const handleCheckboxChange = () => {
+          setIsCurrentlyEnrolled(!isCurrentlyEnrolled);
+          if (!isCurrentlyEnrolled) {
+               setEducation((prev) => ({
+                    ...prev,
+                    endDate: '',
+               }));
+          }
      };
 
      const handleAddProject = async () => {
@@ -34,12 +44,12 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
                const proj = await saveProject(project, resume.id)
                setProjectId(proj.id)
           }
-          setProjects({ title: '', startDate: '', endDate: '', description: '' });
+          setProject({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' });
      };
 
      const handleEditProject = (index) => {
           setProjectId(projectsList[index].id)
-          setProjects(projectsList[index]);
+          setProject(projectsList[index]);
           setEditingIndex(index);
      };
 
@@ -48,7 +58,7 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
           setProjectsList(updatedProjectsList);
           await deleteProject(resume.id, projectsList[index].id)
           if (editingIndex === index) {
-               setProjects({ title: '', startDate: '', endDate: '', description: '' });
+               setProject({ title: '', startDate: '', endDate: '', description: '' });
                setEditingIndex(null);
           }
      };
@@ -64,12 +74,12 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
                          >
                               <span>{proj.title}</span>
                               <FiTrash2
-                                    className="ml-2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
-                                    onClick={(e) => {
-                                        e.stopPropagation(); 
+                                   className="ml-2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                   onClick={(e) => {
+                                        e.stopPropagation();
                                         handleRemoveProject(index);
-                                    }}
-                                />
+                                   }}
+                              />
                          </span>
                     ))}
                </div>
@@ -90,14 +100,49 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
 
                     <div className="flex flex-col md:flex-row gap-4 mb-6">
                          <div className="w-full md:w-1/2">
+                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="location">
+                                   Location
+                              </label>
+                              <input
+                                   id="location"
+                                   name="location"
+                                   value={project.location}
+                                   onChange={handleProjectDetailChange}
+                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   placeholder="Location"
+                              />
+                         </div>
+
+                         <div className="w-full md:w-1/2">
+                              <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="organization">
+                                   Organization Name
+                              </label>
+                              <input
+                                   id="organization"
+                                   name="organization"
+                                   value={project.organization}
+                                   onChange={handleProjectDetailChange}
+                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   placeholder="Put NA if personal"
+                              />
+                         </div>
+                    </div>
+
+                    <div className="flex flex-col md:flex-row gap-4 mb-6">
+                         <div className="w-full md:w-1/2">
                               <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startDate">
                                    Start Date
                               </label>
                               <CustomDatePicker
                                    id="startDate"
                                    selectedDate={project.startDate}
-                                   onDateChange={(date) => handleProjectDetailChange({ target: { name: 'startDate', value: date.toISOString().split('T')[0] } })}
+                                   onDateChange={(date) =>
+                                        handleProjectDetailChange({
+                                             target: { name: 'startDate', value: date.toISOString().split('T')[0] }
+                                        })
+                                   }
                                    placeholder="Start Date"
+                                   maxDate={project.endDate ? new Date(project.endDate) : new Date()} // Prevents selecting a start date after the end date
                               />
                          </div>
 
@@ -108,9 +153,29 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
                               <CustomDatePicker
                                    id="endDate"
                                    selectedDate={project.endDate}
-                                   onDateChange={(date) => handleProjectDetailChange({ target: { name: 'endDate', value: date.toISOString().split('T')[0] } })}
+                                   onDateChange={(date) =>
+                                        handleProjectDetailChange({
+                                             target: { name: 'endDate', value: date.toISOString().split('T')[0] }
+                                        })
+                                   }
                                    placeholder="End Date"
+                                   maxDate={new Date()} // Disables future dates
+                                   minDate={project.startDate ? new Date(project.startDate) : null} // Prevents selecting an end date before the start date
+                                   disabled={isCurrentlyEnrolled} // Disable field if checkbox is checked
                               />
+                         </div>
+
+                         <div className="flex items-center">
+                              <input
+                                   type="checkbox"
+                                   id="currentlyEnrolled"
+                                   className="mr-2"
+                                   checked={isCurrentlyEnrolled}
+                                   onChange={handleCheckboxChange}
+                              />
+                              <label className="text-gray-300 text-xs" htmlFor="currentlyEnrolled">
+                                   Currently Enrolled
+                              </label>
                          </div>
                     </div>
 
@@ -130,14 +195,18 @@ const ProjectForm = ({ project, setProjects, projectsList, setProjectsList, edit
                               />
                          </div>
                     </div>
-                    {
-                         <button
-                              onClick={handleAddProject}
-                              className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
-                         >
-                              <span>{editingIndex !== null ? 'Update' : 'Add'}</span>
-                         </button>
-                    }
+
+                    <button
+                         onClick={handleAddProject}
+                         className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
+                              ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                              : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+                              }`}
+                         disabled={isDisabled}
+                    >
+                         <span>{editingIndex !== null ? 'Update' : 'Add'}</span>
+                    </button>
+
                </>
           </div>
      );

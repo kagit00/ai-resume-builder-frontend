@@ -10,19 +10,19 @@ const skillOptions = [
   'Git', 'GitHub', 'GitLab', 'Jira', 'Confluence', 'Slack', 'Teams', 'Figma', 'Sketch', 'Adobe XD'
 ];
 
-const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills, resume, resumeDetails }) => {
+const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills, resume }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const isDisabled = selectedSkills.length === 0
+
 
   useEffect(() => {
-        if (resumeDetails.isEditMode) {
-            getResumeSkills(resume.id);
-        }
-    }, []);
+    getResumeSkills(resume.id);
+  }, []);
 
-    const getResumeSkills = async () => {
-      const skills = await getSkills(resume.id)
-      setSelectedSkills(skills)
-    }
+  const getResumeSkills = async () => {
+    const skills = await getSkills(resume.id)
+    setSelectedSkills(skills)
+  }
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
@@ -30,7 +30,7 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
     const newSelectedSkills = selectedSkills.includes(skill)
       ? selectedSkills.filter(item => item !== skill)
       : [...selectedSkills, skill];
-      
+
     handleSkillsUpdate(newSelectedSkills);
   };
 
@@ -41,7 +41,7 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
   };
 
   const handleResetSkills = () => {
-    handleSkillsUpdate([]);  // Update the parent component's state if necessary
+    handleSkillsUpdate([]);
   };
 
   return (
@@ -77,22 +77,20 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
           <span key={index} className="bg-gray-600 text-gray-100 text-xs px-2 py-1 rounded-full">{skill}</span>
         ))}
       </div>
-      {selectedSkills.length > 0 &&
-        <>
-          <button
-            onClick={handleAddSkills}
-            className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4"
-          >
-            Add
-          </button>
-          <button
-            onClick={handleResetSkills}
-            className="text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 mt-2"
-          >
-            Reset
-          </button>
-        </>
-      }
+
+      <button 
+        onClick={handleAddSkills}
+        className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4"
+      >
+        Add
+      </button>
+      <button
+        onClick={handleResetSkills}
+        className="text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 mt-2"
+      >
+        Reset
+      </button>
+
     </div>
   );
 };

@@ -1,25 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { saveEducation, updateEducation, deleteEducation, getEducations } from '@/services/ApiService';
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
-import { areAllFieldsFilled } from '@/utils/BasicUtils';
 import { FiTrash2 } from 'react-icons/fi';
 
-const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume, resumeDetails }) => {
+const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
     const [educationId, setEducationId] = useState('')
+    const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
+    const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !education.description;
 
     useEffect(() => {
-        if (resumeDetails.isEditMode) {
-            getEducation(resume.id);
-        }
+        getAllEducationsForResume(resume.id);
     }, []);
 
-    const getEducation = async (resumeId) => {
+    const getAllEducationsForResume = async (resumeId) => {
         const educations = await getEducations(resumeId)
         setEducationList(educations)
     }
 
     const handleEducationDetailChange = (e) => {
-        setEducation({ ...education, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setEducation((prevEducation) => ({
+            ...prevEducation,
+            [name]: value,
+        }));
+    };
+
+    const handleCheckboxChange = () => {
+        setIsCurrentlyEnrolled(!isCurrentlyEnrolled);
+        if (!isCurrentlyEnrolled) {
+            setEducation((prev) => ({
+                ...prev,
+                endDate: '',
+            }));
+        }
     };
 
     const handleAddEducation = async () => {
@@ -121,8 +134,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         <CustomDatePicker
                             id="startDate"
                             selectedDate={education.startDate}
-                            onDateChange={(date) => handleEducationDetailChange({ target: { name: 'startDate', value: date.toISOString().split('T')[0] } })}
+                            onDateChange={(date) =>
+                                handleEducationDetailChange({
+                                    target: { name: 'startDate', value: date.toISOString().split('T')[0] }
+                                })
+                            }
                             placeholder="Start Date"
+                            maxDate={education.endDate ? new Date(education.endDate) : new Date()} // Prevents selecting a start date after the end date
                         />
                     </div>
 
@@ -133,15 +151,35 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         <CustomDatePicker
                             id="endDate"
                             selectedDate={education.endDate}
-                            onDateChange={(date) => handleEducationDetailChange({ target: { name: 'endDate', value: date.toISOString().split('T')[0] } })}
+                            onDateChange={(date) =>
+                                handleEducationDetailChange({
+                                    target: { name: 'endDate', value: date.toISOString().split('T')[0] }
+                                })
+                            }
                             placeholder="End Date"
+                            maxDate={new Date()} // Disables future dates
+                            minDate={education.startDate ? new Date(education.startDate) : null} // Prevents selecting an end date before the start date
+                            disabled={isCurrentlyEnrolled} // Disable field if checkbox is checked
                         />
+                    </div>
+
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            id="currentlyEnrolled"
+                            className="mr-2"
+                            checked={isCurrentlyEnrolled}
+                            onChange={handleCheckboxChange}
+                        />
+                        <label className="text-gray-300 text-xs" htmlFor="currentlyEnrolled">
+                            Currently Enrolled
+                        </label>
                     </div>
                 </div>
 
                 <div className="relative mb-6">
                     <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
-                        Education description
+                        Education Description
                     </label>
                     <div className="relative">
                         <textarea
@@ -156,14 +194,16 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                     </div>
                 </div>
 
-                {areAllFieldsFilled(education) && <button
+                <button
                     onClick={handleAddEducation}
-                    className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
+                    className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
+                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+                        }`}
+                    disabled={isDisabled}
                 >
-                    <span>
-                        {editingIndex !== null ? 'Update' : 'Add'}
-                    </span>
-                </button>}
+                    <span>{editingIndex !== null ? 'Update' : 'Add'}</span>
+                </button>
             </>
         </div>
     );

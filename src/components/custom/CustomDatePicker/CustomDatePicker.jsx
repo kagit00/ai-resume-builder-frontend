@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './custom-datepicker.css';
 
-const CustomDatePicker = ({ selectedDate, onDateChange, placeholder }) => {
+const CustomDatePicker = ({ selectedDate, onDateChange, placeholder, maxDate, disabled, minDate  }) => {
     useEffect(() => {
         // Apply custom styles to the DatePicker dropdown
         const datePickerDropdown = document.querySelector('.react-datepicker');
@@ -32,6 +32,9 @@ const CustomDatePicker = ({ selectedDate, onDateChange, placeholder }) => {
             scrollableYearDropdown
             yearDropdownItemNumber={25}
             dropdownMode="select"
+            minDate={minDate}
+            maxDate={maxDate}
+            disabled={disabled}
         />
     );
 };
