@@ -1,7 +1,21 @@
-import React from 'react';
-import { saveLanguage } from '@/services/ApiService';
+import React, { useState, useEffect } from 'react';
+import { getLanguages, saveLanguage, updateLanguage, deleteLanguage } from '@/services/ApiService';
+import { FiTrash2 } from 'react-icons/fi'; // Import trash icon from react-icons
 
-const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume }) => {
+const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume, resumeDetails}) => {
+     const [languageId, setLanguageId] = useState('')
+     useEffect(() => {
+          if (resumeDetails.isEditMode) {
+               getLanguage()
+          }
+     }, []);
+     console.log(languagesList)
+
+     const getLanguage = async () => {
+          const languages = await getLanguages(resume.id);
+          setLanguagesList(languages);
+     }
+
      const handleLanguageDetailChange = (e) => {
           setLanguages({ ...languages, [e.target.name]: e.target.value });
      };
@@ -12,17 +26,56 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
                     index === editingIndex ? languages : lang
                );
                setLanguagesList(updatedLanguagesList);
+               await updateLanguage(resume.id, languageId, languages)
                setEditingIndex(null);
           } else {
-               setLanguagesList([...languagesList, languages]);
+               const lang = await saveLanguage(resume.id, languages);
+               setLanguagesList([...languagesList, lang]);
+               setLanguageId(lang.id)
           }
-          await saveLanguage(languages, resume.id)
           setLanguages({ name: '', proficiencyLevel: '' });
+     };
+
+     const handleEditLanguage = (index) => {
+          const languageToEdit = languagesList[index];
+          setLanguageId(languagesList[index].id)
+          setLanguages(languageToEdit);
+          setEditingIndex(index);
+     };
+
+     const handleDeleteLanguage = async (index) => {
+          const updatedLanguagesList = languagesList.filter((_, i) => i !== index);
+          await deleteLanguage(resume.id, languagesList[index].id)
+          setLanguagesList(updatedLanguagesList);
+          if (editingIndex !== null && editingIndex >= index) {
+               setEditingIndex(null); // Reset editing index if the deleted item was being edited
+          }
      };
 
      return (
           <div>
                <>
+                    {/* Display the list of added languages with delete icon */}
+                    <div className="mb-6">
+                         <ul className="flex flex-wrap gap-2">
+                              {languagesList.map((lang, index) => (
+                                   <li
+                                        key={index}
+                                        className="flex items-center text-gray-100 rounded-full bg-zinc-800 px-4 py-2 text-sm font-semibold cursor-pointer"
+                                        onClick={() => handleEditLanguage(index)} // Set language details to form fields on click
+                                   >
+                                        {lang.name}
+                                        <FiTrash2
+                                             className="ml-2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                             onClick={(e) => {
+                                                  e.stopPropagation(); // Prevent triggering the edit on delete
+                                                  handleDeleteLanguage(index);
+                                             }}
+                                        />
+                                   </li>
+                              ))}
+                         </ul>
+                    </div>
 
                     <div className="mb-6">
                          <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="name">
@@ -37,9 +90,9 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
                               placeholder="Language Name"
                          />
                          <div className="mt-4 mb-4">
-                              <p className="text-gray-300 text-sm md:text-base mb-2">proficiencyLevel</p>
+                              <p className="text-gray-300 text-sm md:text-base mb-2">Proficiency Level</p>
                               <div className="flex gap-4">
-                                   {['NATIVE', 'EXPERT', 'FLUENT', 'NATIVE'].map((level) => (
+                                   {['NAIVE', 'NATIVE', 'FLUENT', 'EXPERT'].map((level) => (
                                         <label key={level} className="inline-flex items-center text-gray-300">
                                              <input
                                                   type="radio"
@@ -55,9 +108,11 @@ const LanguageForm = ({ languages, setLanguages, languagesList, setLanguagesList
                               </div>
                          </div>
 
-                         <button onClick={handleAddLanguage}
+                         <button
+                              onClick={handleAddLanguage}
                               className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
-                         >  {editingIndex !== null ? 'Update Language' : 'Add Language'}
+                         >
+                              {editingIndex !== null ? 'Update' : 'Add'}
                          </button>
                     </div>
                </>

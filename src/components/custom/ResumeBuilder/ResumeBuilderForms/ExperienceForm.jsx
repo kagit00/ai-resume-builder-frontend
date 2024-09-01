@@ -1,10 +1,25 @@
-import React from 'react';
-import { getGenerateSuggestions, saveExperience } from '@/services/ApiService';
+import React, { useState, useEffect } from 'react';
+import { getGenerateSuggestions, saveExperience, updateExperience, deleteExperience, getExperiences } from '@/services/ApiService';
 import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
+import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
+import { areAllFieldsFilled } from '@/utils/BasicUtils';
+import { FiTrash2 } from 'react-icons/fi';
 
-const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
+const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume, resumeDetails }) => {
      const [suggestions, setSuggestions] = React.useState('');
+     const [experienceId, setExperienceId] = React.useState('');
      const sectionType = 'experience'
+
+     useEffect(() => {
+          if (resumeDetails.isEditMode) {
+               getExperience()
+          }
+     }, []);
+
+     const getExperience = async () => {
+          const experiences = await getExperiences(resume.id)
+          setExperienceList(experiences)
+     }
 
      const handleExperienceDetailChange = (e) => {
           setExperience({ ...experience, [e.target.name]: e.target.value });
@@ -21,22 +36,26 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                     index === editingIndex ? experience : exp
                );
                setExperienceList(updatedExperienceList);
+               await updateExperience(experience, experienceId, resume.id)
                setEditingIndex(null);
           } else {
                setExperienceList([...experienceList, experience]);
+               const ex = await saveExperience(experience, resume.id)
+               setExperienceId(ex.id);
           }
-          await saveExperience(experience, resume.id)
           setExperience({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' });
      };
 
      const handleEditExperience = (index) => {
+          setExperienceId(experienceList[index].id)
           setExperience(experienceList[index]);
           setEditingIndex(index);
      };
 
-     const handleDeleteExperience = (index) => {
+     const handleDeleteExperience = async (index) => {
           const updatedExperienceList = experienceList.filter((_, i) => i !== index);
           setExperienceList(updatedExperienceList);
+          await deleteExperience(resume.id, experienceList[index].id)
           if (editingIndex !== null && editingIndex >= index) {
                setEditingIndex(editingIndex === index ? null : editingIndex - 1);
           }
@@ -44,21 +63,22 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
 
      return (
           <div>
-               <div className="flex flex-wrap gap-2 mb-4">
+               <div className="mb-6 flex flex-wrap gap-2">
                     {experienceList.map((exp, index) => (
                          <span
                               key={index}
-                              className="bg-zinc-900 text-gray-100 py-1 px-3 rounded-full flex items-center space-x-2 cursor-pointer transition duration-200 ease-in-out"
+                              className="flex items-center text-gray-100 rounded-full bg-zinc-800 px-4 py-2 text-sm font-semibold cursor-pointer"
                          >
                               <span onClick={() => handleEditExperience(index)}>
                                    {exp.title} at {exp.organization}
                               </span>
-                              <button
-                                   className="text-red-500 hover:text-red-700 focus:outline-none"
-                                   onClick={() => handleDeleteExperience(index)}
-                              >
-                                   &times;
-                              </button>
+                              <FiTrash2
+                                   className="ml-2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                   onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDeleteExperience(index);
+                                   }}
+                              />
                          </span>
                     ))}
                </div>
@@ -114,31 +134,25 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                <div className="flex flex-col md:flex-row gap-4 mb-6">
                     <div className="w-full md:w-1/2">
                          <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startDate">
-                              Start Year
+                              Start Date
                          </label>
-                         <input
+                         <CustomDatePicker
                               id="startDate"
-                              name="startDate"
-                              value={experience.startDate}
-                              onChange={handleExperienceDetailChange}
-                              type="number"
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
-                              placeholder="Start Year"
+                              selectedDate={experience.startDate}
+                              onDateChange={(date) => handleExperienceDetailChange({ target: { name: 'startDate', value: date.toISOString().split('T')[0] } })}
+                              placeholder="Start Date"
                          />
                     </div>
 
                     <div className="w-full md:w-1/2">
                          <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="endDate">
-                              End Year (or Present)
+                              End Date
                          </label>
-                         <input
+                         <CustomDatePicker
                               id="endDate"
-                              name="endDate"
-                              value={experience.endDate}
-                              onChange={handleExperienceDetailChange}
-                              type="text"
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
-                              placeholder="End Year or Present"
+                              selectedDate={experience.endDate}
+                              onDateChange={(date) => handleExperienceDetailChange({ target: { name: 'endDate', value: date.toISOString().split('T')[0] } })}
+                              placeholder="End Date"
                          />
                     </div>
                </div>
@@ -160,15 +174,17 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>
                </div>
+               {areAllFieldsFilled(experience) &&
+                    <button
+                         onClick={handleAddExperience}
+                         className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
+                    >
+                         <span>
+                              {editingIndex !== null ? 'Update' : 'Add'}
+                         </span>
+                    </button>
+               }
 
-               <button
-                    onClick={handleAddExperience}
-                    className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
-               >
-                    <span>
-                         {editingIndex !== null ? 'Update Experience' : 'Add Experience'}
-                    </span>
-               </button>
           </div>
      );
 };

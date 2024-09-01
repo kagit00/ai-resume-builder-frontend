@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import SearchFilter from './SearchFilter';
 import { deleteResume } from '@/services/ApiService';
+import { useNavigate } from 'react-router-dom';
 
-const PendingResumes = ({ pendingResumes }) => {
+const PendingResumes = ({ pendingResumes, userDetails }) => {
+     const navigate = useNavigate();
      const [titleFilter, setTitleFilter] = useState('');
      const [dateFilter, setDateFilter] = useState('');
 
@@ -24,6 +26,21 @@ const PendingResumes = ({ pendingResumes }) => {
 
      const deleteResumeById = async (id) => {
           await deleteResume(id);
+     }
+
+     const handleEditResume = (id, title) => {
+          navigate('/user/dashboard/resumeBuilder', {
+               state: {
+                    resume: {
+                         id: id,
+                         title: title
+                    },
+                    resumeDetails: {
+                         isEditMode: true,
+                         userDetails
+                    }
+               }
+          });
      }
 
      return (
@@ -52,6 +69,8 @@ const PendingResumes = ({ pendingResumes }) => {
                                         strokeWidth={2}
                                         stroke="currentColor"
                                         className="w-6 h-6 p-1 rounded-full bg-white text-blue-500 hover:bg-blue-200 transition-colors cursor-pointer"
+                                        onClick={() => handleEditResume(card.id, card.title)}
+
                                    >
                                         <path
                                              strokeLinecap="round"

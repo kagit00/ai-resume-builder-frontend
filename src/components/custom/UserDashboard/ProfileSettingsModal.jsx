@@ -15,23 +15,37 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                     </button>
                     {!viewingProfile ? (
                          <>
-                              <h2 className="text-xl md:text-2xl lg:text-xl mb-6 font-normal text-white">Profile Settings</h2>
+                              <h2 className="text-lg font-semibold text-white mb-3 truncate">Profile Settings</h2>
                               <ul className="space-y-4">
-                                   <li className="hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                   <li className="flex items-center hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        <svg className="w-6 h-6 mr-3 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                             <path d="M12 2L2 12h3v8h8v-8h3L12 2z"></path>
+                                        </svg>
                                         Upgrade To Premium
                                    </li>
-                                   <li className="hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                   <li className="flex items-center hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        <svg className="w-6 h-6 mr-3 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                             <path d="M17 10.5V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v5.5"></path>
+                                             <path d="M2 10.5h20"></path>
+                                             <path d="M17 21H7a2 2 0 0 1-2-2v-8h12v8a2 2 0 0 1-2 2z"></path>
+                                        </svg>
                                         Change Password
                                    </li>
-                                   <li className="hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                   <li className="flex items-center hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        <svg className="w-6 h-6 mr-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                             <path d="M8 17l4-4 4 4"></path>
+                                             <path d="M12 3v12"></path>
+                                        </svg>
                                         Manage Email Notifications
                                    </li>
                                    <li
-                                        onClick={() => {
-                                             setViewingProfile(true);
-                                        }}
-                                        className="hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300"
+                                        onClick={() => setViewingProfile(true)}
+                                        className="flex items-center hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300"
                                    >
+                                        <svg className="w-6 h-6 mr-3 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                             <circle cx="12" cy="12" r="4"></circle>
+                                             <path d="M4.22 4.22a10 10 0 0 1 13.56 13.56"></path>
+                                        </svg>
                                         View Profile
                                    </li>
                               </ul>
@@ -41,8 +55,22 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                              // Handle account deletion logic here
 
                                         }}
-                                        className="text-red-500 hover:text-red-700 w-full text-left transition-colors duration-300"
+                                        className="flex items-center text-red-500 hover:text-red-700 w-full text-left transition-colors duration-300"
                                    >
+                                        <svg
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             strokeWidth={2}
+                                             stroke="currentColor"
+                                             className="w-5 h-5 mr-3"
+                                        >
+                                             <path
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                  d="M19 7l-1 12.25A2.75 2.75 0 0115.25 22H8.75A2.75 2.75 0 016 19.25L5 7m5 0V4.75A2.75 2.75 0 0112.75 2h-1.5A2.75 2.75 0 019 4.75V7m5 0v-2.5A2.75 2.75 0 0115.25 2h-1.5A2.75 2.75 0 0111 4.75V7m5 0H8m4 0v10m-4-10v10"
+                                             />
+                                        </svg>
                                         Delete Account
                                    </button>
                               </div>
@@ -70,11 +98,11 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                         </p>
                                         <p className="flex items-center text-gray-300 text-base mb-4">
                                              <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Member Since</span>
-                                             <span>{userDetails.timestamp? userDetails.timestamp.slice(0, 4) : ""}</span>
+                                             <span>{userDetails.timestamp ? userDetails.timestamp.slice(0, 4) : ""}</span>
                                         </p>
                                         <p className="flex items-center text-gray-300 text-base">
                                              <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Bio</span>
-                                             <span>{userDetails.bio? userDetails.bio : 'Nothing to show as of now'}</span>
+                                             <span>{userDetails.bio ? userDetails.bio : 'Nothing to show as of now'}</span>
                                         </p>
                                    </div>
                               </div>

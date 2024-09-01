@@ -63,16 +63,16 @@ const DownloadableResumes = ({ downloadableResumes }) => {
             {/* Card Content */}
             <div className="flex flex-col justify-between h-full pt-8">
               <div className="mb-4">
-                <p className="text-lg font-semibold text-white mb-2 truncate">
+                <p className="text-sm font-bold text-white mb-2 rounded-full truncate shadow-xl bg-gradient-to-r from-black via-zinc-900 to-zinc-700 p-2">
                   {card.title}
                 </p>
-                <p className="text-xs text-gray-300 leading-relaxed">
+                <p className="text-xs text-gray-300 leading-relaxed px-2">
                   Enhance your chances of getting hired with a well-structured resume. Stand out from the crowd with a compelling CV!
                 </p>
               </div>
 
               <div className="flex items-center mt-4">
-                <span className="text-xs font-semibold text-gray-500">
+                <span className="text-xs font-semibold text-gray-500 px-2">
                   {new Date(card.updatedAt).toLocaleString('en-US', {
                     month: 'long',
                     day: 'numeric',

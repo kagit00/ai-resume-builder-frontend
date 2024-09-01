@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { saveSkills } from '@/services/ApiService';
+import React, { useState, useEffect } from 'react';
+import { updateSkills, getSkills } from '@/services/ApiService';
 
 const skillOptions = [
   'JavaScript', 'Python', 'Java', 'C#', 'C++', 'TypeScript', 'HTML', 'CSS', 'React', 'Angular',
@@ -10,25 +10,38 @@ const skillOptions = [
   'Git', 'GitHub', 'GitLab', 'Jira', 'Confluence', 'Slack', 'Teams', 'Figma', 'Sketch', 'Adobe XD'
 ];
 
-const SkillsDropdown = ({ handleSkillsUpdate }) => {
-  const [selectedSkills, setSelectedSkills] = useState([]);
+const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills, resume, resumeDetails }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  useEffect(() => {
+        if (resumeDetails.isEditMode) {
+            getResumeSkills(resume.id);
+        }
+    }, []);
+
+    const getResumeSkills = async () => {
+      const skills = await getSkills(resume.id)
+      setSelectedSkills(skills)
+    }
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleSkillSelect = (skill) => {
-    setSelectedSkills(prevSelected =>
-      prevSelected.includes(skill)
-        ? prevSelected.filter(item => item !== skill)
-        : [...prevSelected, skill]
-    );
+    const newSelectedSkills = selectedSkills.includes(skill)
+      ? selectedSkills.filter(item => item !== skill)
+      : [...selectedSkills, skill];
+      
+    handleSkillsUpdate(newSelectedSkills);
   };
 
   const handleAddSkills = async () => {
-    handleSkillsUpdate(selectedSkills);
-    await saveSkills(selectedSkills)
-    setSelectedSkills([]);
+    const skillsStr = selectedSkills.join(",")
+    await updateSkills(skillsStr, resume.id);
     setDropdownOpen(false);
+  };
+
+  const handleResetSkills = () => {
+    handleSkillsUpdate([]);  // Update the parent component's state if necessary
   };
 
   return (
@@ -64,12 +77,22 @@ const SkillsDropdown = ({ handleSkillsUpdate }) => {
           <span key={index} className="bg-gray-600 text-gray-100 text-xs px-2 py-1 rounded-full">{skill}</span>
         ))}
       </div>
-      <button
-        onClick={handleAddSkills}
-        className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4"
-      >
-        Add Skills
-      </button>
+      {selectedSkills.length > 0 &&
+        <>
+          <button
+            onClick={handleAddSkills}
+            className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 mt-4"
+          >
+            Add
+          </button>
+          <button
+            onClick={handleResetSkills}
+            className="text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 mt-2"
+          >
+            Reset
+          </button>
+        </>
+      }
     </div>
   );
 };

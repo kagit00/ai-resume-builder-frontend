@@ -1,23 +1,39 @@
-import React from 'react';
-import { saveAdditionalDetails } from '@/services/ApiService';
+import React, { useState, useEffect } from 'react';
+import { saveAdditionalDetails, getAdditionalDetails, updateAdditionalDetails } from '@/services/ApiService';
+import { areAllFieldsFilled } from '@/utils/BasicUtils';
 
-const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additionalDetailsList, setAdditionalDetailsList, editingIndex, setEditingIndex, resume }) => {
+const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additionalDetailsList, setAdditionalDetailsList, editingIndex, setEditingIndex, resume, resumeDetails }) => {
+     const [additionalDetailsId, setAdditionalDetailsId] = useState('')
+
+     useEffect(() => {
+          if (resumeDetails.isEditMode) {
+               getResumeAddtionalDetails(resume.id);
+          }
+     }, []);
+
+     const getResumeAddtionalDetails = async () => {
+          const ad = await getAdditionalDetails(resume.id)
+          setAdditionalDetails(ad);
+     }
+
      const handleAdditionalDetailChange = (e) => {
           setAdditionalDetails({ ...additionalDetails, [e.target.name]: e.target.value });
      };
 
      const handleAddAdditionalDetails = async () => {
-          if (editingIndex !== null) {
+          if (editingIndex !== null || resumeDetails.isEditMode) {
                const updatedAdditionalDetailsList = additionalDetailsList.map((detail, index) =>
                     index === editingIndex ? additionalDetails : detail
                );
+               await updateAdditionalDetails(resume.id, additionalDetails.id, additionalDetails)
+               setAdditionalDetails(additionalDetails); //temporry change
                setAdditionalDetailsList(updatedAdditionalDetailsList);
                setEditingIndex(null);
           } else {
-               setAdditionalDetailsList([...additionalDetailsList, additionalDetails]);
+               const ad = await saveAdditionalDetails(additionalDetails, resume.id)
+               setAdditionalDetails(ad); //temporary change
+               setAdditionalDetailsList([...additionalDetailsList, ad]);
           }
-          await saveAdditionalDetails(additionalDetails, resume.id)
-          setAdditionalDetails({ phoneNumber: '', githubLink: '', linkedInProfileLink: '' });
      };
 
      return (
@@ -60,11 +76,27 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, additi
                               placeholder="LinkedIn Profile Link"
                          />
 
-
-                         <button onClick={handleAddAdditionalDetails}
-                              className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
-                         >  {editingIndex !== null ? 'Update' : 'Add'}
-                         </button>
+                         <div className="flex space-x-4">
+                              {areAllFieldsFilled(additionalDetails) && (
+                                   (resumeDetails.isEditMode || editingIndex !== null) ? (
+                                        <>
+                                             <button
+                                                  onClick={handleAddAdditionalDetails}
+                                                  className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
+                                             >
+                                                  <span>Update</span>
+                                             </button>
+                                        </>
+                                   ) : (
+                                        <button
+                                             onClick={handleAddAdditionalDetails}
+                                             className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
+                                        >
+                                             <span>Add</span>
+                                        </button>
+                                   )
+                              )}
+                         </div>
                     </div>
                </>
           </div>

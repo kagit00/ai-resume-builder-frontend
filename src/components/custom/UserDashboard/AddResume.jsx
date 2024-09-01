@@ -17,15 +17,12 @@ function AddResume({userDetails}) {
   const [resumeTitle, setResumeTitle] = React.useState();
   const resumeDetails = {
     userDetails: userDetails,
-    resumeTitle: resumeTitle,
+    isEditMode: false
   }
 
-  const resume = {
-    'title': resumeTitle,
-  }
 
   const buildResume = async () => {
-    const response = await createResume(resume, userDetails.id)
+    const response = await createResume({ 'title': resumeTitle}, userDetails.id)
     navigate('/user/dashboard/resumeBuilder', {state: { resume: response, resumeDetails } }); 
   }
 

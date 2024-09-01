@@ -1,7 +1,23 @@
-import React from 'react';
-import { saveEducation } from '@/services/ApiService';
+import React, { useState, useEffect } from 'react';
+import { saveEducation, updateEducation, deleteEducation, getEducations } from '@/services/ApiService';
+import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
+import { areAllFieldsFilled } from '@/utils/BasicUtils';
+import { FiTrash2 } from 'react-icons/fi';
 
-const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
+const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume, resumeDetails }) => {
+    const [educationId, setEducationId] = useState('')
+
+    useEffect(() => {
+        if (resumeDetails.isEditMode) {
+            getEducation(resume.id);
+        }
+    }, []);
+
+    const getEducation = async (resumeId) => {
+        const educations = await getEducations(resumeId)
+        setEducationList(educations)
+    }
+
     const handleEducationDetailChange = (e) => {
         setEducation({ ...education, [e.target.name]: e.target.value });
     };
@@ -12,20 +28,25 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                 index === editingIndex ? education : ed
             );
             setEducationList(updatedEducationList);
+            await updateEducation(education, educationId, resume.id)
             setEditingIndex(null);
         } else {
             setEducationList([...educationList, education]);
+            const ed = await saveEducation(education, resume.id)
+            setEducation(ed);
+            setEducationId(ed.id)
         }
-        await saveEducation(education, resume.id)
         setEducation({ title: '', organization: '', location: '', startDate: '', endDate: '', description: '' });
     };
 
-    const handleDeleteEducation = (indexToRemove) => {
+    const handleDeleteEducation = async (indexToRemove) => {
         const updatedEducationList = educationList.filter((_, index) => index !== indexToRemove);
+        await deleteEducation(resume.id, educationList[indexToRemove].id)
         setEducationList(updatedEducationList);
     };
 
     const handleEditEducation = (indexToEdit) => {
+        setEducationId(educationList[indexToEdit].id)
         const educationToEdit = educationList[indexToEdit];
         setEducation(educationToEdit);
         setEditingIndex(indexToEdit);
@@ -33,6 +54,22 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
 
     return (
         <div>
+            <div className="mb-6 flex flex-wrap gap-2">
+                {educationList.map((ed, index) => (
+                    <div key={index} className=" flex items-center text-gray-100 rounded-full bg-zinc-800 px-4 py-2 text-sm font-semibold cursor-pointer">
+                        <span onClick={() => handleEditEducation(index)} className="cursor-pointer">
+                            {ed.title}
+                        </span>
+                        <FiTrash2
+                            className="ml-2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteEducation(index);
+                            }}
+                        />
+                    </div>
+                ))}
+            </div>
             <>
                 <div className="mb-6">
                     <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="title">
@@ -79,31 +116,25 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                 <div className="flex flex-col md:flex-row gap-4 mb-6">
                     <div className="w-full md:w-1/2">
                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startDate">
-                            Start Year
+                            Start Date
                         </label>
-                        <input
+                        <CustomDatePicker
                             id="startDate"
-                            name="startDate"
-                            value={education.startDate}
-                            onChange={handleEducationDetailChange}
-                            type="number"
-                            className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
-                            placeholder="Start Year"
+                            selectedDate={education.startDate}
+                            onDateChange={(date) => handleEducationDetailChange({ target: { name: 'startDate', value: date.toISOString().split('T')[0] } })}
+                            placeholder="Start Date"
                         />
                     </div>
 
                     <div className="w-full md:w-1/2">
                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="endDate">
-                            End Year (or Present)
+                            End Date
                         </label>
-                        <input
+                        <CustomDatePicker
                             id="endDate"
-                            name="endDate"
-                            value={education.endDate}
-                            onChange={handleEducationDetailChange}
-                            type="text"
-                            className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
-                            placeholder="End Year or Present"
+                            selectedDate={education.endDate}
+                            onDateChange={(date) => handleEducationDetailChange({ target: { name: 'endDate', value: date.toISOString().split('T')[0] } })}
+                            placeholder="End Date"
                         />
                     </div>
                 </div>
@@ -125,30 +156,14 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                     </div>
                 </div>
 
-                <button
+                {areAllFieldsFilled(education) && <button
                     onClick={handleAddEducation}
                     className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
                 >
                     <span>
-                        {editingIndex !== null ? 'Update Education' : 'Add Education'}
+                        {editingIndex !== null ? 'Update' : 'Add'}
                     </span>
-                </button>
-
-                <div className="mt-6">
-                    {educationList.map((ed, index) => (
-                        <div key={index} className="inline-block bg-gray-800 text-gray-100 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
-                            <span onClick={() => handleEditEducation(index)} className="cursor-pointer">
-                                {ed.title}
-                            </span>
-                            <button
-                                onClick={() => handleDeleteEducation(index)}
-                                className="ml-2 text-red-400 hover:text-red-600 focus:outline-none"
-                            >
-                                &times;
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                </button>}
             </>
         </div>
     );

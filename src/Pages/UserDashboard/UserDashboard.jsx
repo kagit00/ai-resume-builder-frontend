@@ -124,7 +124,7 @@ function UserDashboard() {
           </div>
         </div>
       </section>
-      <PendingResumes pendingResumes={pendingResumes} />
+      <PendingResumes pendingResumes={pendingResumes} userDetails={userDetails} />
       <DownloadableResumes downloadableResumes={downloadableResumes} />
     </div>
   )

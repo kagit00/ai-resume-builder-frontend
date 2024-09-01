@@ -1,0 +1,51 @@
+/* Style for the calendar container */
+.custom-calendar {
+  background-color: #18181b; /* Dark background color */
+  color: #f1f5f9; /* Light text color */
+}
+
+/* Style for the header of the calendar */
+.custom-calendar .react-datepicker__header {
+  background-color: #18181b; /* Dark background color */
+  color: #f1f5f9; /* Light text color */
+  border-bottom: 1px solid #444; /* Subtle border */
+}
+
+/* Style for the day cells */
+.custom-calendar .react-datepicker__day {
+  background-color: #18181b; /* Dark background color */
+  color: #f1f5f9; /* Light text color */
+  border-radius: 0.25rem; /* Rounded corners for better aesthetics */
+}
+
+/* Style for the selected day */
+.custom-calendar .react-datepicker__day--selected {
+  background-color: #3b82f6; /* Highlight color */
+  color: #ffffff; /* White text color */
+}
+
+/* Style for the day cell on hover */
+.custom-calendar .react-datepicker__day:hover {
+  background-color: #2b2b2b; /* Slightly lighter dark background */
+}
+
+/* Style for the month/year dropdowns */
+.custom-calendar .react-datepicker__year-dropdown,
+.custom-calendar .react-datepicker__month-dropdown {
+  background-color: #18181b; /* Dark background color */
+  color: #f1f5f9; /* Light text color */
+  border: 1px solid #444; /* Border for dropdowns */
+}
+
+/* Style for the month/year dropdown options */
+.custom-calendar .react-datepicker__month-option,
+.custom-calendar .react-datepicker__year-option {
+  background-color: #18181b; /* Dark background color */
+  color: #f1f5f9; /* Light text color */
+}
+
+/* Style for the dropdown option on hover */
+.custom-calendar .react-datepicker__month-option:hover,
+.custom-calendar .react-datepicker__year-option:hover {
+  background-color: #2b2b2b; /* Slightly lighter dark background */
+}
