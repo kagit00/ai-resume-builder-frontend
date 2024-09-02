@@ -15,7 +15,7 @@ export const fetchUserDetailsFromToken = async () => {
                },
                withCredentials: !jwtToken,
           });
-          toast.success(`Welcome to your dashboard, ${response.data.name}`, {
+          toast.success(`Welcome to Dashboard ${response.data.name}`, {
                style: {
                     backgroundColor: '#18181b',
                     color: '#fff'
@@ -23,13 +23,13 @@ export const fetchUserDetailsFromToken = async () => {
           });
           return response.data;
      } catch (error) {
-          console.error('Error fetching user details:', error);
           toast.error('Something went wrong while logging you in.', {
                style: {
                     backgroundColor: '#18181b',
                     color: '#fff'
                },
           });
+          throw new Error(error.response?.data?.message || 'An error occurred');
      }
 };
 
@@ -52,7 +52,6 @@ export const getGenerateSuggestions = async (title, sectionType) => {
           });
           return response.data;
      } catch (error) {
-          console.error('Error generating details:', error);
           toast.error('An error occurred while generating AI suggestions.', {
                style: {
                     backgroundColor: '#18181b',
@@ -65,7 +64,6 @@ export const getGenerateSuggestions = async (title, sectionType) => {
 export const registerUser = async (formData) => {
      try {
           const response = await axios.post(`${API_BASE_URL}/users`, formData);
-          console.log('User signed up successfully:', response.data);
           toast.success('User registered successfully.', {
                style: {
                     backgroundColor: '#18181b',
@@ -74,7 +72,6 @@ export const registerUser = async (formData) => {
           });
           return response.data;
      } catch (error) {
-          console.error('There was an error signing up:', error);
           toast.error('An error occurred while registering the user.', {
                style: {
                     backgroundColor: '#18181b',
@@ -87,7 +84,6 @@ export const registerUser = async (formData) => {
 export const doJWtLogIn = async (creds) => {
      try {
           const response = await axios.post(`${API_BASE_URL}/auth/token`, creds);
-          console.log('User logged in successfully:', response.data);
           setJwtToken(response.data)
           window.location.href = '/user/dashboard';
           toast.success('Successfully logged in.', {
@@ -98,7 +94,6 @@ export const doJWtLogIn = async (creds) => {
           });
           return response;
      } catch (error) {
-          console.error('Login failed:', error);
           toast.error('An error occurred while logging in the user.', {
                style: {
                     backgroundColor: '#18181b',
@@ -145,7 +140,6 @@ export const getResumeListByUserId = async (userId) => {
                },
                withCredentials: !jwtToken,
           });
-          console.log(response.data)
           return response.data;
      } catch (error) {
           toast.error('Error while fetching resumes', {
@@ -303,7 +297,6 @@ export const getLanguages = async (resumeId) => {
                },
                withCredentials: !jwtToken,
           });
-          console.log(response.data)
           return response.data;
      } catch (error) {
           toast.error('Error while fetching projects', {
@@ -527,7 +520,6 @@ export const saveExperience = async (experience, resumeId) => {
 export const saveProject = async (project, resumeId) => {
      logOutForced()
      const sectionType = 'PROJECT'
-     console.log("-----", !jwtToken)
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, project, {
                headers: {
@@ -633,10 +625,9 @@ export const deleteLanguage = async (resumeId, languageId) => {
 }
 
 export const updateSkills = async (skills, resumeId) => {
-     console.log(skills)
      logOutForced()
      try {
-          await axios.put(`${API_BASE_URL}/resume/${resumeId}/skills`, {'skills': skills}, {
+          await axios.put(`${API_BASE_URL}/resume/${resumeId}/skills`, { 'skills': skills }, {
                headers: {
                     ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
                     'Content-Type': 'application/json',
@@ -669,7 +660,6 @@ export const getSkills = async (resumeId) => {
                },
                withCredentials: !jwtToken,
           });
-          console.log()
           return response.data;
      } catch (error) {
           toast.error('Error while fetching skills', {

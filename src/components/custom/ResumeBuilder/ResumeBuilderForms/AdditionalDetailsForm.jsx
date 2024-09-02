@@ -28,8 +28,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
      };
 
      const handleAddAdditionalDetails = async () => {
-          if (resumeDetails.isEditMode || areAllFieldsFilled(addedAdditionalDetails)) {
-               console.log ()
+          if (areAllFieldsFilled(addedAdditionalDetails)) {
                await updateAdditionalDetails(resume.id, additionalDetails.id, additionalDetails)
                setAdditionalDetails(additionalDetails);
                setAddedAdditionalDetails(additionalDetails)
@@ -81,7 +80,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                          />
 
                          <div className="flex space-x-4">
-                              {(resumeDetails.isEditMode && additionalDetails) ? (
+                              {areAllFieldsFilled(addedAdditionalDetails) ? (
                                    <>
                                         <button
                                              onClick={handleAddAdditionalDetails}
@@ -90,7 +89,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                                              <span>Update</span>
                                         </button>
                                    </>
-                              ) : (
+                              ) : (areAllFieldsFilled(additionalDetails) && 
                                    <button
                                         onClick={handleAddAdditionalDetails}
                                         className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"

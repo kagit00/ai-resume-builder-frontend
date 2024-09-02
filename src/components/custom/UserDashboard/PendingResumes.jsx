@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import SearchFilter from './SearchFilter';
 import { deleteResume } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
+import ConfirmDeleteModal from '../ConfirmModals/ConfirmDeleteModal';
 
 const PendingResumes = ({ pendingResumes, userDetails }) => {
      const navigate = useNavigate();
      const [titleFilter, setTitleFilter] = useState('');
      const [dateFilter, setDateFilter] = useState('');
+     const [isModalOpen, setIsModalOpen] = useState(false);
+     const [selectedResumeId, setSelectedResumeId] = useState(null);
 
      const filteredCards = pendingResumes.filter(card => {
           const titleMatch = card.title.toLowerCase().includes(titleFilter.toLowerCase());
@@ -17,6 +20,21 @@ const PendingResumes = ({ pendingResumes, userDetails }) => {
      const handleApplyFilter = (title, date) => {
           setTitleFilter(title);
           setDateFilter(date);
+     };
+
+     const openModal = (resumeId) => {
+          setSelectedResumeId(resumeId);
+          setIsModalOpen(true);
+     };
+
+     const closeModal = () => {
+          setIsModalOpen(false);
+          setSelectedResumeId(null);
+     };
+
+     const confirmDelete = () => {
+          deleteResumeById(selectedResumeId);
+          closeModal();
      };
 
      const handleResetFilter = () => {
@@ -81,7 +99,7 @@ const PendingResumes = ({ pendingResumes, userDetails }) => {
 
                                    {/* Delete Icon */}
                                    <svg
-                                        onClick={() => deleteResumeById(card.id)}
+                                        onClick={() => openModal(card.id)}
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -123,6 +141,11 @@ const PendingResumes = ({ pendingResumes, userDetails }) => {
                               </div>
                          </div>
                     ))}
+                    <ConfirmDeleteModal
+                         isOpen={isModalOpen}
+                         onClose={closeModal}
+                         onConfirm={confirmDelete}
+                    />
                </div>
           </section>
      );
