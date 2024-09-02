@@ -1,41 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchFilter from './SearchFilter';
 import { deleteResume } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDeleteModal from '../ConfirmModals/ConfirmDeleteModal';
 
 const PendingResumes = ({ pendingResumes, userDetails }) => {
-     const navigate = useNavigate();
-     const [titleFilter, setTitleFilter] = useState('');
-     const [dateFilter, setDateFilter] = useState('');
-     const [isModalOpen, setIsModalOpen] = useState(false);
-     const [selectedResumeId, setSelectedResumeId] = useState(null);
+  const navigate = useNavigate();
+  const [titleFilter, setTitleFilter] = useState('');
+  const [dateFilter, setDateFilter] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedResumeId, setSelectedResumeId] = useState(null);
+  const [filteredCards, setFilteredCards] = useState(pendingResumes); 
+  
+  useEffect(() => {
+    const filtered = pendingResumes.filter(card => {
+      const titleMatch = card.title.toLowerCase().includes(titleFilter.toLowerCase());
+      const dateMatch = dateFilter ? card.updatedAt.includes(dateFilter) : true;
+      return titleMatch && dateMatch;
+    });
+    setFilteredCards(filtered);
+  }, [pendingResumes, titleFilter, dateFilter]);
 
-     const filteredCards = pendingResumes.filter(card => {
-          const titleMatch = card.title.toLowerCase().includes(titleFilter.toLowerCase());
-          const dateMatch = dateFilter ? card.updatedAt.includes(dateFilter) : true;
-          return titleMatch && dateMatch;
-     });
+  const handleApplyFilter = (title, date) => {
+    setTitleFilter(title);
+    setDateFilter(date);
+  };
 
-     const handleApplyFilter = (title, date) => {
-          setTitleFilter(title);
-          setDateFilter(date);
-     };
+  const openModal = (resumeId) => {
+    setSelectedResumeId(resumeId);
+    setIsModalOpen(true);
+  };
 
-     const openModal = (resumeId) => {
-          setSelectedResumeId(resumeId);
-          setIsModalOpen(true);
-     };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedResumeId(null);
+  };
 
-     const closeModal = () => {
-          setIsModalOpen(false);
-          setSelectedResumeId(null);
-     };
-
-     const confirmDelete = () => {
-          deleteResumeById(selectedResumeId);
-          closeModal();
-     };
+  const confirmDelete = () => {
+    setFilteredCards(prevCards => prevCards.filter(card => card.id !== selectedResumeId));
+    deleteResume(selectedResumeId); // Ensure this calls your backend to delete the resume
+    closeModal();
+  };
 
      const handleResetFilter = () => {
           setTitleFilter('');

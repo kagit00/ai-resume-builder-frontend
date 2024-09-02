@@ -15,7 +15,7 @@ export const fetchUserDetailsFromToken = async () => {
                },
                withCredentials: !jwtToken,
           });
-          toast.success(`Welcome to Dashboard ${response.data.name}`, {
+          toast.success(`Welcome to Dashboard, ${response.data.name}`, {
                style: {
                     backgroundColor: '#18181b',
                     color: '#fff'
