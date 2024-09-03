@@ -1,9 +1,17 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import { logOut } from '@/utils/AuthUtils';
+import { doLogOut } from '@/services/ApiService';
+import { useQueryClient } from '@tanstack/react-query';
 
 function GlobalHeader() {
      const location = useLocation();
+     const queryClient = useQueryClient();
+
+     const logOut = () => {
+          queryClient.invalidateQueries(['userDetails']);
+          doLogOut()
+          .then(() => window.location.href = '/auth/sign-in')
+     }
 
      return (
           <header className="w-full py-3 bg-black text-gray-100 fixed top-0 left-0 z-50">

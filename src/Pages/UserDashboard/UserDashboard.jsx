@@ -17,7 +17,7 @@ function UserDashboard() {
   const [pendingResumes, setPendingResumes] = useState([]);
   const [downloadableResumes, setDownloadableResumes] = useState([]);
   const nothingToDisplayTextDownloadableResume = 'There is no downloadable resume as of now';
-  const nothingToDisplayTextPendingResume = 'There is no pending resume as of now. Try creating a new resume today.';
+  const nothingToDisplayTextPendingResume = 'There is no pending resume as of now.';
 
   const { data: userDetails, isLoading: isUserDetailsLoading } = useQuery({
     queryKey: ['userDetails'],
@@ -31,9 +31,6 @@ function UserDashboard() {
     queryKey: ['resumes', userDetails?.id],
     queryFn: () => getResumeListByUserId(userDetails?.id),
     enabled: !!userDetails, // Only run if userDetails is available
-    staleTime: 10 * 60 * 1000, 
-    cacheTime: 40 * 60 * 1000, 
-    refetchOnWindowFocus: false 
   });
 
   useEffect(() => {
