@@ -5,9 +5,7 @@ import './App.css'
 import { Navigate, Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const queryClient = new QueryClient();
 function App() {
   const scrollRef = useRef(null);
 
@@ -36,12 +34,11 @@ function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="custom-scrollbar">
-        <ToastContainer />
-        <Outlet />
-      </div>
-    </QueryClientProvider>
+
+    <div className="custom-scrollbar">
+      <ToastContainer />
+      <Outlet />
+    </div>
   )
 }
 

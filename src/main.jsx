@@ -10,6 +10,7 @@ import ResumeBuilder from '@/Pages/ResumeBuilder/ResumeBuilder.jsx'
 import ProtectedRoutes from '@/Pages/Auth/ProtectedRoutes.jsx';
 import './index.css'
 import ResumeDownload from './Pages/ResumeDownload/ResumeDownload.jsx'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const router = createBrowserRouter([
   {
@@ -51,8 +52,12 @@ const router = createBrowserRouter([
   }
 ])
 
+const queryClient = new QueryClient();
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>
 )
