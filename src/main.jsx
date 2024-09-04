@@ -11,6 +11,7 @@ import ProtectedRoutes from '@/Pages/Auth/ProtectedRoutes.jsx';
 import './index.css'
 import ResumeDownload from './Pages/ResumeDownload/ResumeDownload.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import UserDashboardError from './Pages/UserDashboard/UserDashboardError.jsx'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,12 @@ const router = createBrowserRouter([
           <ProtectedRoutes>
             <UserDashboard />
           </ProtectedRoutes>
+        )
+      },
+      {
+        path: '/user/dashboarderror',
+        element: (
+          <UserDashboardError />
         )
       },
       {

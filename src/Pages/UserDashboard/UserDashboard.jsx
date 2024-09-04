@@ -11,7 +11,7 @@ import SkeletonUserDashboard from './SkeletonUserDashboard';
 import NothingToDisplay from '@/components/custom/UserDashboard/NothingToDisplay';
 import { useQuery } from '@tanstack/react-query';
 
-function UserDashboard() {
+const UserDashboard = () => {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
   const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
   const [pendingResumes, setPendingResumes] = useState([]);
@@ -22,9 +22,9 @@ function UserDashboard() {
   const { data: userDetails, isLoading: isUserDetailsLoading } = useQuery({
     queryKey: ['userDetails'],
     queryFn: fetchUserDetailsFromToken,
-    staleTime: 10 * 60 * 1000, 
-    cacheTime: 40 * 60 * 1000, 
-    refetchOnWindowFocus: false 
+    staleTime: 10 * 60 * 1000,
+    cacheTime: 40 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const { data: resumes = [], isLoading: isResumesLoading } = useQuery({
@@ -95,9 +95,9 @@ function UserDashboard() {
                   <div className="relative flex items-center justify-center mb-6">
                     <div className="p-4 rounded-full bg-gradient-to-r from-black via to-blue-900 shadow-xl hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
                       <svg className="h-20 w-60 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-                        <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                        <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                       </svg>
                     </div>
                   </div>
@@ -122,7 +122,7 @@ function UserDashboard() {
                   <div className="relative flex items-center justify-center mb-6">
                     <div className="p-4 rounded-full bg-gradient-to-r from-black to-blue-900 shadow-lg hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
                       <svg className="h-20 w-60 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l2 2-2 2m-6-6l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l-2 2 2 2m12-6l-2-2 2-2m0 0l2 2-2 2m0-2V6" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l2 2-2 2m-6-6l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l-2 2 2 2m12-6l-2-2 2-2m0 0l2 2-2 2m0-2V6" />
                       </svg>
                     </div>
                   </div>

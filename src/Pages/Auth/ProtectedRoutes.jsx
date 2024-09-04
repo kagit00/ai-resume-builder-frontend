@@ -1,8 +1,10 @@
 import React from 'react';
-import { logOut, logOutForced } from '@/utils/AuthUtils';
+import { isGoogleAuthTokenExpired, isJwtTokenExpired } from '@/utils/AuthUtils';
 
 const ProtectedRoutes = ({ children }) => {
-    logOutForced()
+     if (isGoogleAuthTokenExpired() || isJwtTokenExpired()) {
+        return <Redirect to="/auth/sign-in" />;
+     }
     return children;
 };
 

@@ -1,19 +1,16 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { logOutForced, setJwtToken, getJwtToken } from '@/utils/AuthUtils';
+import { getJwtToken, setJwtToken } from '@/utils/AuthUtils';
 
 const API_BASE_URL = 'http://localhost:8080';
-const jwtToken = getJwtToken()
+const jWtToken = getJwtToken()
+const headers = jWtToken? { Authorization: `Bearer ${jWtToken}`, 'Content-Type': 'application/json', } : {'Content-Type': 'application/json',};
 
 export const fetchUserDetailsFromToken = async () => {
-     logOutForced()
      try {
           const response = await axios.get(`${API_BASE_URL}/auth/current-user`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success(`Welcome to Dashboard, ${response.data.name}`, {
                style: {
@@ -21,28 +18,18 @@ export const fetchUserDetailsFromToken = async () => {
                     color: '#fff'
                },
           });
-          return response.data;
+          return response.data
      } catch (error) {
-          toast.error('Something went wrong while logging you in.', {
-               style: {
-                    backgroundColor: '#18181b',
-                    color: '#fff'
-               },
-          });
-          throw new Error(error.response?.data?.message || 'An error occurred');
+          window.location.href = `/user/dashboarderror`
      }
 };
 
 export const getGenerateSuggestions = async (title, sectionType) => {
-     logOutForced()
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/ai/suggestions`, null, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
+               headers: {...headers},
                params: { title, sectionType },
-               withCredentials: !jwtToken,
+               withCredentials: !jWtToken,
           });
           toast.success('AI Suggestion Successfully Generated', {
                style: {
@@ -83,16 +70,15 @@ export const registerUser = async (formData) => {
 
 export const doJWtLogIn = async (creds) => {
      try {
-          const response = await axios.post(`${API_BASE_URL}/auth/token`, creds);
-          setJwtToken(response.data)
-          window.location.href = '/user/dashboard';
+          const response = await axios.post(`${API_BASE_URL}/auth/log-in`, creds);
+          setJwtToken(response.data.token)
+          window.location.href = "/user/dashboard"
           toast.success('Successfully logged in.', {
                style: {
                     backgroundColor: '#18181b',
                     color: '#fff'
                },
           });
-          return response;
      } catch (error) {
           toast.error('An error occurred while logging in the user.', {
                style: {
@@ -104,14 +90,10 @@ export const doJWtLogIn = async (creds) => {
 }
 
 export const createResume = async (resume, userId) => {
-     logOutForced()
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${userId}`, resume, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Resume initiated successfully.', {
                style: {
@@ -131,14 +113,10 @@ export const createResume = async (resume, userId) => {
 }
 
 export const getResumeListByUserId = async (userId) => {
-     logOutForced()
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/user/${userId}`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           return response.data;
      } catch (error) {
@@ -152,14 +130,11 @@ export const getResumeListByUserId = async (userId) => {
 }
 
 export const deleteResume = async (resumeId) => {
-     logOutForced()
+
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Resume deleted successfully.', {
                style: {
@@ -178,14 +153,11 @@ export const deleteResume = async (resumeId) => {
 }
 
 export const saveSummary = async (summary, resumeId) => {
-     logOutForced()
+
      try {
           await axios.post(`${API_BASE_URL}/resume/${resumeId}/summary`, summary, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Summary saved.', {
                style: {
@@ -204,14 +176,11 @@ export const saveSummary = async (summary, resumeId) => {
 }
 
 export const getSummary = async (resumeId) => {
-     logOutForced()
+
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/summary`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           return response.data;
      } catch (error) {
@@ -225,14 +194,11 @@ export const getSummary = async (resumeId) => {
 }
 
 export const getEducations = async (resumeId) => {
-     logOutForced()
+
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/education`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           return response.data;
      } catch (error) {
@@ -246,14 +212,11 @@ export const getEducations = async (resumeId) => {
 }
 
 export const getExperiences = async (resumeId) => {
-     logOutForced()
+
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/experience`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           return response.data;
      } catch (error) {
@@ -267,14 +230,11 @@ export const getExperiences = async (resumeId) => {
 }
 
 export const getProjects = async (resumeId) => {
-     logOutForced()
+
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/project`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           return response.data;
      } catch (error) {
@@ -288,14 +248,11 @@ export const getProjects = async (resumeId) => {
 }
 
 export const getLanguages = async (resumeId) => {
-     logOutForced()
+
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/language`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           return response.data;
      } catch (error) {
@@ -309,15 +266,12 @@ export const getLanguages = async (resumeId) => {
 }
 
 export const saveEducation = async (education, resumeId) => {
-     logOutForced()
+
      const sectionType = 'EDUCATION'
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, education, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Education details saved.', {
                style: {
@@ -337,14 +291,11 @@ export const saveEducation = async (education, resumeId) => {
 }
 
 export const updateEducation = async (education, resumeSectionId, resumeId) => {
-     logOutForced()
+
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, education, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Education details saved.', {
                style: {
@@ -363,13 +314,11 @@ export const updateEducation = async (education, resumeSectionId, resumeId) => {
 }
 
 export const deleteEducation = async (resumeId, resumeSectionId) => {
-     logOutForced()
+
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Education details deleted.', {
                style: {
@@ -388,14 +337,11 @@ export const deleteEducation = async (resumeId, resumeSectionId) => {
 }
 
 export const updateExperience = async (experience, resumeSectionId, resumeId) => {
-     logOutForced()
+
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, experience, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Experience details saved.', {
                style: {
@@ -414,13 +360,11 @@ export const updateExperience = async (experience, resumeSectionId, resumeId) =>
 }
 
 export const deleteExperience = async (resumeId, resumeSectionId) => {
-     logOutForced()
+
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Experience details deleted.', {
                style: {
@@ -439,14 +383,11 @@ export const deleteExperience = async (resumeId, resumeSectionId) => {
 }
 
 export const updateProject = async (proj, resumeSectionId, resumeId) => {
-     logOutForced()
+
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, proj, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Project details saved.', {
                style: {
@@ -465,13 +406,11 @@ export const updateProject = async (proj, resumeSectionId, resumeId) => {
 }
 
 export const deleteProject = async (resumeId, resumeSectionId) => {
-     logOutForced()
+
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` })
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Project details deleted.', {
                style: {
@@ -490,15 +429,12 @@ export const deleteProject = async (resumeId, resumeSectionId) => {
 }
 
 export const saveExperience = async (experience, resumeId) => {
-     logOutForced()
+
      const sectionType = 'EXPERIENCE'
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, experience, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Experience details saved.', {
                style: {
@@ -518,15 +454,12 @@ export const saveExperience = async (experience, resumeId) => {
 }
 
 export const saveProject = async (project, resumeId) => {
-     logOutForced()
+
      const sectionType = 'PROJECT'
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, project, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Project details saved.', {
                style: {
@@ -546,14 +479,11 @@ export const saveProject = async (project, resumeId) => {
 }
 
 export const saveLanguage = async (resumeId, language) => {
-     logOutForced()
+
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/language`, language, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Language details saved.', {
                style: {
@@ -573,14 +503,11 @@ export const saveLanguage = async (resumeId, language) => {
 }
 
 export const updateLanguage = async (resumeId, languageId, language) => {
-     logOutForced()
+
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/language/${languageId}`, language, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Language details saved.', {
                style: {
@@ -599,14 +526,11 @@ export const updateLanguage = async (resumeId, languageId, language) => {
 }
 
 export const deleteLanguage = async (resumeId, languageId) => {
-     logOutForced()
+
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/language/${languageId}`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Language details deleted.', {
                style: {
@@ -625,14 +549,11 @@ export const deleteLanguage = async (resumeId, languageId) => {
 }
 
 export const updateSkills = async (skills, resumeId) => {
-     logOutForced()
+
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/skills`, { 'skills': skills }, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Skills saved.', {
                style: {
@@ -651,14 +572,11 @@ export const updateSkills = async (skills, resumeId) => {
 }
 
 export const getSkills = async (resumeId) => {
-     logOutForced()
+
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/skills`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           return response.data;
      } catch (error) {
@@ -672,14 +590,11 @@ export const getSkills = async (resumeId) => {
 }
 
 export const saveAdditionalDetails = async (additionalDetails, resumeId) => {
-     logOutForced()
+
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/additional-details`, additionalDetails, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Additional details saved.', {
                style: {
@@ -699,14 +614,11 @@ export const saveAdditionalDetails = async (additionalDetails, resumeId) => {
 }
 
 export const getAdditionalDetails = async (resumeId) => {
-     logOutForced()
+
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/additional-details`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           return response.data;
      } catch (error) {
@@ -720,14 +632,11 @@ export const getAdditionalDetails = async (resumeId) => {
 }
 
 export const updateAdditionalDetails = async (resumeId, additionalDetailsId, additionalDetails) => {
-     logOutForced()
+
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/additional-details/${additionalDetailsId}`, additionalDetails, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Additional details saved.', {
                style: {
@@ -746,14 +655,11 @@ export const updateAdditionalDetails = async (resumeId, additionalDetailsId, add
 }
 
 export const updateResumeStatus = async (resumeId) => {
-     logOutForced()
+
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/status-update`, null, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Resume saved.', {
                style: {
@@ -772,13 +678,11 @@ export const updateResumeStatus = async (resumeId) => {
 }
 
 export const deleteSummary = async (resumeId) => {
-     logOutForced()
+
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/summary`, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Summary deleted.', {
                style: {
@@ -797,14 +701,11 @@ export const deleteSummary = async (resumeId) => {
 }
 
 export const updateSummary = async (summary, resumeId) => {
-     logOutForced()
+
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/summary`, summary, {
-               headers: {
-                    ...(jwtToken && { 'Authorization': `Bearer ${jwtToken}` }),
-                    'Content-Type': 'application/json',
-               },
-               withCredentials: !jwtToken,
+               headers: {...headers},
+               withCredentials: !jWtToken,
           });
           toast.success('Summary updated.', {
                style: {
@@ -824,4 +725,20 @@ export const updateSummary = async (summary, resumeId) => {
 
 export const doGoogleLogIn = async () => {
      window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
+}
+
+export const doLogOut = async () => {
+     try {
+          await axios.post(`${API_BASE_URL}/auth/log-out`, null, {
+               headers: {...headers},
+               withCredentials: !jWtToken,
+          });
+     } catch (error) {
+          toast.error('Error while logging you out', {
+               style: {
+                    backgroundColor: '#18181b',
+                    color: '#fff'
+               },
+          });
+     }
 }
