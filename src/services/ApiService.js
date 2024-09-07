@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getJwtToken, logUserOut, setJwtToken } from '@/utils/AuthUtils';
 
 const API_BASE_URL = 'http://localhost:8080';
@@ -20,7 +21,10 @@ export const fetchUserDetailsFromToken = async () => {
           });
           return response.data
      } catch (error) {
-          //logUserOut()
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
      }
 };
 
@@ -39,6 +43,10 @@ export const getGenerateSuggestions = async (title, sectionType) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('An error occurred while generating AI suggestions.', {
                style: {
                     backgroundColor: '#1F2937',
@@ -103,6 +111,10 @@ export const createResume = async (resume, userId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while creating resume', {
                style: {
                     backgroundColor: '#1F2937',
@@ -123,6 +135,10 @@ export const getResumeListByUserId = async (userId, status) => {
           else
                return response.data?.pending_resumes;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while fetching resumes', {
                style: {
                     backgroundColor: '#1F2937',
@@ -133,7 +149,6 @@ export const getResumeListByUserId = async (userId, status) => {
 }
 
 export const deleteResume = async (resumeId) => {
-
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}`, {
                headers: { ...headers },
@@ -146,6 +161,10 @@ export const deleteResume = async (resumeId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while deleting resume', {
                style: {
                     backgroundColor: '#1F2937',
@@ -156,7 +175,6 @@ export const deleteResume = async (resumeId) => {
 }
 
 export const saveSummary = async (summary, resumeId) => {
-
      try {
           await axios.post(`${API_BASE_URL}/resume/${resumeId}/summary`, summary, {
                headers: { ...headers },
@@ -169,6 +187,10 @@ export const saveSummary = async (summary, resumeId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving summary', {
                style: {
                     backgroundColor: '#1F2937',
@@ -179,7 +201,6 @@ export const saveSummary = async (summary, resumeId) => {
 }
 
 export const getSummary = async (resumeId) => {
-
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/summary`, {
                headers: { ...headers },
@@ -187,6 +208,10 @@ export const getSummary = async (resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while fetching summary', {
                style: {
                     backgroundColor: '#1F2937',
@@ -197,7 +222,6 @@ export const getSummary = async (resumeId) => {
 }
 
 export const getEducations = async (resumeId) => {
-
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/education`, {
                headers: { ...headers },
@@ -205,6 +229,10 @@ export const getEducations = async (resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while fetching educations', {
                style: {
                     backgroundColor: '#1F2937',
@@ -215,7 +243,6 @@ export const getEducations = async (resumeId) => {
 }
 
 export const getExperiences = async (resumeId) => {
-
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/experience`, {
                headers: { ...headers },
@@ -223,6 +250,10 @@ export const getExperiences = async (resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while fetching experiences', {
                style: {
                     backgroundColor: '#1F2937',
@@ -233,7 +264,6 @@ export const getExperiences = async (resumeId) => {
 }
 
 export const getProjects = async (resumeId) => {
-
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/project`, {
                headers: { ...headers },
@@ -241,6 +271,10 @@ export const getProjects = async (resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while fetching projects', {
                style: {
                     backgroundColor: '#1F2937',
@@ -251,7 +285,6 @@ export const getProjects = async (resumeId) => {
 }
 
 export const getLanguages = async (resumeId) => {
-
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/language`, {
                headers: { ...headers },
@@ -259,6 +292,10 @@ export const getLanguages = async (resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while fetching projects', {
                style: {
                     backgroundColor: '#1F2937',
@@ -269,7 +306,6 @@ export const getLanguages = async (resumeId) => {
 }
 
 export const saveEducation = async (education, resumeId) => {
-
      const sectionType = 'EDUCATION'
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, education, {
@@ -284,6 +320,10 @@ export const saveEducation = async (education, resumeId) => {
           });
           return response.data
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving education details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -294,7 +334,6 @@ export const saveEducation = async (education, resumeId) => {
 }
 
 export const updateEducation = async (education, resumeSectionId, resumeId) => {
-
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, education, {
                headers: { ...headers },
@@ -307,6 +346,10 @@ export const updateEducation = async (education, resumeSectionId, resumeId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving education details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -330,6 +373,10 @@ export const deleteEducation = async (resumeId, resumeSectionId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while deleting education details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -340,7 +387,6 @@ export const deleteEducation = async (resumeId, resumeSectionId) => {
 }
 
 export const updateExperience = async (experience, resumeSectionId, resumeId) => {
-
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, experience, {
                headers: { ...headers },
@@ -353,6 +399,10 @@ export const updateExperience = async (experience, resumeSectionId, resumeId) =>
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving experience details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -363,7 +413,6 @@ export const updateExperience = async (experience, resumeSectionId, resumeId) =>
 }
 
 export const deleteExperience = async (resumeId, resumeSectionId) => {
-
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, {
                headers: { ...headers },
@@ -376,6 +425,10 @@ export const deleteExperience = async (resumeId, resumeSectionId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while deleting experience details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -386,7 +439,6 @@ export const deleteExperience = async (resumeId, resumeSectionId) => {
 }
 
 export const updateProject = async (proj, resumeSectionId, resumeId) => {
-
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, proj, {
                headers: { ...headers },
@@ -399,6 +451,10 @@ export const updateProject = async (proj, resumeSectionId, resumeId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while updating project details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -409,7 +465,6 @@ export const updateProject = async (proj, resumeSectionId, resumeId) => {
 }
 
 export const deleteProject = async (resumeId, resumeSectionId) => {
-
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/${resumeSectionId}`, {
                headers: { ...headers },
@@ -422,6 +477,10 @@ export const deleteProject = async (resumeId, resumeSectionId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while deleting project details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -432,7 +491,6 @@ export const deleteProject = async (resumeId, resumeSectionId) => {
 }
 
 export const saveExperience = async (experience, resumeId) => {
-
      const sectionType = 'EXPERIENCE'
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, experience, {
@@ -447,6 +505,10 @@ export const saveExperience = async (experience, resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving experience details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -457,7 +519,6 @@ export const saveExperience = async (experience, resumeId) => {
 }
 
 export const saveProject = async (project, resumeId) => {
-
      const sectionType = 'PROJECT'
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/${sectionType}`, project, {
@@ -472,6 +533,10 @@ export const saveProject = async (project, resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving project details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -482,7 +547,6 @@ export const saveProject = async (project, resumeId) => {
 }
 
 export const saveLanguage = async (resumeId, language) => {
-
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/language`, language, {
                headers: { ...headers },
@@ -496,6 +560,10 @@ export const saveLanguage = async (resumeId, language) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving language details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -506,7 +574,6 @@ export const saveLanguage = async (resumeId, language) => {
 }
 
 export const updateLanguage = async (resumeId, languageId, language) => {
-
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/language/${languageId}`, language, {
                headers: { ...headers },
@@ -519,6 +586,10 @@ export const updateLanguage = async (resumeId, languageId, language) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while updating language details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -529,7 +600,6 @@ export const updateLanguage = async (resumeId, languageId, language) => {
 }
 
 export const deleteLanguage = async (resumeId, languageId) => {
-
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/language/${languageId}`, {
                headers: { ...headers },
@@ -542,6 +612,10 @@ export const deleteLanguage = async (resumeId, languageId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while deleting language details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -552,7 +626,6 @@ export const deleteLanguage = async (resumeId, languageId) => {
 }
 
 export const updateSkills = async (skills, resumeId) => {
-
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/skills`, { 'skills': skills }, {
                headers: { ...headers },
@@ -565,6 +638,10 @@ export const updateSkills = async (skills, resumeId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving skills', {
                style: {
                     backgroundColor: '#1F2937',
@@ -575,7 +652,6 @@ export const updateSkills = async (skills, resumeId) => {
 }
 
 export const getSkills = async (resumeId) => {
-
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/skills`, {
                headers: { ...headers },
@@ -583,6 +659,10 @@ export const getSkills = async (resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while fetching skills', {
                style: {
                     backgroundColor: '#1F2937',
@@ -593,7 +673,6 @@ export const getSkills = async (resumeId) => {
 }
 
 export const saveAdditionalDetails = async (additionalDetails, resumeId) => {
-
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/additional-details`, additionalDetails, {
                headers: { ...headers },
@@ -607,6 +686,10 @@ export const saveAdditionalDetails = async (additionalDetails, resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving additional details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -617,7 +700,6 @@ export const saveAdditionalDetails = async (additionalDetails, resumeId) => {
 }
 
 export const getAdditionalDetails = async (resumeId) => {
-
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/${resumeId}/additional-details`, {
                headers: { ...headers },
@@ -625,6 +707,10 @@ export const getAdditionalDetails = async (resumeId) => {
           });
           return response.data;
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving additional details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -635,7 +721,6 @@ export const getAdditionalDetails = async (resumeId) => {
 }
 
 export const updateAdditionalDetails = async (resumeId, additionalDetailsId, additionalDetails) => {
-
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/additional-details/${additionalDetailsId}`, additionalDetails, {
                headers: { ...headers },
@@ -648,6 +733,10 @@ export const updateAdditionalDetails = async (resumeId, additionalDetailsId, add
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving additional details', {
                style: {
                     backgroundColor: '#1F2937',
@@ -671,6 +760,10 @@ export const updateResumeStatus = async (resumeId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while saving resume', {
                style: {
                     backgroundColor: '#1F2937',
@@ -681,7 +774,6 @@ export const updateResumeStatus = async (resumeId) => {
 }
 
 export const deleteSummary = async (resumeId) => {
-
      try {
           await axios.delete(`${API_BASE_URL}/resume/${resumeId}/summary`, {
                headers: { ...headers },
@@ -694,6 +786,10 @@ export const deleteSummary = async (resumeId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while deleteing summary', {
                style: {
                     backgroundColor: '#1F2937',
@@ -704,7 +800,6 @@ export const deleteSummary = async (resumeId) => {
 }
 
 export const updateSummary = async (summary, resumeId) => {
-
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/summary`, summary, {
                headers: { ...headers },
@@ -717,6 +812,10 @@ export const updateSummary = async (summary, resumeId) => {
                },
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while updating summary', {
                style: {
                     backgroundColor: '#1F2937',
@@ -737,6 +836,10 @@ export const doLogOut = async () => {
                withCredentials: !jWtToken,
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
           toast.error('Error while logging you out', {
                style: {
                     backgroundColor: '#1F2937',
@@ -754,6 +857,10 @@ export const sendEmail = async (username, isFreeUser) => {
                withCredentials: !jWtToken,
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
      }
 };
 
@@ -765,5 +872,9 @@ export const updateNotificationEnabled = async (userId, isNotificationEnabled) =
                withCredentials: !jWtToken,
           });
      } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
      }
 };

@@ -9,7 +9,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
      const queryClient = useQueryClient();
 
      const sectionNames = {
-          section1: "Profile & Miscellaneous",
+          section1: "Profile & Misc.",
           section2: "Pending Resumes",
           section3: "Downloadable Resumes",
      };
@@ -36,7 +36,6 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                          </svg>
                     </p>
 
-                    {/* V Button for sections */}
                     {location.pathname.endsWith("/dashboard") && (
                          <div className="relative">
                               <button
@@ -50,16 +49,16 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                    <div className="absolute right-0 mt-2 w-48 bg-gray-800 font-normal text-sm text-white rounded shadow-lg z-50">
                                         <ul>
                                              <li
-                                                  className="px-4 py-2 hover:bg-blue-200 cursor-pointer"
+                                                  className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
                                                   onClick={() => {
                                                        onSectionChange("section1");
                                                        setIsDropdownOpen(false);
                                                   }}
                                              >
-                                                  Profile & Miscellaneous
+                                                  Profile & Misc.
                                              </li>
                                              <li
-                                                  className="px-4 py-2 hover:bg-blue-200 cursor-pointer"
+                                                  className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
                                                   onClick={() => {
                                                        onSectionChange("section2");
                                                        setIsDropdownOpen(false);
@@ -68,7 +67,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                                   Pending Resumes
                                              </li>
                                              <li
-                                                  className="px-4 py-2 hover:bg-blue-200 cursor-pointer"
+                                                  className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
                                                   onClick={() => {
                                                        onSectionChange("section3");
                                                        setIsDropdownOpen(false);

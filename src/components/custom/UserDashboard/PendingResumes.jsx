@@ -13,7 +13,7 @@ const PendingResumes = ({ userDetails }) => {
      const [dateFilter, setDateFilter] = useState('');
      const [isModalOpen, setIsModalOpen] = useState(false);
      const [selectedResumeId, setSelectedResumeId] = useState(null);
-     const nothingToDisplayTextPendingResume = 'There is no pending resume as of now.';
+     const nothingToDisplayTextPendingResume = 'No Pending Resume Is Here.';
      const [filteredCards, setFilteredCards] = useState([]);
 
      const { data: pendingResumes = [], isLoading: isPendingResumesLoading } = useQuery({
@@ -22,16 +22,18 @@ const PendingResumes = ({ userDetails }) => {
           enabled: !!userDetails,
      });
 
-    useEffect(() => {
+     useEffect(() => {
           if (pendingResumes && (titleFilter || dateFilter)) {
                const filtered = pendingResumes.filter(card => {
                     const titleMatch = card.title.toLowerCase().includes(titleFilter.toLowerCase());
                     const dateMatch = dateFilter ? card.updatedAt.includes(dateFilter) : true;
                     return titleMatch && dateMatch;
                });
-               setFilteredCards(filtered);  
+               if (JSON.stringify(filtered) !== JSON.stringify(filteredCards)) {
+                    setFilteredCards(filtered);
+               }
           } else {
-               setFilteredCards(pendingResumes);  
+               setFilteredCards(pendingResumes);
           }
      }, [pendingResumes, titleFilter, dateFilter]);
 
@@ -166,7 +168,7 @@ const PendingResumes = ({ userDetails }) => {
                               />
                          </div>
                     </section>) : (
-                    <NothingToDisplay nothingToDisplayTextPendingResume={nothingToDisplayTextPendingResume} />
+                    <NothingToDisplay text={nothingToDisplayTextPendingResume} />
                )
                }
           </>

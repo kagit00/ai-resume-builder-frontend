@@ -28,7 +28,6 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
      const handleSaveSummary = async () => {
           if (currentStep !== 0) return;
           if (summary.trim()) {
-               console.log('summary' + summary + '\n' + 'addedSummary' + addedSummary)
                if (summary && summary !== sections[currentStep].value && addedSummary) {
                     await updateSummary({ details: summary }, resume.id);
                } else if (!addedSummary && summary) {

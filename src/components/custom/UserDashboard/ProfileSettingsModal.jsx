@@ -1,12 +1,11 @@
 import { updateNotificationEnabled } from '@/services/ApiService';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ProfileSettingsModal = ({ onClose, userDetails }) => {
      const [viewingProfile, setViewingProfile] = useState(false);
      const [managingEmailNotifications, setManagingEmailNotifications] = useState(false);
      const [isDeletingAccount, setIsDeletingAccount] = useState(false);
-     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-
+     const [notificationsEnabled, setNotificationsEnabled] = useState(userDetails.notificationEnabled);
      const handleDeleteAccount = async () => {
 
      };
@@ -142,7 +141,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    <div>
                                         <div className="flex items-center">
                                              <label className="relative inline-flex items-center cursor-pointer">
-                                                  <input
+                                                  <input onClick={() => handleManageEmailNotifications}
                                                        type="checkbox"
                                                        checked={notificationsEnabled}
                                                        onChange={handleToggleNotifications}

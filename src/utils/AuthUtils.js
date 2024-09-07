@@ -47,6 +47,18 @@ export const getExpiryForJwtToken = () => {
 
 export const logUserOut = async () => {
     sessionStorage.clear()
-    await doLogOut()
-        .then(() => window.location.href = '/auth/sign-in')
+    toast.error('Session expired. Redirecting you to the login page...', {
+        position: "top-center",
+        autoClose: 2000, 
+        className: 'bg-red-600 text-white',
+    });
+
+    setTimeout(() => {
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, null, window.location.href);
+        };
+
+        window.location.href = '/auth/sign-in';
+    }, 2000); 
 }

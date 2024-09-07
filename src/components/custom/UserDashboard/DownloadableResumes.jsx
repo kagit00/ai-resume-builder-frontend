@@ -12,7 +12,7 @@ const DownloadableResumes = ({ userDetails }) => {
   const [titleFilter, setTitleFilter] = useState('');
   const [dateFilter, setDateFilter] = useState('');
   const isFreeUser = userDetails.authorities[0].authority === 'FREE_USER';
-  const nothingToDisplayTextDownloadableResume = 'There is no downloadable resume as of now';
+  const nothingToDisplayTextDownloadableResume = 'No Downloadable Resume Is Here';
 
   const { data: downloadableResumes = [], isLoading: isDownloadableResumesLoading } = useQuery({
     queryKey: ['downloadableResumes', userDetails?.id],
@@ -202,7 +202,7 @@ const DownloadableResumes = ({ userDetails }) => {
             ))}
           </div>
         </section>) : (
-          <NothingToDisplay nothingToDisplayTextDownloadableResume={nothingToDisplayTextDownloadableResume}/>
+          <NothingToDisplay text={nothingToDisplayTextDownloadableResume} userDetails={userDetails}/>
         )
       }
     </>
