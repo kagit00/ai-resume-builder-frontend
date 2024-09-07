@@ -5,7 +5,8 @@ import { Typewriter } from "react-simple-typewriter";
 function Hero() {
 
      return (
-          <section id="home" className="relative flex-1 flex flex-col justify-center items-center text-center bg-black py-40 w-full">
+          <section id="home" className="relative flex-1 flex flex-col justify-center items-center text-center bg-gray-900 py-40 w-full">
+
                <div className="relative px-4 md:px-8 container mx-auto">
                     <h2 className="text-4xl md:text-6xl lg:text-8xl mb-12 font-extralight leading-tight text-white">
                          Build
@@ -36,6 +37,7 @@ function Hero() {
                     </div>
                </div>
           </section>
+
      )
 }
 

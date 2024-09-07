@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { updateSkills, getSkills } from '@/services/ApiService';
+import { setResumeValidity } from '@/utils/BasicUtils';
 
 const skillOptions = [
   'JavaScript', 'Python', 'Java', 'C#', 'C++', 'TypeScript', 'HTML', 'CSS', 'React', 'Angular',
@@ -12,7 +13,7 @@ const skillOptions = [
 
 const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills, resume }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const isDisabled = selectedSkills.length === 0
+  setResumeValidity('skills', selectedSkills.length > 0)
 
 
   useEffect(() => {
@@ -52,12 +53,12 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
       <div className="relative">
         <button
           onClick={toggleDropdown}
-          className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+          className="bg-transparent text-gray-100 border-b-2 w-full py-2 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
         >
           {selectedSkills.length > 0 ? 'Select Skills' : 'Select Skills'}
         </button>
         {dropdownOpen && (
-          <div className="absolute bg-zinc-900 rounded-lg mt-1 w-full z-10">
+          <div className="absolute bg-gray-800 rounded-lg mt-1 w-full z-10">
             <div className="max-h-60 overflow-y-auto hidden-scrollbar">
               {skillOptions.map((skill, index) => (
                 <div

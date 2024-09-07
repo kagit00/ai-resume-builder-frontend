@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { saveEducation, updateEducation, deleteEducation, getEducations } from '@/services/ApiService';
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
+import { setResumeValidity } from '@/utils/BasicUtils';
 
 const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
     const [educationId, setEducationId] = useState('')
     const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
     const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !education.description;
+    setResumeValidity('educations', educationList.length > 0)
 
     useEffect(() => {
         getAllEducationsForResume(resume.id);
@@ -66,10 +68,10 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
     };
 
     return (
-        <div>
+        <div className=' scroll-smooth'>
             <div className="mb-6 flex flex-wrap gap-2">
                 {educationList.map((ed, index) => (
-                    <div key={index} className=" flex items-center text-gray-100 rounded-full bg-zinc-800 px-4 py-2 text-sm font-semibold cursor-pointer">
+                    <div key={index} className=" flex items-center text-gray-100 rounded-full bg-sky-950 px-4 py-2 text-xs font-semibold cursor-pointer">
                         <span onClick={() => handleEditEducation(index)} className="cursor-pointer">
                             {ed.title}
                         </span>
@@ -93,7 +95,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         name="title"
                         value={education.title}
                         onChange={handleEducationDetailChange}
-                        className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                        className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                         placeholder="Degree or Equivalent"
                     />
                 </div>
@@ -107,7 +109,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         name="location"
                         value={education.location}
                         onChange={handleEducationDetailChange}
-                        className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                        className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                         placeholder="Location"
                     />
                 </div>
@@ -121,7 +123,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         name="organization"
                         value={education.organization}
                         onChange={handleEducationDetailChange}
-                        className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                        className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                         placeholder="School/University Name"
                     />
                 </div>
@@ -187,7 +189,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                             name="description"
                             value={education.description}
                             onChange={handleEducationDetailChange}
-                            className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
+                            className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
                             rows="5"
                             placeholder="Enter education description or click on the bottom-right button to write with AI"
                         />

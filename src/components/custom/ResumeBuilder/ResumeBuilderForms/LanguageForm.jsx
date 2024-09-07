@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { getLanguages, saveLanguage, updateLanguage, deleteLanguage } from '@/services/ApiService';
 import { FiTrash2 } from 'react-icons/fi';
+import { setResumeValidity } from '@/utils/BasicUtils';
 
 const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume }) => {
      const [languageId, setLanguageId] = useState('')
      const isDisabled = !language.name || !language.proficiencyLevel 
+     setResumeValidity('languages', languagesList.length > 0)
 
      useEffect(() => {
           getAllLanguagesForResume()
@@ -60,12 +62,12 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
                               {languagesList.map((lang, index) => (
                                    <li
                                         key={index}
-                                        className="flex items-center text-gray-100 rounded-full bg-zinc-800 px-4 py-2 text-sm font-semibold cursor-pointer"
+                                        className="flex items-center text-gray-100 rounded-full bg-sky-950 px-4 py-2 text-xs font-semibold cursor-pointer"
                                         onClick={() => handleEditLanguage(index)} // Set language details to form fields on click
                                    >
                                         {lang.name}
                                         <FiTrash2
-                                             className="ml-2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+                                             className="ml-2 text-gray-100 hover:text-red-500 transition-colors cursor-pointer"
                                              onClick={(e) => {
                                                   e.stopPropagation(); // Prevent triggering the edit on delete
                                                   handleDeleteLanguage(index);
@@ -85,12 +87,12 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
                               name="name"
                               value={language.name || ''}
                               onChange={handleLanguageDetailChange}
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Language Name"
                          />
-                         <div className="mt-4 mb-4">
+                         <div className="mt-8 mb-4">
                               <p className="text-gray-300 text-sm md:text-base mb-2">Proficiency Level</p>
-                              <div className="flex gap-4">
+                              <div className="flex gap-4 text-xs font-semibold">
                                    {['NAIVE', 'NATIVE', 'FLUENT', 'EXPERT'].map((level) => (
                                         <label key={level} className="inline-flex items-center text-gray-300">
                                              <input

@@ -68,7 +68,7 @@ const UserDashboard = () => {
   return (
     <>
       {!isSkeletonLoading ? (
-        <div className="bg-black text-white min-h-screen flex flex-col font-sans overflow-x-hidden">
+        <div className="bg-gray-900 text-white min-h-screen flex flex-col font-sans overflow-x-hidden scroll-smooth">
           <Header />
           <section id="home" className="relative flex-1 flex flex-col py-20 px-10">
             <div className="max-w-7xl mx-auto">
@@ -86,14 +86,14 @@ const UserDashboard = () => {
                   <AddResume userDetails={userDetails} />
                 </div>
 
-                <div className="relative p-6 rounded-sm shadow-2xl flex flex-col bg-gradient-to-l from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-colors duration-300">
+                <div className="relative p-6 rounded-xl shadow-2xl flex flex-col bg-gradient-to-l from-gray-800 to-gray-900 overflow-hidden hover:shadow-3xl transition-colors duration-300">
                   <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
                   <h4 className="text-lg font-semibold text-white mb-2 truncate">Resume Tips</h4>
                   <p className="text-sm font-semibold text-gray-400 leading-relaxed mb-8">
                     Discover best practices for resume writing to ensure your application stands out from the crowd.
                   </p>
                   <div className="relative flex items-center justify-center mb-6">
-                    <div className="p-4 rounded-full bg-gradient-to-r from-black via to-blue-900 shadow-xl hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
+                    <div className="p-4 rounded-full bg-gradient-to-l from-gray-600 via-transparent to-gray-900 shadow-xl hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
                       <svg className="h-20 w-60 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
                         <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -113,14 +113,14 @@ const UserDashboard = () => {
                 </div>
 
 
-                <div className="relative p-6 rounded-sm shadow-3xl flex flex-col bg-gradient-to-l from-zinc-900 to-black overflow-hidden hover:shadow-3xl transition-transform duration-300">
+                <div className="relative p-6 rounded-xl shadow-3xl flex flex-col bg-gradient-to-l from-gray-800 to-gray-900 overflow-hidden hover:shadow-3xl transition-transform duration-300">
                   <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
                   <h4 className="text-lg font-semibold text-white mb-2 truncate">Profile Settings</h4>
                   <p className="text-sm font-semibold text-gray-400 leading-relaxed mb-4">
                     Customize your profile to reflect your personal and professional identity accurately. Also view your profile details.
                   </p>
                   <div className="relative flex items-center justify-center mb-6">
-                    <div className="p-4 rounded-full bg-gradient-to-r from-black to-blue-900 shadow-lg hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
+                    <div className="p-4 rounded-full bg-gradient-to-l from-gray-600 via-transparent to-gray-900 shadow-lg hover:shadow-xl transform transition-transform duration-300 hover:scale-105">
                       <svg className="h-20 w-60 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l2 2-2 2m-6-6l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l-2 2 2 2m12-6l-2-2 2-2m0 0l2 2-2 2m0-2V6" />
                       </svg>
@@ -141,7 +141,7 @@ const UserDashboard = () => {
             </div>
           </section>
           {pendingResumes.length > 0 ? (<PendingResumes pendingResumes={pendingResumes} userDetails={userDetails} />) : (<NothingToDisplay text={nothingToDisplayTextPendingResume} />)}
-          {downloadableResumes.length > 0 ? (<DownloadableResumes downloadableResumes={downloadableResumes} />) : (<NothingToDisplay text={nothingToDisplayTextDownloadableResume} />)}
+          {downloadableResumes.length > 0 ? (<DownloadableResumes downloadableResumes={downloadableResumes} userDetails={userDetails}/>) : (<NothingToDisplay text={nothingToDisplayTextDownloadableResume} />)}
         </div>
       ) : (
         <SkeletonUserDashboard />

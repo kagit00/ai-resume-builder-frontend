@@ -9,9 +9,10 @@ import UserDashboard from '@/Pages/UserDashboard/UserDashboard.jsx'
 import ResumeBuilder from '@/Pages/ResumeBuilder/ResumeBuilder.jsx'
 import ProtectedRoutes from '@/Pages/Auth/ProtectedRoutes.jsx';
 import './index.css'
-import ResumeDownload from './Pages/ResumeDownload/ResumeDownload.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import UserDashboardError from './Pages/UserDashboard/UserDashboardError.jsx'
+import ResumeSuccessPage from './Pages/ResumeSuccess/ResumeSuccessPage.jsx'
+import UpgradeToPremium from './components/custom/UserDashboard/UpgradeToPremium.jsx'
 
 const router = createBrowserRouter([
   {
@@ -39,14 +40,22 @@ const router = createBrowserRouter([
           </ProtectedRoutes>
         )
       },
-      {
-        path: '/user/dashboard/resumebuilder/download',
+       {
+        path: '/user/dashboard/resume/success',
         element: (
           <ProtectedRoutes>
-            <ResumeDownload />
+            <ResumeSuccessPage />
           </ProtectedRoutes>
         )
-      }
+      },
+      {
+        path: '/user/upgradetopremium',
+        element: (
+          <ProtectedRoutes>
+            <UpgradeToPremium/>
+          </ProtectedRoutes>
+        )
+      },
     ]
   },
   {

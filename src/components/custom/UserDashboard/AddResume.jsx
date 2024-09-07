@@ -34,7 +34,7 @@ function AddResume({userDetails}) {
 
         onClick={() => setOpenDialog(true)}
       >
-        <div className="flex items-center justify-center mb-4 bg-gradient-to-r from-zinc-900 to-black rounded-full p-4 shadow-lg">
+        <div className="flex items-center justify-center mb-4 bg-gray-900 rounded-full p-4 shadow-lg">
           <svg
             className="h-16 w-16 text-white"
             xmlns="http://www.w3.org/2000/svg"
@@ -54,31 +54,25 @@ function AddResume({userDetails}) {
 
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent className="bg-zinc-900 text-gray-100 rounded-lg border-none shadow-4xl">
+        <DialogContent className="bg-blue-100 text-black rounded-lg border-none shadow-4xl">
           <DialogHeader className="pb-4 flex justify-between">
-            <DialogTitle className="text-xl font-normal text-gray-200 tracking-wide">
+            <DialogTitle className="text-sm font-bold text-black tracking-wide">
               Create New Resume
             </DialogTitle>
           </DialogHeader>
-          <DialogDescription className="text-gray-400">
+          <DialogDescription className="text-black">
             Put a title for your resume
             <Input
-              className="mt-2 mb-2 bg-zinc-900 text-gray-100 border-none rounded focus:ring-2 focus:ring-blue-600 placeholder-gray-500"
+              className="mt-2 mb-2 bg-blue-100 text-black  placeholder-gray-800"
               placeholder="Title"
               onChange={(e) => setResumeTitle(e.target.value)}
             />
           </DialogDescription>
           <div className="flex justify-end gap-5 mt-4">
             <Button
-              onClick={() => setOpenDialog(false)}
-              className="text-gray-300 border-none bg-transparent"
-            >
-              Cancel
-            </Button>
-            <Button
               disabled={!resumeTitle}
               onClick={() => buildResume()}
-              className="bg-blue-600 hover:bg-blue-700 text-white border-none"
+              className="bg-blue-600 hover:bg-blue-700 text-white border-none rounded-full"
             >
               Confirm
             </Button>

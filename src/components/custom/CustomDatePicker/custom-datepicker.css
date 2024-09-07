@@ -32,7 +32,7 @@
 /* Style for the month/year dropdowns */
 .custom-calendar .react-datepicker__year-dropdown,
 .custom-calendar .react-datepicker__month-dropdown {
-  background-color: #18181b; /* Dark background color */
+  background-color: bg-gray-800; /* Dark background color */
   color: #f1f5f9; /* Light text color */
   border: 1px solid #444; /* Border for dropdowns */
 }

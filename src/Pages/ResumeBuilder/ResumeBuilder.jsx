@@ -10,9 +10,13 @@ import SummaryForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/Su
 import ExperienceForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/ExperienceForm.jsx';
 import AdditionalDetailsForm from '@/components/custom/ResumeBuilder/ResumeBuilderForms/AdditionalDetailsForm.jsx';
 import { useLocation } from 'react-router-dom';
-import { updateResumeStatus } from '@/services/ApiService';
+import { sendEmail, updateResumeStatus } from '@/services/ApiService';
+import { useNavigate } from 'react-router-dom';
+import UpgradeToPremium from '@/components/custom/UserDashboard/UpgradeToPremium.jsx';
+import { getResumeValidity } from '@/utils/BasicUtils.js';
 
 const ResumeBuilder = () => {
+     const navigate = useNavigate()
      const [summary, setSummary] = useState('');
      const [addedSummary, setAddedSummary] = useState('');
      const [education, setEducation] = useState({ title: '', organization: '', location: '', startDate: '', endDate: '', description: '' });
@@ -32,9 +36,13 @@ const ResumeBuilder = () => {
      const userDetails = resumeDetails.userDetails;
      const resumeTitle = resume.title
      const [addedAdditionalDetails, setAddedAdditionalDetails] = useState({ phoneNumber: '', githubLink: '', linkedInProfileLink: '' })
+     const [isUpgradeToPremiumModalOpen, setIsUpgradeToPremiumModalOpen] = useState(false)
+     const isValidResume = getResumeValidity()
+     const isFreeUser = userDetails.authorities[0].authority === 'FREE_USER';
+     const isNotificationEnabled = userDetails.notificationEnabled;
 
      const sections = [
-          { title: 'Summary', value: summary, setValue: setSummary, placeholder: 'Enter your qualification summary or click on the bottom-right button to write with AI' },
+          { title: 'Summary', value: summary, setValue: setSummary, placeholder: 'Put Qualification Summary' },
           { title: 'Education', value: '', setValue: () => { }, placeholder: '' },
           { title: 'Experience', value: '', setValue: () => { }, placeholder: '' },
           { title: 'Projects', value: '', setValue: () => { }, placeholder: '' },
@@ -45,7 +53,35 @@ const ResumeBuilder = () => {
 
      const updateResume = async () => {
           await updateResumeStatus(resume.id)
+          if (isNotificationEnabled)
+               await sendEmail(userDetails.username, isFreeUser)
+          if (isFreeUser) {
+               setIsUpgradeToPremiumModalOpen(true)
+               return;
+          }
+          navigate('/user/dashboard/resume/success', {
+               state: {
+                    resumePdfTitle: resumeTitle,
+                    userDetails: userDetails,
+                    addedSummary: addedSummary,
+                    addedAdditionalDetails: addedAdditionalDetails,
+                    experienceList: experienceList,
+                    educationList: educationList,
+                    projectsList: projectsList,
+                    skills: skills,
+                    languagesList: languagesList
+               }
+          });
      }
+
+     const closeUpgradeToPremiumModal = () => {
+          setIsUpgradeToPremiumModalOpen(false);
+     };
+
+     const confirmUpgradeToPremium = () => {
+          navigate('/user/upgradetopremium')
+          closeModal();
+     };
 
      const handleNext = () => {
           if (currentStep < sections.length - 1) setCurrentStep(currentStep + 1);
@@ -63,11 +99,11 @@ const ResumeBuilder = () => {
      return (
           <>
                <GlobalHeader />
-               <div className="pt-10 md:pt-15 lg:pt-20 flex flex-col h-screen bg-black text-gray-100 md:flex-row">
+               <div className="pt-10 md:pt-15 lg:pt-20 flex flex-col h-screen bg-gray-900 text-gray-100 md:flex-row">
                     <div className="w-full md:w-1/2 p-6 md:p-8 shadow-3xl flex flex-col relative overflow-hidden md:ml-4 lg:ml-6 md:mr-8 lg:mr-10">
-                         <header className="bg-zinc-950 absolute top-0 left-0 w-full p-5 z-10 shadow-2xl flex items-center justify-between">
-                              <p className="text-sm md:text-sm lg:text-lg font-normal text-white truncate text-shadow-lg">
-                                   {resumeTitle}
+                         <header className="absolute top-0 left-0 w-full py-10 px-5 z-10 shadow-3xl flex items-center justify-between">
+                              <p className="text-sm font-semibold py-2 px-5 text-black truncate text-shadow-lg leading-relaxed bg-blue-100 rounded-full">
+                                   {resumeTitle} Resume
                               </p>
                          </header>
 
@@ -78,24 +114,79 @@ const ResumeBuilder = () => {
                               </p>
 
                               {currentStep === 0 ? (
-                                   <SummaryForm resume={resume} currentStep={currentStep} sections={sections} resumeDetails={resumeDetails} addedSummary={addedSummary} setAddedSummary={setAddedSummary} />
+                                   <SummaryForm
+                                        resume={resume}
+                                        currentStep={currentStep}
+                                        sections={sections}
+                                        resumeDetails={resumeDetails}
+                                        addedSummary={addedSummary}
+                                        setAddedSummary={setAddedSummary}
+                                   />
 
                               )
                                    : currentStep === 1 ? (
-                                        <EducationForm education={education} setEducation={setEducation} educationList={educationList} setEducationList={setEducationList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume} resumeDetails={resumeDetails} />
+                                        <EducationForm
+                                             education={education}
+                                             setEducation={setEducation}
+                                             educationList={educationList}
+                                             setEducationList={setEducationList}
+                                             editingIndex={editingIndex}
+                                             setEditingIndex={setEditingIndex}
+                                             resume={resume}
+                                             resumeDetails={resumeDetails}
+                                        />
                                    ) :
                                         currentStep === 2 ? (
-                                             <ExperienceForm experience={experience} setExperience={setExperience} experienceList={experienceList} setExperienceList={setExperienceList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume} resumeDetails={resumeDetails} />
+                                             <ExperienceForm
+                                                  experience={experience}
+                                                  setExperience={setExperience}
+                                                  experienceList={experienceList}
+                                                  setExperienceList={setExperienceList}
+                                                  editingIndex={editingIndex}
+                                                  setEditingIndex={setEditingIndex}
+                                                  resume={resume}
+                                                  resumeDetails={resumeDetails}
+                                             />
                                         ) : currentStep === 3 ? (
-                                             <ProjectForm project={project} setProject={setProject} projectsList={projectsList} setProjectsList={setProjectsList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume} resumeDetails={resumeDetails} />
+                                             <ProjectForm
+                                                  project={project}
+                                                  setProject={setProject}
+                                                  projectsList={projectsList}
+                                                  setProjectsList={setProjectsList}
+                                                  editingIndex={editingIndex}
+                                                  setEditingIndex={setEditingIndex}
+                                                  resume={resume}
+                                                  resumeDetails={resumeDetails}
+                                             />
                                         )
                                              : currentStep === 4 ? (
-                                                  <LanguageForm language={language} setLanguage={setLanguage} languagesList={languagesList} setLanguagesList={setLanguagesList} editingIndex={editingIndex} setEditingIndex={setEditingIndex} resume={resume} resumeDetails={resumeDetails} />
+                                                  <LanguageForm
+                                                       language={language}
+                                                       setLanguage={setLanguage}
+                                                       languagesList={languagesList}
+                                                       setLanguagesList={setLanguagesList}
+                                                       editingIndex={editingIndex}
+                                                       setEditingIndex={setEditingIndex}
+                                                       resume={resume}
+                                                       resumeDetails={resumeDetails}
+                                                  />
                                              ) : currentStep === 5 ? (
-                                                  <SkillsDropdown handleSkillsUpdate={handleSkillsUpdate} selectedSkills={skills} setSelectedSkills={setSkills} resume={resume} />
+                                                  <SkillsDropdown
+                                                       handleSkillsUpdate={handleSkillsUpdate}
+                                                       selectedSkills={skills}
+                                                       setSelectedSkills={setSkills}
+                                                       resume={resume}
+                                                  />
 
                                              ) : currentStep === 6 && (
-                                                  <AdditionalDetailsForm additionalDetails={additionalDetails} setAdditionalDetails={setAdditionalDetails} addedAdditionalDetails={addedAdditionalDetails} setAddedAdditionalDetails={setAddedAdditionalDetails} resume={resume} resumeDetails={resumeDetails} />
+                                                  <AdditionalDetailsForm
+                                                       additionalDetails={additionalDetails}
+                                                       setAdditionalDetails={setAdditionalDetails}
+                                                       addedAdditionalDetails={addedAdditionalDetails}
+                                                       setAddedAdditionalDetails={setAddedAdditionalDetails}
+                                                       resume={resume}
+                                                       resumeDetails={resumeDetails}
+                                                  />
                                              )
                               }
 
@@ -103,7 +194,7 @@ const ResumeBuilder = () => {
                                    {currentStep > 0 && (
                                         <button
                                              onClick={handlePrevious}
-                                             className="bg-zinc-900 text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
+                                             className="text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
                                         >
                                              <ChevronLeftIcon className="w-6 h-6" />
                                              <span className="sr-only">Previous</span>
@@ -112,12 +203,12 @@ const ResumeBuilder = () => {
                                    {currentStep < sections.length - 1 ? (
                                         <button
                                              onClick={handleNext}
-                                             className="bg-zinc-900 text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
+                                             className=" text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
                                         >
                                              <ChevronRightIcon className="w-6 h-6" />
                                              <span className="sr-only">Next</span>
                                         </button>
-                                   ) : (
+                                   ) : (isValidResume &&
                                         <button
                                              onClick={() => updateResume()}
                                              className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
@@ -126,10 +217,24 @@ const ResumeBuilder = () => {
                                              <span className="sr-only">Submit Resume</span>
                                         </button>
                                    )}
+                                   <UpgradeToPremium
+                                        isOpen={isUpgradeToPremiumModalOpen}
+                                        onClose={closeUpgradeToPremiumModal}
+                                        onUpgrade={confirmUpgradeToPremium}
+                                   />
                               </div>
                          </div>
                     </div>
-                    <ResumePreview userDetails={userDetails} addedSummary={addedSummary} addedAdditionalDetails={addedAdditionalDetails} experienceList={experienceList} educationList={educationList} projectsList={projectsList} skills={skills} languagesList={languagesList} />
+                    <ResumePreview
+                         userDetails={userDetails}
+                         addedSummary={addedSummary}
+                         addedAdditionalDetails={addedAdditionalDetails}
+                         experienceList={experienceList}
+                         educationList={educationList}
+                         projectsList={projectsList}
+                         skills={skills}
+                         languagesList={languagesList}
+                    />
                </div>
           </>
 

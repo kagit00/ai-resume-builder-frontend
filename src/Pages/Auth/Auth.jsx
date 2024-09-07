@@ -117,9 +117,9 @@ function Auth() {
      };
 
      return (
-          <div className="bg-black text-white min-h-screen flex flex-col font-sans overflow-x-hidden">
+          <div className="bg-gray-900 text-white min-h-screen flex flex-col font-sans overflow-x-hidden">
                <section id="home" className="relative flex-1 flex flex-col justify-center items-center text-center h-full w-full">
-                    <div className="bg-zinc-900 text-white p-6 md:p-8 rounded-sm shadow-2xl w-full max-w-md">
+                    <div className="bg-gray-800 text-white p-6 md:p-8 rounded-sm shadow-2xl w-full max-w-md">
                          <h2 className="flex items-center justify-center text-xl md:text-2xl mb-6 font-thin text-center">
                               {isSignIn ? 'Sign In To ' : 'Sign Up To '}
                               <svg
@@ -153,7 +153,7 @@ function Auth() {
                                         type="text"
                                         placeholder="E-mail Id"
                                         style={{ fontSize: '15px' }}
-                                        className={`bg-zinc-800 text-white w-full px-4 rounded-lg py-2 shadow-inner focus:outline-none ${emailTouched && (emailValid ? 'border-green-500' : 'border-red-500')
+                                        className={`bg-gray-700 text-white w-full px-4 rounded-lg py-2 shadow-inner focus:outline-none ${emailTouched && (emailValid ? 'border-green-500' : 'border-red-500')
                                              }`}
                                    />
                                    <span className="absolute inset-y-0 right-2 flex items-center">
@@ -174,7 +174,7 @@ function Auth() {
                                                   type="text"
                                                   placeholder="Name"
                                                   style={{ fontSize: '15px' }}
-                                                  className="bg-zinc-800 text-white w-full px-4 rounded-lg py-2 shadow-inner focus:outline-none"
+                                                  className="bg-gray-700 text-white w-full px-4 rounded-lg py-2 shadow-inner focus:outline-none"
                                              />
                                              <span className="absolute inset-y-0 right-2 flex items-center">
                                                   {nameTouched && (
@@ -192,7 +192,7 @@ function Auth() {
                                                   type="password"
                                                   placeholder="Password"
                                                   style={{ fontSize: '15px' }}
-                                                  className={`bg-zinc-800 text-white w-full px-4 rounded-lg py-2 shadow-inner focus:outline-none ${passwordTouched && !passwordValid ? 'border-red-500' : ''
+                                                  className={`bg-gray-700 text-white w-full px-4 rounded-lg py-2 shadow-inner focus:outline-none ${passwordTouched && !passwordValid ? 'border-red-500' : ''
                                                        }`}
                                              />
                                              <span className="absolute inset-y-0 right-2 flex items-center">
@@ -215,7 +215,7 @@ function Auth() {
                                              type="password"
                                              placeholder="Password"
                                              style={{ fontSize: '15px' }}
-                                             className={`bg-zinc-800 text-white w-full px-4 rounded-lg py-2 shadow-inner focus:outline-none ${passwordTouched && !passwordValid ? 'border-red-500' : ''
+                                             className={`bg-gray-700 text-white w-full px-4 rounded-lg py-2 shadow-inner focus:outline-none ${passwordTouched && !passwordValid ? 'border-red-500' : ''
                                                   }`}
                                         />
                                         <span className="absolute inset-y-0 right-2 flex items-center">
@@ -239,7 +239,7 @@ function Auth() {
                                    type="button"
                                    onClick={handleReset}
                                    style={{ fontSize: '15px' }}
-                                   className="bg-zinc-800 text-white px-1 py-1 rounded-xl shadow-xl transform hover:scale-105 transition-transform duration-300 text-xs md:text-lg font-normal w-full"
+                                   className="bg-gray-900 text-white px-1 py-1 rounded-xl shadow-xl transform hover:scale-105 transition-transform duration-300 text-xs md:text-lg font-normal w-full"
                               >
                                    Reset
                               </button>

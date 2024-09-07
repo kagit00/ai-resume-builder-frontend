@@ -1,3 +1,4 @@
+import { updateNotificationEnabled } from '@/services/ApiService';
 import React, { useState } from 'react';
 
 const ProfileSettingsModal = ({ onClose, userDetails }) => {
@@ -10,9 +11,8 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
      };
 
-     const handleManageEmailNotifications = () => {
-          // Add logic for managing email notifications here
-          console.log("Manage Email Notifications action triggered");
+     const handleManageEmailNotifications = async () => {
+          await updateNotificationEnabled(userDetails.id, managingEmailNotifications)
      };
 
      const handleToggleNotifications = () => {
@@ -20,8 +20,8 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
      };
 
      return (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-100 z-50">
-               <div className="text-white rounded-2xl shadow-xl w-full max-w-md p-8 relative bg-gradient-to-l from-zinc-900 to-black">
+          <div className="fixed inset-0 flex items-center justify-center bg-slate-950 bg-opacity-80 z-50">
+               <div className="text-black rounded-2xl shadow-xl w-full p-8 relative bg-blue-100 max-w-sm">
                     <button
                          onClick={onClose}
                          className="absolute top-4 right-4 text-gray-400 hover:text-white focus:outline-none"
@@ -30,16 +30,16 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                     </button>
                     {!viewingProfile && !managingEmailNotifications && !isDeletingAccount ? (
                          <>
-                              <h2 className="text-lg font-semibold text-white mb-3 truncate">Profile Settings</h2>
+                               <h2 className="text-lg md:text-3xl mb-4 font-thin text-black">Profile Settings</h2>
                               <ul className="space-y-4">
-                                   <li className="flex items-center hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                   <li className="flex items-center text-sm font-semibold hover:bg-blue-200 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                         <svg className="w-6 h-6 mr-3 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <path d="M12 2L2 12h3v8h8v-8h3L12 2z"></path>
                                         </svg>
                                         Upgrade To Premium
                                    </li>
                                    {userDetails.jwtUser &&
-                                        <li className="flex items-center hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        <li className="flex items-center text-sm font-semibold hover:bg-blue-200 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                              <svg className="w-6 h-6 mr-3 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                   <path d="M17 10.5V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v5.5"></path>
                                                   <path d="M2 10.5h20"></path>
@@ -50,7 +50,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    }
                                    <li
                                         onClick={() => setManagingEmailNotifications(true)}
-                                        className="flex items-center hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300"
+                                        className="flex items-center text-sm font-semibold hover:bg-blue-200 p-4 rounded-lg cursor-pointer transition-colors duration-300"
                                    >
                                         <svg className="w-6 h-6 mr-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <path d="M8 17l4-4 4 4"></path>
@@ -60,7 +60,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    </li>
                                    <li
                                         onClick={() => setViewingProfile(true)}
-                                        className="flex items-center hover:bg-zinc-900 p-4 rounded-lg cursor-pointer transition-colors duration-300"
+                                        className="flex items-center text-sm font-semibold hover:bg-blue-200 p-4 rounded-lg cursor-pointer transition-colors duration-300"
                                    >
                                         <svg className="w-6 h-6 mr-3 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <circle cx="12" cy="12" r="4"></circle>
@@ -69,10 +69,10 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                         View Profile
                                    </li>
                               </ul>
-                              <div className="mt-10 border-t border-gray-700 pt-6">
+                              <div className="mt-5 border-t border-gray-00 pt-6">
                                    <button
                                         onClick={() => setIsDeletingAccount(true)}
-                                        className="flex items-center text-red-500 hover:text-red-700 w-full text-left transition-colors duration-300"
+                                        className="flex items-center text-red-500 text-sm font-semibold hover:text-red-700 w-full text-left transition-colors duration-300"
                                    >
                                         <svg
                                              xmlns="http://www.w3.org/2000/svg"
@@ -96,30 +96,30 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                          <>
                               <button
                                    onClick={() => setViewingProfile(false)}
-                                   className="text-sm text-blue-400 hover:text-blue-300 mb-6 transition-colors duration-300 flex items-center"
+                                   className="text-sm text-blue-500 hover:text-blue-700 mb-6 transition-colors duration-300 flex items-center"
                               >
                                    &larr; Back to Settings
                               </button>
-                              <h2 className="text-2xl md:text-3xl lg:text-4xl mb-6 font-thin text-white">
+                              <h2 className="text-2xl md:text-3xl lg:text-4xl mb-6 font-thin text-black">
                                    Profile Details
                               </h2>
                               <div className="space-y-6">
-                                   <div className="p-6 rounded-lg shadow-md bg-opacity-100 z-50">
-                                        <p className="flex items-center text-gray-300 text-base mb-4">
-                                             <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Email</span>
-                                             <span>{userDetails.username}</span>
+                                   <div className="p-2">
+                                        <p className="flex items-center mb-4">
+                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-full mr-4">Email</span>
+                                             <span className="text-black text-sm font-semibold">{userDetails.username}</span>
                                         </p>
-                                        <p className="flex items-center text-gray-300 text-base mb-4">
-                                             <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Name</span>
-                                             <span>{userDetails.name}</span>
+                                        <p className="flex items-center text-white-300 mb-4">
+                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-full mr-4">Name</span>
+                                             <span className="text-black text-sm font-semibold">{userDetails.name}</span>
                                         </p>
-                                        <p className="flex items-center text-gray-300 text-base mb-4">
-                                             <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Member Since</span>
-                                             <span>{userDetails.timestamp ? userDetails.timestamp.slice(0, 4) : ""}</span>
+                                        <p className="flex items-center text-white mb-4">
+                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-full mr-4">Member Since</span>
+                                             <span className="text-black text-sm font-semibold">{userDetails.timestamp ? userDetails.timestamp.slice(0, 4) : ""}</span>
                                         </p>
-                                        <p className="flex items-center text-gray-300 text-base">
-                                             <span className="bg-zinc-800 text-white px-2 py-1 rounded-lg mr-4">Bio</span>
-                                             <span>{userDetails.bio ? userDetails.bio : 'Nothing to show as of now'}</span>
+                                        <p className="flex items-center text-white">
+                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-full mr-4">Bio</span>
+                                             <span className="text-black text-sm font-semibold">{userDetails.bio ? userDetails.bio : 'Nothing to show as of now'}</span>
                                         </p>
                                    </div>
                               </div>
@@ -128,18 +128,18 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                          <>
                               <button
                                    onClick={() => setManagingEmailNotifications(false)}
-                                   className="text-sm text-blue-400 hover:text-blue-300 mb-6 transition-colors duration-300 flex items-center"
+                                   className="text-sm text-blue-500 hover:text-blue-700 mb-6 transition-colors duration-300 flex items-center"
                               >
                                    &larr; Back to Settings
                               </button>
-                              <h2 className="text-2xl md:text-3xl lg:text-4xl mb-10 font-thin text-white">
+                              <h2 className="text-2xl md:text-3xl lg:text-4xl mb-10 font-thin text-black">
                                    Manage Email Notifications
                               </h2>
                               <div className="space-y-6">
-                                   <div className="rounded-lg shadow-md bg-opacity-100 z-50">
+                                   <div>
                                         <div className="flex items-center">
                                              <label className="relative inline-flex items-center cursor-pointer">
-                                                  <input
+                                                  <input onClick={() => handleManageEmailNotifications()}
                                                        type="checkbox"
                                                        checked={notificationsEnabled}
                                                        onChange={handleToggleNotifications}
@@ -151,7 +151,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                                             }`}
                                                   ></div>
                                              </label>
-                                             <span className="text-gray-300 ml-4 font-normal">
+                                             <span className="text-black ml-4 text-sm font-semibold">
                                                   {notificationsEnabled ? 'Notifications Enabled' : 'Notifications Disabled'}
                                              </span>
                                         </div>  
@@ -162,16 +162,16 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                          <>
                               <button
                                    onClick={() => setIsDeletingAccount(false)}
-                                   className="text-sm text-blue-400 hover:text-blue-300 mb-6 transition-colors duration-300 flex items-center"
+                                   className="text-sm text-blue-500 hover:text-blue-700 mb-6 transition-colors duration-300 flex items-center"
                               >
                                    &larr; Back to Settings
                               </button>
-                              <h2 className="text-2xl md:text-3xl lg:text-4xl mb-6 font-thin text-white">
+                              <h2 className="text-2xl md:text-3xl lg:text-4xl mb-6 font-thin text-black">
                                    Delete Account
                               </h2>
                               <div className="space-y-6">
-                                   <div className="p-6 rounded-lg shadow-md bg-opacity-100 z-50">
-                                        <p className="text-gray-400 mb-4 text-sm ">
+                                   <div className="">
+                                        <p className="text-black mb-4 text-xs font-semibold">
                                              This action will permanently delete your account. Please confirm if you want to proceed.
                                         </p>
                                         <button

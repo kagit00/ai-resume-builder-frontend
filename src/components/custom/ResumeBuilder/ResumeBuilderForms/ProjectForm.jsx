@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { saveProject, updateProject, deleteProject, getProjects } from '@/services/ApiService';
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
+import { setResumeValidity } from '@/utils/BasicUtils';
 
 const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editingIndex, setEditingIndex, resume }) => {
      const [projectId, setProjectId] = useState('')
      const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
      const isDisabled = !project.title || !project.location || !project.organization || !project.startDate || !project.description;
+     setResumeValidity('projects', projectsList.length > 0)
 
      useEffect(() => {
           getAllProjectsForResume()
@@ -64,12 +66,12 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
      };
 
      return (
-          <div>
+          <div className='scroll-smooth'>
                <div className="mb-6 flex flex-wrap gap-2">
                     {projectsList.map((proj, index) => (
                          <span
                               key={index}
-                              className="flex items-center text-gray-100 rounded-full bg-zinc-800 px-4 py-2 text-sm font-semibold cursor-pointer"
+                              className="flex items-center text-gray-100 rounded-full bg-sky-950 px-4 py-2 text-xs font-semibold cursor-pointer"
                               onClick={() => handleEditProject(index)}
                          >
                               <span>{proj.title}</span>
@@ -93,7 +95,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                               name="title"
                               value={project.title}
                               onChange={handleProjectDetailChange}
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Project Name"
                          />
                     </div>
@@ -108,7 +110,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                                    name="location"
                                    value={project.location}
                                    onChange={handleProjectDetailChange}
-                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Location"
                               />
                          </div>
@@ -122,7 +124,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                                    name="organization"
                                    value={project.organization}
                                    onChange={handleProjectDetailChange}
-                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Put NA if personal"
                               />
                          </div>
@@ -189,7 +191,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                                    name="description"
                                    value={project.description}
                                    onChange={handleProjectDetailChange}
-                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
+                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
                                    rows="5"
                                    placeholder="Enter project details or click on the bottom-right button to write with AI"
                               />

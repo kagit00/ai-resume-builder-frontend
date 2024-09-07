@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { saveAdditionalDetails, getAdditionalDetails, updateAdditionalDetails } from '@/services/ApiService';
+import { setResumeValidity } from '@/utils/BasicUtils';
 
 const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedAdditionalDetails, setAddedAdditionalDetails, resume, resumeDetails }) => {
+     setResumeValidity('additionalDetails', addedAdditionalDetails? true : '')
 
      useEffect(() => {
           getResumeAddtionalDetails(resume.id);
@@ -40,7 +42,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
      };
 
      return (
-          <div>
+          <div className=' scroll-smooth'>
                <>
                     <div className="mb-6">
                          <label className="block text-gray-300 text-sm md:text-base mb-2 mt-3" htmlFor="phoneNumber">
@@ -51,7 +53,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                               name="phoneNumber"
                               value={additionalDetails.phoneNumber || ''}
                               onChange={handleAdditionalDetailChange}
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Phone Number"
                          />
 
@@ -63,7 +65,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                               name="githubLink"
                               value={additionalDetails.githubLink || ''}
                               onChange={handleAdditionalDetailChange}
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Github Link"
                          />
 
@@ -75,7 +77,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                               name="linkedInProfileLink"
                               value={additionalDetails.linkedInProfileLink || ''}
                               onChange={handleAdditionalDetailChange}
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out mb-6"
+                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out mb-6"
                               placeholder="LinkedIn Profile Link"
                          />
 

@@ -3,6 +3,7 @@ import { getGenerateSuggestions, saveExperience, updateExperience, deleteExperie
 import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
+import { setResumeValidity } from '@/utils/BasicUtils.js';
 
 const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
      const [suggestions, setSuggestions] = React.useState('');
@@ -10,6 +11,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
      const sectionType = 'experience'
      const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
      const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !experience.description;
+     setResumeValidity('experiences', experienceList.length > 0)
 
      useEffect(() => {
           getAllExperiencesForResume()
@@ -71,12 +73,12 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
      };
 
      return (
-          <div>
+          <div className=' scroll-smooth'>
                <div className="mb-6 flex flex-wrap gap-2">
                     {experienceList.map((exp, index) => (
                          <span
                               key={index}
-                              className="flex items-center text-gray-100 rounded-full bg-zinc-800 px-4 py-2 text-sm font-semibold cursor-pointer"
+                              className="flex items-center text-gray-100 rounded-full bg-sky-950 px-4 py-2 text-xs font-semibold cursor-pointer"
                          >
                               <span onClick={() => handleEditExperience(index)}>
                                    {exp.title} at {exp.organization}
@@ -103,7 +105,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                                    name="title"
                                    value={experience.title}
                                    onChange={handleExperienceDetailChange}
-                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Job Title"
                               />
                          </div>
@@ -119,7 +121,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                                    name="location"
                                    value={experience.location}
                                    onChange={handleExperienceDetailChange}
-                                   className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Job Location"
                               />
                          </div>
@@ -135,7 +137,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                          name="organization"
                          value={experience.organization}
                          onChange={handleExperienceDetailChange}
-                         className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                         className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                          placeholder="Company Name"
                     />
                </div>
@@ -193,7 +195,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
 
                <div className="relative mb-6">
                     <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
-                         description
+                         Description
                     </label>
                     <div className="relative">
                          <textarea
@@ -201,7 +203,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                               name="description"
                               value={experience.description}
                               onChange={handleExperienceDetailChange}
-                              className="bg-zinc-900 text-gray-100 border-none rounded-lg w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               rows="5"
                               placeholder="Enter experience description or click on the bottom-right button to write with AI"
                          />

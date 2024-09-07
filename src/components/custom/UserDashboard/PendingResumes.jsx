@@ -47,10 +47,6 @@ const PendingResumes = ({ pendingResumes, userDetails }) => {
           setDateFilter('');
      };
 
-     const deleteResumeById = async (id) => {
-          await deleteResume(id);
-     }
-
      const handleEditResume = (id, title) => {
           navigate('/user/dashboard/resumeBuilder', {
                state: {
@@ -80,7 +76,7 @@ const PendingResumes = ({ pendingResumes, userDetails }) => {
                     {filteredCards.map(card => (
                          <div
                               key={card.id}
-                              className="relative min-w-[250px] bg-gradient-to-r from-black to-zinc-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 mb-6 mr-6"
+                              className="relative min-w-[250px] bg-gradient-to-l from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 mb-6 mr-6"
                          >
                               {/* Action Icons */}
                               <div className="absolute top-4 right-4 flex items-center space-x-4">
@@ -123,7 +119,7 @@ const PendingResumes = ({ pendingResumes, userDetails }) => {
                               {/* Card Content */}
                               <div className="flex flex-col justify-between h-full pt-8">
                                    <div className="mb-4">
-                                        <p className="text-sm font-bold text-white mb-2 rounded-full truncate shadow-xl bg-gradient-to-r from-black via-zinc-900 to-zinc-700 p-2">
+                                        <p className="text-sm font-bold text-white mb-2 rounded-full truncate shadow-xl bg-gradient-to-r from-gray-900 to-gray-600 p-2">
                                              {card.title}
                                         </p>
                                         <p className="text-xs text-gray-300 leading-relaxed px-2">
