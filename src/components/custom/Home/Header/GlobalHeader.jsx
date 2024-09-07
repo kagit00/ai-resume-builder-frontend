@@ -1,42 +1,89 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { logUserOut } from '@/utils/AuthUtils';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
-function GlobalHeader() {
+function GlobalHeader({ onSectionChange, activeSection }) {
      const location = useLocation();
      const queryClient = useQueryClient();
+
+     const sectionNames = {
+          section1: "Profile & Miscellaneous",
+          section2: "Pending Resumes",
+          section3: "Downloadable Resumes",
+     };
 
      const logOut = () => {
           queryClient.invalidateQueries(['userDetails']);
           logUserOut()
      }
 
+     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+     const toggleDropdown = () => {
+          setIsDropdownOpen(!isDropdownOpen);
+     };
+
      return (
           <header className="w-full py-3 bg-gray-900 text-gray-100 fixed top-0 left-0 z-50">
                <div className="max-w-screen-xl mx-auto px-4 flex justify-between items-center">
+                    {/* Logo */}
                     <p className="flex text-2xl text-white tracking-wide">
-                         <svg id="logo-35" width="50" height="39" viewBox="0 0 50 39" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" className="ccompli1" fill="#007AFF"></path> <path d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z" className="ccustom" fill="#312ECB"></path> </svg>
+                         <svg id="logo-35" width="50" height="39" viewBox="0 0 50 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z" className="ccompli1" fill="#007AFF"></path>
+                              <path d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z" className="ccustom" fill="#312ECB"></path>
+                         </svg>
                     </p>
-                    <nav>
-                         {location.pathname === '/' && (
-                              <ul className="hidden md:flex space-x-8 text-md">
-                                   <li>
-                                        <a href="#home" className="hover:text-gray-400 transition duration-300 ease-in-out">Home</a>
-                                   </li>
-                                   <li>
-                                        <a href="#features" className="hover:text-gray-400 transition duration-300 ease-in-out">Features</a>
-                                   </li>
-                                   <li>
-                                        <a href="#showcase" className="hover:text-gray-400 transition duration-300 ease-in-out">Steps</a>
-                                   </li>
-                                   <li>
-                                        <a href="#pricing" className="hover:text-gray-400 transition duration-300 ease-in-out">Pricing</a>
-                                   </li>
-                              </ul>
-                         )}
-                    </nav>
-                    {location.pathname.startsWith('/user/') && (
+
+                    {/* V Button for sections */}
+                    {location.pathname.endsWith("/dashboard") && (
+                         <div className="relative">
+                              <button
+                                   onClick={toggleDropdown}
+                                   className="flex items-center px-4 py-2 bg-gray-800 text-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400"
+                              >
+                                   <span className="mr-2">{sectionNames[activeSection]}</span>
+                                   <ChevronDownIcon className="h-5 w-5" />
+                              </button>
+                              {isDropdownOpen && (
+                                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 font-normal text-sm text-white rounded shadow-lg z-50">
+                                        <ul>
+                                             <li
+                                                  className="px-4 py-2 hover:bg-blue-200 cursor-pointer"
+                                                  onClick={() => {
+                                                       onSectionChange("section1");
+                                                       setIsDropdownOpen(false);
+                                                  }}
+                                             >
+                                                  Profile & Miscellaneous
+                                             </li>
+                                             <li
+                                                  className="px-4 py-2 hover:bg-blue-200 cursor-pointer"
+                                                  onClick={() => {
+                                                       onSectionChange("section2");
+                                                       setIsDropdownOpen(false);
+                                                  }}
+                                             >
+                                                  Pending Resumes
+                                             </li>
+                                             <li
+                                                  className="px-4 py-2 hover:bg-blue-200 cursor-pointer"
+                                                  onClick={() => {
+                                                       onSectionChange("section3");
+                                                       setIsDropdownOpen(false);
+                                                  }}
+                                             >
+                                                  Downloadable Resumes
+                                             </li>
+                                        </ul>
+                                   </div>
+                              )}
+                         </div>
+                    )}
+
+                    {/* Logout Button */}
+                    {location.pathname.startsWith("/user/") && (
                          <a onClick={logOut} className="cursor-pointer text-white hover:text-red-500 transition duration-300 ease-in-out">
                               <svg
                                    xmlns="http://www.w3.org/2000/svg"

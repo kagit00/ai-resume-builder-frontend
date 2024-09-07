@@ -20,7 +20,7 @@ export const fetchUserDetailsFromToken = async () => {
           });
           return response.data
      } catch (error) {
-          logUserOut()
+          //logUserOut()
      }
 };
 
@@ -112,13 +112,16 @@ export const createResume = async (resume, userId) => {
      }
 }
 
-export const getResumeListByUserId = async (userId) => {
+export const getResumeListByUserId = async (userId, status) => {
      try {
           const response = await axios.get(`${API_BASE_URL}/resume/user/${userId}`, {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          return response.data;
+          if (status === 'completed')
+               return response.data?.completed_resumes;
+          else
+               return response.data?.pending_resumes;
      } catch (error) {
           toast.error('Error while fetching resumes', {
                style: {
