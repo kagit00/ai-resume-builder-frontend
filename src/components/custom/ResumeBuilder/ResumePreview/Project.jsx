@@ -1,4 +1,5 @@
 import DOMPurify from 'dompurify';
+import './styles.css'
 
 const Project = ({ projectsList }) => {
      return (
@@ -27,7 +28,7 @@ const Project = ({ projectsList }) => {
                                              {/* Project Description */}
                                              {proj.description && (
                                                   <div
-                                                       className="text-black font-normal leading-snug mt-1 cust"
+                                                       className="text-black font-normal leading-snug mt-1 cust custom"
                                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(proj.description) }}
                                                   />
                                              )}

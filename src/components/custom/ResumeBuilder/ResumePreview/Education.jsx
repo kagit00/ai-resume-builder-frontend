@@ -1,4 +1,5 @@
 import DOMPurify from 'dompurify';
+import './styles.css'
 
 const Education = ({ educationList }) => {
      return (
@@ -27,7 +28,7 @@ const Education = ({ educationList }) => {
                                    {/* Description */}
                                    {edu.description && (
                                         <div
-                                             className="text-black font-normal leading-snug mt-1 cust"
+                                             className="text-black font-normal leading-snug mt-1 cust custom"
                                              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(edu.description) }}
                                         />
                                    )}

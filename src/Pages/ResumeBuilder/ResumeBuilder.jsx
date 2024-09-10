@@ -56,26 +56,26 @@ const ResumeBuilder = () => {
      }
 
      const updateResume = async () => {
-          await updateResumeStatus(resume.id)
-          // if (isNotificationEnabled)
-          //      await sendEmail(userDetails.username, isFreeUser)
           if (isFreeUser) {
                openUpgradeToPremiumModal()
-               return;
+          } else {
+               navigate('/user/dashboard/resume/success', {
+                    state: {
+                         resumePdfTitle: resumeTitle,
+                         userDetails: userDetails,
+                         addedSummary: addedSummary,
+                         addedAdditionalDetails: addedAdditionalDetails,
+                         experienceList: experienceList,
+                         educationList: educationList,
+                         projectsList: projectsList,
+                         skills: skills,
+                         languagesList: languagesList
+                    }
+               });
           }
-          navigate('/user/dashboard/resume/success', {
-               state: {
-                    resumePdfTitle: resumeTitle,
-                    userDetails: userDetails,
-                    addedSummary: addedSummary,
-                    addedAdditionalDetails: addedAdditionalDetails,
-                    experienceList: experienceList,
-                    educationList: educationList,
-                    projectsList: projectsList,
-                    skills: skills,
-                    languagesList: languagesList
-               }
-          });
+          await updateResumeStatus(resume.id)
+          if (isNotificationEnabled)
+               await sendEmail(userDetails.username, isFreeUser)
      }
 
      const closeUpgradeToPremiumModal = () => {

@@ -1,4 +1,5 @@
 import DOMPurify from 'dompurify';
+import './styles.css'
 
 const Experience = ({ experienceList }) => {
      return (
@@ -28,7 +29,7 @@ const Experience = ({ experienceList }) => {
 
                                         {/* Description with Rich Text Formatting */}
                                         <div
-                                             className="text-black font-normal leading-snug mt-1 cust"
+                                             className="text-black font-normal leading-snug mt-1 cust custom"
                                              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(exp.description) }}
                                         />
                                    </div>

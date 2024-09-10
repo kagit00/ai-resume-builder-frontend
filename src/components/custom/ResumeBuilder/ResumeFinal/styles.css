@@ -16,10 +16,6 @@
   line-height: 1;          /* Ensure bullet aligns properly */
 }
 
-.cust {
-  font-size: 10px;
-}
-
 /* Print-specific styles */
 @media print {
   .avoid-break {
