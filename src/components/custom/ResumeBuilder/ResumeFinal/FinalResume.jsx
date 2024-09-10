@@ -1,15 +1,16 @@
 import React from 'react';
 import './styles.css'
+import DOMPurify from 'dompurify';
 
 const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experienceList, educationList, projectsList, skills, languagesList }) => {
      const name = userDetails.name
      const email = userDetails.username
 
      return (
-          <div className="w-full py-3 px-6 shadow-3xl rounded-3xl flex flex-col justify-between relative overflow-auto">
+          <div className="w-full px-6 shadow-3xl rounded-3xl flex flex-col justify-between relative overflow-auto">
                <div className="bg-white font-sans text-sm mx-auto shadow-md px-4">
                     {/* Header */}
-                    <header className="flex flex-col mb-4 mt-2">
+                    <header className="flex flex-col mb-4">
                          {/* Name Section */}
                          <div className="flex justify-between items-center">
                               <h2 className="text-xl font-semibold text-black leading-tight">{name}</h2>
@@ -57,7 +58,7 @@ const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experi
                          <h5 className="text-base font-semibold border-b border-gray-300 pb-2">Summary</h5>
 
                          {/* Summary Content */}
-                         <div className="text-xs font-normal leading-relaxed mt-1" dangerouslySetInnerHTML={{ __html: addedSummary }} />
+                         <div className="text-xs font-normal leading-relaxed cust mt-1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(addedSummary) }} />
                     </section>
 
                     {/* Experience */}
@@ -88,7 +89,7 @@ const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experi
                                                   {/* Description with Rich Text Formatting */}
                                                   <div
                                                        className="text-black font-normal cust leading-snug mt-1"
-                                                       dangerouslySetInnerHTML={{ __html: exp.description }}
+                                                       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(exp.description) }}
                                                   />
                                              </div>
                                         </div>
@@ -126,8 +127,8 @@ const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experi
                                              {/* Description */}
                                              {edu.description && (
                                                   <div
-                                                       className="text-black font-normal leading-snug mt-1"
-                                                       dangerouslySetInnerHTML={{ __html: edu.description }}
+                                                       className="text-black font-normal cust leading-snug mt-1"
+                                                       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(edu.description) }}
                                                   />
                                              )}
                                         </div>
@@ -164,8 +165,8 @@ const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experi
                                              {/* Project Description */}
                                              {proj.description && (
                                                   <div
-                                                       className="text-black font-normal leading-snug mt-1"
-                                                       dangerouslySetInnerHTML={{ __html: proj.description }}
+                                                       className="text-black font-normal cust leading-snug mt-1"
+                                                       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(proj.description) }}
                                                   />
                                              )}
                                         </div>

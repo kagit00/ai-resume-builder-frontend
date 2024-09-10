@@ -30,7 +30,7 @@ const ProfileSection = ({ userDetails }) => {
                     {/* Hero Section */}
                     <div className="mb-12 relative text-center">
                          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 rounded-lg -z-10"></div>
-                         <HeroSection />
+                         <HeroSection userDetails={userDetails}/>
                          <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
                               <div className="absolute w-72 h-72 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 opacity-30 blur-md -z-20"></div>
                               <div className="absolute w-40 h-40 rounded-full bg-gradient-to-r from-blue-300 to-purple-400 opacity-10 blur-sm -z-30"></div>

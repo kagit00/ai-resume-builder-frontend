@@ -1,21 +1,42 @@
+import DOMPurify from 'dompurify';
+
 const Experience = ({ experienceList }) => {
      return (
-          <section className="mb-3">
-               <h5 className="text-medium font-semibold text-black border-b border-gray-300 pb-2">Experience</h5>
+          <section className="mb-2">
+               {/* Section Heading */}
+               <h5 className="text-sm font-semibold text-black border-b border-gray-300 pb-1">Experience</h5>
+
+               {/* Experience List */}
                {experienceList.length > 0 ? (
                     experienceList.map((exp, index) => (
-                         <div key={index} className="mb-2 border-b border-gray-300 pb-2">
-                              <p className="font-semibold text-xs text-black">{exp.title}</p>
-                              <p className="text-gray-600 text-xs">{exp.organization}, {exp.location}</p>
-                              <p className="text-gray-600 font-semibold text-xs">{exp.startDate} - {exp.endDate}</p>
-                              <div
-                                   className="text-black prose font-normal leading-snug mt-1"
-                                   dangerouslySetInnerHTML={{ __html: exp.description }} 
-                              />
+                         <div key={index} className="mb-2 pb-1 border-b border-gray-300">
+                              <div className="flex justify-between items-start">
+                                   {/* Experience Details */}
+                                   <div className="text-xs">
+                                        {/* Job Title */}
+                                        <h5 className="font-semibold text-black">{exp.title}</h5>
+
+                                        {/* Organization and Location */}
+                                        <p className="text-gray-700">
+                                             {exp.organization}, {exp.location}
+                                        </p>
+
+                                        {/* Duration */}
+                                        <p className="text-gray-600 font-semibold">
+                                             {exp.startDate} - {exp.endDate || "Present"}
+                                        </p>
+
+                                        {/* Description with Rich Text Formatting */}
+                                        <div
+                                             className="text-black font-normal leading-snug mt-1 cust"
+                                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(exp.description) }}
+                                        />
+                                   </div>
+                              </div>
                          </div>
                     ))
                ) : (
-                    <p className="text-xs text-black font-semibold leading-tight">No experience listed</p>
+                    <p className="text-xs text-black font-semibold">No experience listed</p>
                )}
           </section>
      )

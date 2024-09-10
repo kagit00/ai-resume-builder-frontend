@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import dropin from 'braintree-web-drop-in';
 import { getClientTokenForPayment, doSubscribe } from '@/services/ApiService';
 import { useLocation } from 'react-router-dom';
-import { doNormalLogOut } from '@/utils/AuthUtils';
 import { useQueryClient } from '@tanstack/react-query';
 
 const Payment = () => {
@@ -13,6 +12,13 @@ const Payment = () => {
     const [redirecting, setRedirecting] = useState(false);
     const dropinInstance = useRef(null);
     const userId = location.state || 0;
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false); 
+        }, 3000);
+    }, []);
 
     useEffect(() => {
         const fetchClientToken = async () => {
@@ -31,7 +37,7 @@ const Payment = () => {
         queryClient.invalidateQueries('userDetails')
         setTimeout(() => {
             window.location.href = '/user/dashboard';
-        }, 500);
+        }, 3000);
     }
 
     useEffect(() => {
@@ -78,18 +84,25 @@ const Payment = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900">
-            <div className="w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl">
+        <div className="min-h-screen flex items-center justify-center bg-gray-900 relative">
+            {loading && (
+                <div
+                    className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50 text-white text-2xl font-thin "
+                >
+                    Just a Moment...
+                </div>
+            )}
+            <div className={`w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl ${loading ? 'hidden' : ''}`}>
                 <h1 className="text-3xl font-thin text-center text-white mb-3">Complete Your Payment</h1>
                 <p className="text-center text-gray-400 text-xs font-normal">
                     Secure payment powered by <span className="font-bold text-white">Braintree</span>.
                 </p>
-                <div id="dropin-container" className={`mb-4 bg-gray-800 p-4 rounded-lg ${paymentSuccess ? 'hidden' : ''}`}></div>
+                <div id="dropin-container" className={`mb-2 bg-gray-800 p-4 rounded-lg ${paymentSuccess ? 'hidden' : ''}`}></div>
                 {!paymentSuccess && (
                     <button
                         onClick={handlePayment}
                         disabled={!clientToken}
-                        className={`w-full py-2 px-4 text-white font-semibold rounded-full ${clientToken ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-500 cursor-not-allowed'}`}
+                        className={`w-full py-1 text-white font-semibold rounded-full ${clientToken ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-500 cursor-not-allowed'}`}
                     >
                         Pay Now
                     </button>

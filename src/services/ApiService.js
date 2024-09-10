@@ -13,12 +13,6 @@ export const fetchUserDetailsFromToken = async () => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success(`Welcome to Dashboard, ${response.data.name}`, {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
@@ -938,6 +932,33 @@ export const doSubscribe = async (paymentMethodNonce, amount, userId) => {
                return;
           }
           toast.error('Error while subscribing to premium', {
+               style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const cancelPremiumMembership = async (userId) => {
+     try {
+          const response = await axios.put(`${API_BASE_URL}/user/cancel-membership/${userId}`, null, {
+               headers: { ...headers },
+               withCredentials: !jWtToken,
+          });
+          toast.success('Premium Membership Cancelled Successfully', {
+               style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+               },
+          });
+          return response;
+     } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
+          toast.error('Error while cancelling premium', {
                style: {
                     backgroundColor: '#1F2937',
                     color: '#fff'

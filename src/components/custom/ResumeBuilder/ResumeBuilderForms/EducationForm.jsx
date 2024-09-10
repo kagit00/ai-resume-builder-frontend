@@ -5,6 +5,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { setResumeValidity } from '@/utils/BasicUtils';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import DOMPurify from 'dompurify';
 
 const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
     const [editorContent, setEditorContent] = useState(education.description);
@@ -19,7 +20,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
 
     const handleEditorChange = (content) => {
         setEditorContent(content);
-        handleEducationDetailChange({ target: { name: 'description', value: content } });
+        handleEducationDetailChange({ target: { name: 'description', value: DOMPurify.sanitize(content) } });
     };
 
     const getAllEducationsForResume = async (resumeId) => {

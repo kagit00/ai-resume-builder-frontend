@@ -4,6 +4,7 @@ import { getGenerateSuggestions, saveSummary, deleteSummary, updateSummary, getS
 import { setResumeValidity } from '@/utils/BasicUtils';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import DOMPurify from 'dompurify';
 
 const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary }) => {
      const [summary, setSummary] = useState('');
@@ -22,7 +23,7 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
      };
 
      const handleEditorChange = (content) => {
-        setSummary(content);
+        setSummary(DOMPurify.sanitize(content));
     };
 
      const handleGenerateSuggestions = async () => {

@@ -1,14 +1,17 @@
-import { deleteAccount, updateNotificationEnabled } from '@/services/ApiService';
+import { cancelPremiumMembership, deleteAccount, updateNotificationEnabled } from '@/services/ApiService';
 import React, { useEffect, useState } from 'react';
 import PricingModal from '../UpgradeToPremium/PricingModal';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ProfileSettingsModal = ({ onClose, userDetails }) => {
+     const queryClient = useQueryClient();
      const [showPricingModal, setShowPricingModal] = useState(false);
      const handleUpgrade = () => setShowPricingModal(true);
      const [viewingProfile, setViewingProfile] = useState(false);
      const [managingEmailNotifications, setManagingEmailNotifications] = useState(false);
      const [isDeletingAccount, setIsDeletingAccount] = useState(false);
      const [notificationsEnabled, setNotificationsEnabled] = useState(userDetails.notificationEnabled);
+     const [billingDetails, setBillingDetails] = useState(false)
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
 
      const handleDeleteAccount = async () => {
@@ -17,12 +20,19 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
           }
      };
 
-     const handleManageEmailNotifications = async () => {
-          await updateNotificationEnabled(userDetails.id, managingEmailNotifications)
-     };
+     const handleCancelPremiumMembership = async () => {
+          if (!isFreeUser) {
+               const res = await cancelPremiumMembership(userDetails.id)
+               if (res.status === 200)
+                    queryClient.invalidateQueries('userDetails')
+          }
+          setBillingDetails(false)
+     }
 
-     const handleToggleNotifications = () => {
-          setNotificationsEnabled(!notificationsEnabled);
+     const handleToggleNotifications = async () => {
+          setNotificationsEnabled(prev => !prev);
+          await updateNotificationEnabled(userDetails.id, !notificationsEnabled)
+          queryClient.invalidateQueries('userDetails')
      };
 
      return (
@@ -37,7 +47,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                     </button>
 
                     {/* Main Content */}
-                    {!viewingProfile && !managingEmailNotifications && !isDeletingAccount && !showPricingModal ? (
+                    {!viewingProfile && !managingEmailNotifications && !isDeletingAccount && !showPricingModal && !billingDetails ? (
                          <>
                               <h2 className="text-xl md:text-2xl mb-6 font-thin text-gray-100 flex items-center">
                                    Profile Settings
@@ -50,6 +60,15 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                               </h2>
 
                               <ul className="space-y-4">
+                                   {!isFreeUser && <li onClick={() => setBillingDetails(true)}
+                                        className="gap-2 flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                             <circle cx="12" cy="12" r="10" />
+                                             <path d="M15 9l-6 6" />
+                                             <path d="M9 9l6 6" />
+                                        </svg>
+                                        Cancel Premium Membership
+                                   </li>}
                                    {isFreeUser && <li onClick={() => handleUpgrade()}
                                         className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                         <svg className="w-6 h-6 mr-3 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -158,7 +177,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    <div>
                                         <div className="flex items-center">
                                              <label className="relative inline-flex items-center cursor-pointer">
-                                                  <input onClick={() => handleManageEmailNotifications}
+                                                  <input
                                                        type="checkbox"
                                                        checked={notificationsEnabled}
                                                        onChange={handleToggleNotifications}
@@ -191,7 +210,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    Are you sure you want to delete your account? This action is irreversible and all your data will be lost.
                               </p>
                               <button
-                                   onClick={handleDeleteAccount}
+                                   onClick={() => handleDeleteAccount()}
                                    className="w-full py-3 bg-red-500 hover:bg-red-600 rounded-full text-white font-semibold transition-colors duration-300"
                               >
                                    Confirm Deletion
@@ -201,8 +220,32 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                          <>
                               <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />
                          </>
-                    )
-                         : null}
+                    ) : billingDetails ? (
+                         <>
+                              <div className="p-6 max-w-md mx-auto rounded-lg shadow-lg">
+                                   <button
+                                        onClick={() => setBillingDetails(false)}
+                                        className="text-sm text-blue-400 hover:text-blue-500 mb-6 transition-colors duration-300 flex items-center"
+                                   >
+                                        &larr; Back
+                                   </button>
+                                   <h2 className="text-lg md:text-xl lg:text-2xl mb-5 font-thin text-gray-100">
+                                        Cancel Membership
+                                   </h2>
+                                   <p className="text-gray-300 mb-6">
+                                        Are you sure you want to cancel your membership? This action is irreversible and all your billing details will be removed.
+                                   </p>
+                              
+                                   <button
+                                        onClick={() => handleCancelPremiumMembership()}
+                                        className="w-full py-3 bg-red-500 hover:bg-red-600 rounded-full text-white font-semibold transition-colors duration-300"
+                                   >
+                                        Confirm Cancellation
+                                   </button>
+                              </div>
+
+                         </>
+                    ) : null}
                </div>
           </div>
 

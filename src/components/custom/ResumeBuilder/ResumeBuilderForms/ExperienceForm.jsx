@@ -6,6 +6,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { setResumeValidity } from '@/utils/BasicUtils.js';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import DOMPurify from 'dompurify';
 
 const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
      const [editorContent, setEditorContent] = useState(experience.description);
@@ -22,7 +23,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
 
      const handleEditorChange = (content) => {
           setEditorContent(content);
-          handleExperienceDetailChange({ target: { name: 'description', value: content } }); 
+          handleExperienceDetailChange({ target: { name: 'description', value: DOMPurify.sanitize(content) } }); 
      };
 
      const getAllExperiencesForResume = async () => {

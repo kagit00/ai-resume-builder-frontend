@@ -39,9 +39,8 @@ const DownloadableResumes = ({ userDetails }) => {
   };
 
   const downloadResume = async (resume) => {
-    console.log(resume)
     const addedSummary = resume.resumeSummary.details || ''
-    const addedAdditionalDetails = resume.additionalDetails 
+    const addedAdditionalDetails = resume.additionalDetails
     const skills = resume.skills.split(',');
     const resumeSectionsData = resume.resumeSections
     const educationList = resumeSectionsData.filter(item => item.sectionType === 'EDUCATION');
@@ -85,7 +84,10 @@ const DownloadableResumes = ({ userDetails }) => {
           <div className="flex flex-col items-center mb-4 relative">
             <h2 className="text-3xl md:text-4xl lg:text-6xl mb-10 font-extralight leading-tight text-white flex items-center relative">
               Downloadable Resumes
-              {!isFreeUser && <span className="ml-3 px-3 py-1 bg-yellow-500 text-black text-sm font-bold rounded-full shadow-lg">
+              {!isFreeUser && <span className="ml-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 text-sm font-bold px-3 py-1 rounded-full shadow-lg">
+                <svg className="inline-block w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
                 Premium
               </span>}
             </h2>

@@ -2,8 +2,8 @@ import React from 'react';
 
 const ResumeTipsModal = ({ onClose }) => {
      return (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-80 z-50">
-               <div className="relative bg-gradient-to-br from-gray-800 to-gray-700 text-white rounded-lg shadow-2xl w-full max-w-sm p-6">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50">
+               <div className="relative bg-transparent text-white rounded-lg shadow-2xl w-full max-w-sm p-6">
                     {/* Close Button */}
                     <button
                          onClick={onClose}
@@ -13,7 +13,7 @@ const ResumeTipsModal = ({ onClose }) => {
                     </button>
 
                     {/* Heading */}
-                    <h2 className="text-lg md:text-2xl mb-4 font-semibold text-gray-200">Resume Creation Tips</h2>
+                    <h2 className="text-lg md:text-2xl mb-4 font-thin text-gray-200">Resume Creation Tips</h2>
 
                     {/* Icon */}
                     <div className="flex justify-center mb-6">
@@ -33,26 +33,26 @@ const ResumeTipsModal = ({ onClose }) => {
                     </div>
 
                     {/* Tips List */}
-                    <ul className="space-y-4">
+                    <ul className="space-y-4 font-semibold">
                          <li className="flex items-start space-x-2">
                               <span className="text-gray-400 text-xl">&#8226;</span>
-                              <p className="text-gray-300 font-normal text-sm">Tailor your resume to the job description.</p>
+                              <p className="text-gray-300 text-sm">Tailor your resume to the job description.</p>
                          </li>
                          <li className="flex items-start space-x-2">
                               <span className="text-gray-400 text-xl">&#8226;</span>
-                              <p className="text-gray-300 font-normal text-sm">Use strong action verbs.</p>
+                              <p className="text-gray-300 text-sm">Use strong action verbs.</p>
                          </li>
                          <li className="flex items-start space-x-2">
                               <span className="text-gray-400 text-xl">&#8226;</span>
-                              <p className="text-gray-300 font-normal text-sm">Quantify your achievements.</p>
+                              <p className="text-gray-300 text-sm">Quantify your achievements.</p>
                          </li>
                          <li className="flex items-start space-x-2">
                               <span className="text-gray-400 text-xl">&#8226;</span>
-                              <p className="text-gray-300 font-normal text-sm">Keep your resume concise.</p>
+                              <p className="text-gray-300 text-sm">Keep your resume concise.</p>
                          </li>
                          <li className="flex items-start space-x-2">
                               <span className="text-gray-400 text-xl">&#8226;</span>
-                              <p className="text-gray-300 font-normal text-sm">Proofread for errors.</p>
+                              <p className="text-gray-300 text-sm">Proofread for errors.</p>
                          </li>
                     </ul>
                </div>

@@ -1,19 +1,13 @@
 import React from 'react';
 import { Typewriter } from 'react-simple-typewriter';
 
-const HeroSection = () => {
+const HeroSection = ({userDetails}) => {
+  const fullName = userDetails.name
   return (
     <div className="relative z-10 max-w-3xl mx-auto px-6 py-4">
-      <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 font-light text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 to-zinc-900 animate-gradientPulse drop-shadow-lg">
+      <h2 className="text-4xl md:text-5xl lg:text-6xl mb-4 font-light text-transparent text-zinc-500 drop-shadow-lg">
         <span className="inline-block">
-          <Typewriter
-            words={["Hello", "Hola", "Namaste"]}
-            cursor
-            cursorStyle="_"
-            typeSpeed={80}
-            deleteSpeed={60}
-            delaySpeed={1000}
-          />
+          Hello {fullName.includes(' ') ? fullName.split(' ')[0] : fullName},
         </span>
       </h2>
 

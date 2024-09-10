@@ -5,6 +5,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { setResumeValidity } from '@/utils/BasicUtils';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import DOMPurify from 'dompurify';
 
 const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editingIndex, setEditingIndex, resume }) => {
      const [editorContent, setEditorContent] = useState(project.description);
@@ -19,7 +20,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
 
      const handleEditorChange = (content) => {
           setEditorContent(content);
-          handleProjectDetailChange({ target: { name: 'description', value: content } });
+          handleProjectDetailChange({ target: { name: 'description', value: DOMPurify.sanitize(content) } });
      };
 
      const getAllProjectsForResume = async () => {

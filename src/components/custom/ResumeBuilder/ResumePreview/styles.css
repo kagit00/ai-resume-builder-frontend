@@ -15,24 +15,3 @@
   margin-right: 10px;      /* Space between bullet and text */
   line-height: 1;          /* Ensure bullet aligns properly */
 }
-
-.cust {
-  font-size: 10px;
-}
-
-/* Print-specific styles */
-@media print {
-  .avoid-break {
-    page-break-inside: avoid; 
-  }
-
-  .page-break {
-    page-break-after: always; 
-  }
-
-  /* Ensure that .cust styles are not overridden in print */
-  .cust ul {
-    padding-left: 1rem; /* Adjust if needed for print */
-  }
-}
-
