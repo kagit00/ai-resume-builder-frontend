@@ -13,8 +13,8 @@ const UserDashboard = () => {
   const { data: userDetails, isLoading: isUserDetailsLoading } = useQuery({
     queryKey: ['userDetails'],
     queryFn: fetchUserDetailsFromToken,
-    staleTime: 10 * 60 * 1000,
-    cacheTime: 40 * 60 * 1000,
+    staleTime: 50 * 60 * 1000,
+    cacheTime: 50 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
 

@@ -24,7 +24,7 @@ const CustomDatePicker = ({ selectedDate, onDateChange, placeholder, maxDate, di
             selected={selectedDate ? new Date(selectedDate) : null}
             onChange={(date) => onDateChange(date)}
             dateFormat="MMMM, yyyy" 
-            className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+            className="bg-transparent border-b-2 text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
             placeholderText={placeholder}
             showMonthYearPicker 
             showFullMonthYearPicker

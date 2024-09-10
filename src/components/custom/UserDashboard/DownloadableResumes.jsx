@@ -7,11 +7,13 @@ import FinalResume from '../ResumeBuilder/ResumeFinal/FinalResume';
 import NothingToDisplay from '@/components/custom/UserDashboard/NothingToDisplay';
 import { useQuery } from '@tanstack/react-query';
 import { getResumeListByUserId } from '@/services/ApiService.js';
+import PricingModal from '../UpgradeToPremium/PricingModal';
 
 const DownloadableResumes = ({ userDetails }) => {
+  const [showPricingModal, setShowPricingModal] = useState(false);
   const [titleFilter, setTitleFilter] = useState('');
   const [dateFilter, setDateFilter] = useState('');
-  const isFreeUser = userDetails.authorities[0].authority === 'FREE_USER';
+  const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
   const nothingToDisplayTextDownloadableResume = 'No Downloadable Resume Is Here';
 
   const { data: downloadableResumes = [], isLoading: isDownloadableResumesLoading } = useQuery({
@@ -37,8 +39,9 @@ const DownloadableResumes = ({ userDetails }) => {
   };
 
   const downloadResume = async (resume) => {
-    const addedSummary = resume.resumeSummary.details
-    const addedAdditionalDetails = resume.additionalDetails
+    console.log(resume)
+    const addedSummary = resume.resumeSummary.details || ''
+    const addedAdditionalDetails = resume.additionalDetails 
     const skills = resume.skills.split(',');
     const resumeSectionsData = resume.resumeSections
     const educationList = resumeSectionsData.filter(item => item.sectionType === 'EDUCATION');
@@ -77,15 +80,23 @@ const DownloadableResumes = ({ userDetails }) => {
 
   return (
     <>
-      {downloadableResumes.length > 0? (
+      {downloadableResumes.length > 0 ? (
         <section id="downloadable-resumes" className="relative flex-1 flex flex-col py-20 px-10">
           <div className="flex flex-col items-center mb-4 relative">
             <h2 className="text-3xl md:text-4xl lg:text-6xl mb-10 font-extralight leading-tight text-white flex items-center relative">
               Downloadable Resumes
-              <span className="ml-3 px-3 py-1 bg-yellow-500 text-black text-sm font-bold rounded-full shadow-lg">
+              {!isFreeUser && <span className="ml-3 px-3 py-1 bg-yellow-500 text-black text-sm font-bold rounded-full shadow-lg">
                 Premium
-              </span>
+              </span>}
             </h2>
+            {isFreeUser && <div className="flex items-center">
+              <a onClick={() => setShowPricingModal(true)} className="text-blue-500 hover:text-blue-700 font-semibold text-sm cursor-pointer">
+                Upgrade
+              </a>
+              <p className="ml-2 text-gray-300 text-sm">
+                to download and share your resumes with employers
+              </p>
+            </div>}
           </div>
 
           <SearchFilter onApply={handleApplyFilter} onReset={handleResetFilter} />
@@ -201,9 +212,10 @@ const DownloadableResumes = ({ userDetails }) => {
               </div>
             ))}
           </div>
-        </section>) : (
-          <NothingToDisplay text={nothingToDisplayTextDownloadableResume} userDetails={userDetails}/>
-        )
+        </section>
+      ) : (
+        <NothingToDisplay text={nothingToDisplayTextDownloadableResume} userDetails={userDetails} />
+      )
       }
     </>
   );

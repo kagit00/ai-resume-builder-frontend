@@ -87,7 +87,7 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
                               name="name"
                               value={language.name || ''}
                               onChange={handleLanguageDetailChange}
-                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                              className="bg-transparent border-b-2 text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Language Name"
                          />
                          <div className="mt-8 mb-4">

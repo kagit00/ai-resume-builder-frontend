@@ -1,4 +1,4 @@
-const Experience = ({ experienceList}) => {
+const Experience = ({ experienceList }) => {
      return (
           <section className="mb-3">
                <h5 className="text-medium font-semibold text-black border-b border-gray-300 pb-2">Experience</h5>
@@ -8,7 +8,10 @@ const Experience = ({ experienceList}) => {
                               <p className="font-semibold text-xs text-black">{exp.title}</p>
                               <p className="text-gray-600 text-xs">{exp.organization}, {exp.location}</p>
                               <p className="text-gray-600 font-semibold text-xs">{exp.startDate} - {exp.endDate}</p>
-                              <p className="text-black font-normal text-xs leading-tight">{exp.description}</p>
+                              <div
+                                   className="text-black prose font-normal leading-snug mt-1"
+                                   dangerouslySetInnerHTML={{ __html: exp.description }} 
+                              />
                          </div>
                     ))
                ) : (

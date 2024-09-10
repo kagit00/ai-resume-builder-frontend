@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { logUserOut } from '@/utils/AuthUtils';
+import { doNormalLogOut } from '@/utils/AuthUtils';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
 function GlobalHeader({ onSectionChange, activeSection }) {
@@ -13,11 +13,6 @@ function GlobalHeader({ onSectionChange, activeSection }) {
           section2: "Pending Resumes",
           section3: "Downloadable Resumes",
      };
-
-     const logOut = () => {
-          queryClient.invalidateQueries(['userDetails']);
-          logUserOut()
-     }
 
      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -83,7 +78,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
 
                     {/* Logout Button */}
                     {location.pathname.startsWith("/user/") && (
-                         <a onClick={logOut} className="cursor-pointer text-white hover:text-red-500 transition duration-300 ease-in-out">
+                         <a onClick={() => doNormalLogOut()} className="cursor-pointer text-white hover:text-red-500 transition duration-300 ease-in-out">
                               <svg
                                    xmlns="http://www.w3.org/2000/svg"
                                    fill="none"

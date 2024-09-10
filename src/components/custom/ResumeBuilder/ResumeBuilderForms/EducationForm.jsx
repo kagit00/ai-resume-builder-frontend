@@ -3,16 +3,24 @@ import { saveEducation, updateEducation, deleteEducation, getEducations } from '
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
 import { setResumeValidity } from '@/utils/BasicUtils';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
+    const [editorContent, setEditorContent] = useState(education.description);
     const [educationId, setEducationId] = useState('')
     const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
-    const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !education.description;
+    const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !editorContent;
     setResumeValidity('educations', educationList.length > 0)
 
     useEffect(() => {
         getAllEducationsForResume(resume.id);
     }, []);
+
+    const handleEditorChange = (content) => {
+        setEditorContent(content);
+        handleEducationDetailChange({ target: { name: 'description', value: content } });
+    };
 
     const getAllEducationsForResume = async (resumeId) => {
         const educations = await getEducations(resumeId)
@@ -95,7 +103,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         name="title"
                         value={education.title}
                         onChange={handleEducationDetailChange}
-                        className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                        className="text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none shadow-lg bg-transparent border-b-2"
                         placeholder="Degree or Equivalent"
                     />
                 </div>
@@ -109,7 +117,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         name="location"
                         value={education.location}
                         onChange={handleEducationDetailChange}
-                        className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                        className="bg-transparent border-b-2 text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                         placeholder="Location"
                     />
                 </div>
@@ -123,7 +131,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         name="organization"
                         value={education.organization}
                         onChange={handleEducationDetailChange}
-                        className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                        className="bg-transparent border-b-2 text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                         placeholder="School/University Name"
                     />
                 </div>
@@ -142,7 +150,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                                 })
                             }
                             placeholder="Start Date"
-                            maxDate={education.endDate ? new Date(education.endDate) : new Date()} // Prevents selecting a start date after the end date
+                            maxDate={education.endDate ? new Date(education.endDate) : new Date()}
                         />
                     </div>
 
@@ -181,17 +189,18 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
 
                 <div className="relative mb-6">
                     <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
-                        Education Description
+                        Tell Us More
                     </label>
                     <div className="relative">
-                        <textarea
+                        <ReactQuill
                             id="description"
                             name="description"
-                            value={education.description}
-                            onChange={handleEducationDetailChange}
-                            className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
-                            rows="5"
-                            placeholder="Enter education description or click on the bottom-right button to write with AI"
+                            value={editorContent}
+                            onChange={handleEditorChange}
+                            theme="snow"
+                            className="bg-slate-300 rounded-sm text-gray-900 border-transparent w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                            placeholder="Enter description here..."
+                            style={{ minHeight: '140px' }}
                         />
                     </div>
                 </div>

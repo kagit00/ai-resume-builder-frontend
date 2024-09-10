@@ -4,18 +4,26 @@ import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
 import { setResumeValidity } from '@/utils/BasicUtils.js';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
+     const [editorContent, setEditorContent] = useState(experience.description);
      const [suggestions, setSuggestions] = React.useState('');
      const [experienceId, setExperienceId] = React.useState('');
      const sectionType = 'experience'
      const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
-     const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !experience.description;
+     const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !editorContent;
      setResumeValidity('experiences', experienceList.length > 0)
 
      useEffect(() => {
           getAllExperiencesForResume()
      }, []);
+
+     const handleEditorChange = (content) => {
+          setEditorContent(content);
+          handleExperienceDetailChange({ target: { name: 'description', value: content } }); 
+     };
 
      const getAllExperiencesForResume = async () => {
           const experiences = await getExperiences(resume.id)
@@ -105,7 +113,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                                    name="title"
                                    value={experience.title}
                                    onChange={handleExperienceDetailChange}
-                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   className=" text-gray-100 bg-transparent border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Job Title"
                               />
                          </div>
@@ -121,7 +129,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                                    name="location"
                                    value={experience.location}
                                    onChange={handleExperienceDetailChange}
-                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   className=" text-gray-100 bg-transparent border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Job Location"
                               />
                          </div>
@@ -137,7 +145,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                          name="organization"
                          value={experience.organization}
                          onChange={handleExperienceDetailChange}
-                         className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                         className="bg-transparent border-b-2 text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                          placeholder="Company Name"
                     />
                </div>
@@ -195,21 +203,22 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
 
                <div className="relative mb-6">
                     <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
-                         Description
+                         Responsibilities
                     </label>
                     <div className="relative">
-                         <textarea
+                         <ReactQuill
                               id="description"
                               name="description"
-                              value={experience.description}
-                              onChange={handleExperienceDetailChange}
-                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
-                              rows="5"
-                              placeholder="Enter experience description or click on the bottom-right button to write with AI"
+                              value={editorContent}
+                              onChange={handleEditorChange}
+                              className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                              placeholder="Experience description or click on the bottom-right button to write with AI"
+                              style={{ minHeight: '140px' }}
                          />
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>
                </div>
+
                <button
                     onClick={handleAddExperience}
                     className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled

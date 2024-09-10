@@ -230,7 +230,7 @@ function Auth() {
                                    type="submit"
                                    disabled={!isFormValid()}
                                    style={{ fontSize: '15px' }}
-                                   className={`bg-blue-500 text-white px-1 py-1 rounded-xl shadow-xl transform hover:scale-105 transition-transform duration-300 md:text-lg font-normal w-full ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : ''
+                                   className={`bg-blue-500 text-white px-1 py-1 rounded-full shadow-xl transform hover:scale-105 transition-transform duration-300 md:text-lg font-normal w-full ${!isFormValid() ? 'opacity-50 cursor-not-allowed' : ''
                                         }`}
                               >
                                    {isSignIn ? 'Login' : 'Sign Up'}
@@ -239,7 +239,7 @@ function Auth() {
                                    type="button"
                                    onClick={handleReset}
                                    style={{ fontSize: '15px' }}
-                                   className="bg-gray-900 text-white px-1 py-1 rounded-xl shadow-xl transform hover:scale-105 transition-transform duration-300 text-xs md:text-lg font-normal w-full"
+                                   className="bg-gray-900 text-white px-1 py-1 rounded-full shadow-xl transform hover:scale-105 transition-transform duration-300 text-xs md:text-lg font-normal w-full"
                               >
                                    Reset
                               </button>

@@ -11,7 +11,7 @@ const ResumePreview = ({ userDetails, addedSummary, addedAdditionalDetails, expe
 
      return (
           <div className="w-1/2 p-6 md:p-8 shadow-3xl rounded-3xl flex flex-col justify-between relative overflow-auto hidden-scrollbar md:ml-4 lg:ml-6 md:mr-8 lg:mr-10">
-               <div className="px-8 py-5 mt-3 bg-gray-100 max-w-4xl font-sans text-xs mx-auto shadow-md">
+               <div className="px-8 py-5 mt-3 bg-slate-200 max-w-4xl font-sans text-xs mx-auto shadow-md">
 
                     <Header name={name} email={email} addedAdditionalDetails={addedAdditionalDetails} />
 

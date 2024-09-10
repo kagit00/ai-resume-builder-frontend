@@ -168,7 +168,7 @@ const PendingResumes = ({ userDetails }) => {
                               />
                          </div>
                     </section>) : (
-                    <NothingToDisplay text={nothingToDisplayTextPendingResume} />
+                    <NothingToDisplay text={nothingToDisplayTextPendingResume} userDetails={userDetails} />
                )
                }
           </>

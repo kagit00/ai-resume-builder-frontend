@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import CryptoJS from 'crypto-js';
 import { doLogOut } from '@/services/ApiService';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const isGoogleAuthTokenExpired = (expiresAt) => {
     if (!expiresAt) return false;
@@ -45,20 +47,37 @@ export const getExpiryForJwtToken = () => {
     return sessionStorage.getItem('JWT_TOKEN_EXPIRY')
 }
 
-export const logUserOut = async () => {
-    sessionStorage.clear()
-    toast.error('Session expired. Redirecting you to the login page...', {
-        position: "top-center",
-        autoClose: 2000, 
-        className: 'bg-red-600 text-white',
-    });
+export const logUserOut = () => {
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.zIndex = '9999';
+    overlay.style.color = 'white';
+    overlay.style.fontSize = '24px';
+    overlay.style.fontWeight = '100';
+    overlay.style.fontFamily = "'Helvetica Neue', sans-serif";
+    overlay.innerText = 'Session expired. Redirecting to login page...';
+
+    document.body.appendChild(overlay);
 
     setTimeout(() => {
-        window.history.pushState(null, null, window.location.href);
-        window.onpopstate = function () {
-            window.history.pushState(null, null, window.location.href);
-        };
+        doNormalLogOut()
+    }, 2000);
+}
 
-        window.location.href = '/auth/sign-in';
-    }, 2000); 
+export const doNormalLogOut = async () => {
+    sessionStorage.clear()
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        window.history.pushState(null, null, window.location.href);
+    };
+    await doLogOut()
+    window.location.href = '/auth/sign-in';
 }

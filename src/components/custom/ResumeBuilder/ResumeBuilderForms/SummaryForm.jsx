@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import AISuggestionsButton from '@/components/custom/ResumeBuilder/Buttons/AISuggestionButton.jsx'
 import { getGenerateSuggestions, saveSummary, deleteSummary, updateSummary, getSummary } from '@/services/ApiService';
 import { setResumeValidity } from '@/utils/BasicUtils';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary}) => {
+const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary }) => {
      const [summary, setSummary] = useState('');
-     setResumeValidity('summary', addedSummary? true : '')
+     setResumeValidity('summary', addedSummary ? true : '')
 
      useEffect(() => {
           fetchResumeSummary(resume.id);
@@ -18,6 +20,10 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                setAddedSummary(result.details)
           }
      };
+
+     const handleEditorChange = (content) => {
+        setSummary(content);
+    };
 
      const handleGenerateSuggestions = async () => {
           const suggestions = await getGenerateSuggestions(resume.title, 'overview');
@@ -53,13 +59,13 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                          {sections[currentStep].title}
                     </label>
                     <div className="relative">
-                         <textarea
+                         <ReactQuill
                               id={sections[currentStep].title.toLowerCase()}
                               value={summary}
-                              onChange={(e) => setSummary(e.target.value)}
-                              className="bg-transparent text-gray-100 border-b-2 text-xs font-normal  w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
-                              rows="5"
+                              onChange={handleEditorChange}
+                              className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               placeholder={sections[currentStep].placeholder}
+                              style={{ minHeight: '140px' }}
                          />
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>
@@ -74,7 +80,7 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                               >
                                    <span>{summary && summary !== sections[currentStep].value && addedSummary ? 'Update' : 'Add'}</span>
                               </button>
-                             {addedSummary && (<button
+                              {addedSummary && (<button
                                    onClick={handleDeleteSummary}
                                    className="text-gray-300 text-sm font-bold py-2 px-2 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center space-x-2"
                               >

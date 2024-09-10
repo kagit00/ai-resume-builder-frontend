@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getJwtToken, logUserOut, setJwtToken } from '@/utils/AuthUtils';
+import { doNormalLogOut, getJwtToken, logUserOut, setJwtToken } from '@/utils/AuthUtils';
 
 const API_BASE_URL = 'http://localhost:8080';
 const jWtToken = getJwtToken()
@@ -176,7 +176,7 @@ export const deleteResume = async (resumeId) => {
 
 export const saveSummary = async (summary, resumeId) => {
      try {
-          await axios.post(`${API_BASE_URL}/resume/${resumeId}/summary`, summary, {
+          const response = await axios.post(`${API_BASE_URL}/resume/${resumeId}/summary`, summary, {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
@@ -186,6 +186,7 @@ export const saveSummary = async (summary, resumeId) => {
                     color: '#fff'
                },
           });
+          return response.data
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
@@ -878,3 +879,69 @@ export const updateNotificationEnabled = async (userId, isNotificationEnabled) =
           }
      }
 };
+
+export const deleteAccount = async (userId) => {
+     try {
+          await axios.delete(`${API_BASE_URL}/user/${userId}`, {
+               headers: { ...headers },
+               withCredentials: !jWtToken,
+          });
+          doNormalLogOut()
+     } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
+          toast.error('Error while deleting account', {
+               style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const getClientTokenForPayment = async (userId) => {
+     try {
+          const response = await axios.get(`${API_BASE_URL}/user/subscription/client-token`, {
+               headers: { ...headers },
+               withCredentials: !jWtToken,
+          });
+          return response.data;
+     } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
+          toast.error('Error while generating client token', {
+               style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+               },
+          });
+     }
+}
+
+export const doSubscribe = async (paymentMethodNonce, amount, userId) => {
+     try {
+          const response = await axios.post(`${API_BASE_URL}/user/subscription/checkout/${userId}`, {
+               paymentMethodNonce,
+               amount,
+          }, {
+               headers: { ...headers },
+               withCredentials: !jWtToken,
+          });
+          return response.data
+     } catch (error) {
+          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
+          toast.error('Error while subscribing to premium', {
+               style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+               },
+          });
+     }
+}

@@ -5,8 +5,8 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm }) => {
 
      return (
           <div className="fixed inset-0 flex items-center justify-center z-50">
-               <div className="bg-slate-800 opacity-80 absolute inset-0" onClick={onClose}></div>
-               <div className="bg-gray-700 p-8 rounded-lg shadow-2xl z-10 transform transition-transform scale-100">
+               <div className="bg-black bg-opacity-90 absolute inset-0" onClick={onClose}></div>
+               <div className="bg-transparent p-8 rounded-lg shadow-2xl z-10 transform transition-transform scale-100">
                     <div className="flex items-center mb-4">
                          <div className="p-2 bg-red-600 rounded-full shadow-lg animate-pulse mr-4">
                               <svg
@@ -24,7 +24,7 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm }) => {
                                    />
                               </svg>
                          </div>
-                         <h2 className="text-2xl font-semibold text-white">Are you sure?</h2>
+                         <h2 className="text-3xl font-thin text-white">Are you sure?</h2>
                     </div>
                     <p className="text-gray-300 mb-5 text-sm font-normal">
                          Do you really want to delete this resume? This action cannot be undone.

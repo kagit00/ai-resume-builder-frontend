@@ -1,13 +1,20 @@
-import { updateNotificationEnabled } from '@/services/ApiService';
+import { deleteAccount, updateNotificationEnabled } from '@/services/ApiService';
 import React, { useEffect, useState } from 'react';
+import PricingModal from '../UpgradeToPremium/PricingModal';
 
 const ProfileSettingsModal = ({ onClose, userDetails }) => {
+     const [showPricingModal, setShowPricingModal] = useState(false);
+     const handleUpgrade = () => setShowPricingModal(true);
      const [viewingProfile, setViewingProfile] = useState(false);
      const [managingEmailNotifications, setManagingEmailNotifications] = useState(false);
      const [isDeletingAccount, setIsDeletingAccount] = useState(false);
      const [notificationsEnabled, setNotificationsEnabled] = useState(userDetails.notificationEnabled);
-     const handleDeleteAccount = async () => {
+     const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
 
+     const handleDeleteAccount = async () => {
+          if (isDeletingAccount) {
+               await deleteAccount(userDetails.id)
+          }
      };
 
      const handleManageEmailNotifications = async () => {
@@ -19,8 +26,8 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
      };
 
      return (
-          <div className="fixed inset-0 flex items-center justify-center bg-slate-950 bg-opacity-80 z-50">
-               <div className="relative bg-gradient-to-br from-gray-800 to-gray-700 text-white rounded-2xl shadow-xl w-full p-8 max-w-sm">
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-90">
+               <div className="relative bg-transparent text-white rounded-2xl shadow-xl w-full p-8 max-w-md">
                     {/* Close Button */}
                     <button
                          onClick={onClose}
@@ -30,18 +37,28 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                     </button>
 
                     {/* Main Content */}
-                    {!viewingProfile && !managingEmailNotifications && !isDeletingAccount ? (
+                    {!viewingProfile && !managingEmailNotifications && !isDeletingAccount && !showPricingModal ? (
                          <>
-                              <h2 className="text-xl md:text-2xl mb-6 font-semibold text-gray-100">Profile Settings</h2>
+                              <h2 className="text-xl md:text-2xl mb-6 font-thin text-gray-100 flex items-center">
+                                   Profile Settings
+                                   {!isFreeUser && <span className="ml-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 text-sm font-bold px-3 py-1 rounded-full shadow-lg">
+                                        <svg className="inline-block w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        Premium
+                                   </span>}
+                              </h2>
+
                               <ul className="space-y-4">
-                                   <li className="flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                   {isFreeUser && <li onClick={() => handleUpgrade()}
+                                        className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                         <svg className="w-6 h-6 mr-3 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <path d="M12 2L2 12h3v8h8v-8h3L12 2z"></path>
                                         </svg>
                                         Upgrade To Premium
-                                   </li>
+                                   </li>}
                                    {userDetails.jwtUser &&
-                                        <li className="flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        <li className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                              <svg className="w-6 h-6 mr-3 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                   <path d="M17 10.5V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v5.5"></path>
                                                   <path d="M2 10.5h20"></path>
@@ -52,7 +69,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    }
                                    <li
                                         onClick={() => setManagingEmailNotifications(true)}
-                                        className="flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-lg cursor-pointer transition-colors duration-300"
+                                        className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300"
                                    >
                                         <svg className="w-6 h-6 mr-3 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <path d="M8 17l4-4 4 4"></path>
@@ -62,7 +79,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    </li>
                                    <li
                                         onClick={() => setViewingProfile(true)}
-                                        className="flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-lg cursor-pointer transition-colors duration-300"
+                                        className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300"
                                    >
                                         <svg className="w-6 h-6 mr-3 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <circle cx="12" cy="12" r="4"></circle>
@@ -100,9 +117,9 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    onClick={() => setViewingProfile(false)}
                                    className="text-sm text-blue-400 hover:text-blue-500 mb-6 transition-colors duration-300 flex items-center"
                               >
-                                   &larr; Back to Settings
+                                   &larr; Back
                               </button>
-                              <h2 className="text-lg md:text-xl lg:text-2xl mb-6 font-semibold text-gray-100">
+                              <h2 className="text-lg md:text-xl lg:text-2xl mb-6 font-thin text-gray-100">
                                    Profile Details
                               </h2>
                               <div className="space-y-6">
@@ -132,9 +149,9 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    onClick={() => setManagingEmailNotifications(false)}
                                    className="text-sm text-blue-400 hover:text-blue-500 mb-6 transition-colors duration-300 flex items-center"
                               >
-                                   &larr; Back to Settings
+                                   &larr; Back
                               </button>
-                              <h2 className="text-lg md:text-xl lg:text-2xl mb-10 font-semibold text-gray-100">
+                              <h2 className="text-lg md:text-xl lg:text-2xl mb-10 font-thin text-gray-100">
                                    Manage Email Notifications
                               </h2>
                               <div className="space-y-6">
@@ -165,9 +182,9 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    onClick={() => setIsDeletingAccount(false)}
                                    className="text-sm text-blue-400 hover:text-blue-500 mb-6 transition-colors duration-300 flex items-center"
                               >
-                                   &larr; Back to Settings
+                                   &larr; Back
                               </button>
-                              <h2 className="text-lg md:text-xl lg:text-2xl mb-5 font-semibold text-gray-100">
+                              <h2 className="text-lg md:text-xl lg:text-2xl mb-5 font-thin text-gray-100">
                                    Delete Account
                               </h2>
                               <p className="text-gray-300 mb-6">
@@ -175,12 +192,17 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                               </p>
                               <button
                                    onClick={handleDeleteAccount}
-                                   className="w-full py-3 bg-red-500 hover:bg-red-600 rounded-lg text-white font-semibold transition-colors duration-300"
+                                   className="w-full py-3 bg-red-500 hover:bg-red-600 rounded-full text-white font-semibold transition-colors duration-300"
                               >
                                    Confirm Deletion
                               </button>
                          </>
-                    ) : null}
+                    ) : showPricingModal ? (
+                         <>
+                              <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />
+                         </>
+                    )
+                         : null}
                </div>
           </div>
 

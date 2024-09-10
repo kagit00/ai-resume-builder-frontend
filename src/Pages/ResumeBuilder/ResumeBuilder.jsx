@@ -38,7 +38,7 @@ const ResumeBuilder = () => {
      const [addedAdditionalDetails, setAddedAdditionalDetails] = useState({ phoneNumber: '', githubLink: '', linkedInProfileLink: '' })
      const [isUpgradeToPremiumModalOpen, setIsUpgradeToPremiumModalOpen] = useState(false)
      const isValidResume = getResumeValidity()
-     const isFreeUser = userDetails.authorities[0].authority === 'FREE_USER';
+     const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
      const isNotificationEnabled = userDetails.notificationEnabled;
 
      const sections = [
@@ -51,12 +51,16 @@ const ResumeBuilder = () => {
           { title: 'Additional', value: '', setValue: () => { }, placeholder: '' }
      ];
 
+     const openUpgradeToPremiumModal = () => {
+          setIsUpgradeToPremiumModalOpen(true)
+     }
+
      const updateResume = async () => {
           await updateResumeStatus(resume.id)
-          if (isNotificationEnabled)
-               await sendEmail(userDetails.username, isFreeUser)
+          // if (isNotificationEnabled)
+          //      await sendEmail(userDetails.username, isFreeUser)
           if (isFreeUser) {
-               setIsUpgradeToPremiumModalOpen(true)
+               openUpgradeToPremiumModal()
                return;
           }
           navigate('/user/dashboard/resume/success', {
@@ -221,6 +225,7 @@ const ResumeBuilder = () => {
                                         isOpen={isUpgradeToPremiumModalOpen}
                                         onClose={closeUpgradeToPremiumModal}
                                         onUpgrade={confirmUpgradeToPremium}
+                                        userId={userDetails.id}
                                    />
                               </div>
                          </div>

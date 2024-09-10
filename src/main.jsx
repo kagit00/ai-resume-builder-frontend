@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import UserDashboardError from './Pages/UserDashboard/UserDashboardError.jsx'
 import ResumeSuccessPage from './Pages/ResumeSuccess/ResumeSuccessPage.jsx'
 import UpgradeToPremium from './components/custom/UserDashboard/UpgradeToPremium.jsx'
+import Payment from './Pages/Payment/Payment.jsx'
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,14 @@ const router = createBrowserRouter([
           </ProtectedRoutes>
         )
       },
+      {
+        path: '/user/premium/subscribe',
+        element: (
+          <ProtectedRoutes>
+            <Payment/>
+          </ProtectedRoutes>
+        )
+      }
     ]
   },
   {

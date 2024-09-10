@@ -53,7 +53,7 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
       <div className="relative">
         <button
           onClick={toggleDropdown}
-          className="bg-transparent text-gray-100 border-b-2 w-full py-2 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+          className="bg-transparent border-b-2 text-gray-100 w-full py-2 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
         >
           {selectedSkills.length > 0 ? 'Select Skills' : 'Select Skills'}
         </button>

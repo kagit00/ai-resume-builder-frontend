@@ -3,16 +3,24 @@ import { saveProject, updateProject, deleteProject, getProjects } from '@/servic
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
 import { setResumeValidity } from '@/utils/BasicUtils';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editingIndex, setEditingIndex, resume }) => {
+     const [editorContent, setEditorContent] = useState(project.description);
      const [projectId, setProjectId] = useState('')
      const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
-     const isDisabled = !project.title || !project.location || !project.organization || !project.startDate || !project.description;
+     const isDisabled = !project.title || !project.location || !project.organization || !project.startDate || !editorContent;
      setResumeValidity('projects', projectsList.length > 0)
 
      useEffect(() => {
           getAllProjectsForResume()
      }, []);
+
+     const handleEditorChange = (content) => {
+          setEditorContent(content);
+          handleProjectDetailChange({ target: { name: 'description', value: content } });
+     };
 
      const getAllProjectsForResume = async () => {
           const projects = await getProjects(resume.id)
@@ -95,7 +103,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                               name="title"
                               value={project.title}
                               onChange={handleProjectDetailChange}
-                              className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                              className="bg-transparent border-b-2 text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                               placeholder="Project Name"
                          />
                     </div>
@@ -110,7 +118,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                                    name="location"
                                    value={project.location}
                                    onChange={handleProjectDetailChange}
-                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   className="bg-transparent border-b-2 text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Location"
                               />
                          </div>
@@ -124,7 +132,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                                    name="organization"
                                    value={project.organization}
                                    onChange={handleProjectDetailChange}
-                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
+                                   className="bg-transparent border-b-2 text-gray-100 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                    placeholder="Put NA if personal"
                               />
                          </div>
@@ -183,17 +191,17 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
 
                     <div className=" mb-6">
                          <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
-                              Project Details
+                              Tell Us More
                          </label>
                          <div>
-                              <textarea
+                              <ReactQuill
                                    id="description"
                                    name="description"
-                                   value={project.description}
-                                   onChange={handleProjectDetailChange}
-                                   className="bg-transparent text-gray-100 border-b-2 w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16"
-                                   rows="5"
-                                   placeholder="Enter project details or click on the bottom-right button to write with AI"
+                                   value={editorContent}
+                                   onChange={handleEditorChange}
+                                   className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                                   placeholder="Put Some Details About Your Project"
+                                   style={{ minHeight: '140px' }}
                               />
                          </div>
                     </div>
