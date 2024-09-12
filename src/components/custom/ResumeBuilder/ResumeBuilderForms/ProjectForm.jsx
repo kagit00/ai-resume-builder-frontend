@@ -8,7 +8,6 @@ import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 
 const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editingIndex, setEditingIndex, resume }) => {
-     const [projectId, setProjectId] = useState('')
      const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
      const isDisabled = !project.title || !project.location || !project.organization || !project.startDate || !project.description;
      setResumeValidity('projects', projectsList.length > 0)
@@ -17,13 +16,20 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
           getAllProjectsForResume()
      }, []);
 
-     const handleEditorChange = (content) => {
-          setProject({ ...project, description: DOMPurify.sanitize(content) })
-     };
+     const handleEditorChange = (value) => {
+        setProject(prev => ({
+            ...prev,
+            description: DOMPurify.sanitize(value)
+        }));
+    };
 
-     const handleProjectDetailChange = (e) => {
-          setProject({ ...project, [e.target.name]: DOMPurify.sanitize(e.target.value) });
-     };
+    const handleProjectDetailChange = (e) => {
+        const { name, value } = e.target;
+        setProject(prev => ({
+            ...prev,
+            [name]: DOMPurify.sanitize(value)
+        }));
+    };
 
      const getAllProjectsForResume = async () => {
           const projects = await getProjects(resume.id)
@@ -33,7 +39,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
      const handleCheckboxChange = () => {
           setIsCurrentlyEnrolled(!isCurrentlyEnrolled);
           if (!isCurrentlyEnrolled) {
-               setEducation((prev) => ({
+               setProject((prev) => ({
                     ...prev,
                     endDate: '',
                }));
@@ -46,18 +52,16 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                     index === editingIndex ? project : proj
                );
                setProjectsList(updatedProjectsList);
-               await updateProject(project, projectId, resume.id)
+               await updateProject(project, project.id, resume.id)
                setEditingIndex(null);
           } else {
                const proj = await saveProject(project, resume.id)
                setProjectsList([...projectsList, proj]);
-               setProjectId(proj.id)
           }
           setProject({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' });
      };
 
      const handleEditProject = (index) => {
-          setProjectId(projectsList[index].id)
           setProject(projectsList[index]);
           setEditingIndex(index);
      };

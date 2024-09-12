@@ -8,21 +8,28 @@ import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 
 const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
-    const [educationId, setEducationId] = useState('')
     const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
     const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !education.description;
     setResumeValidity('educations', educationList.length > 0)
+
 
     useEffect(() => {
         getAllEducationsForResume(resume.id);
     }, []);
 
     const handleEditorChange = (value) => {
-        setEducation({ ...education, description: DOMPurify.sanitize(value) });
+        setEducation(prev => ({
+            ...prev,
+            description: DOMPurify.sanitize(value)
+        }));
     };
 
     const handleEducationDetailChange = (e) => {
-        setEducation({ ...education, [e.target.name]: DOMPurify.sanitize(e.target.value) });
+        const { name, value } = e.target;
+        setEducation(prev => ({
+            ...prev,
+            [name]: DOMPurify.sanitize(value)
+        }));
     };
 
     const getAllEducationsForResume = async (resumeId) => {
@@ -46,17 +53,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                 index === editingIndex ? education : ed
             );
             setEducationList(updatedEducationList);
-            await updateEducation(education, educationId, resume.id)
+            await updateEducation(education, education.id, resume.id)
             setEditingIndex(null);
         } else {
             const ed = await saveEducation(education, resume.id)
             setEducationList([...educationList, ed]);
-            setEducation(ed);
-            setEducationId(ed.id)
         }
-        console.log(education)
         setEducation({ title: '', organization: '', location: '', startDate: '', endDate: '', description: '' });
-        console.log(education)
     };
 
     const handleDeleteEducation = async (indexToRemove) => {
@@ -66,7 +69,6 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
     };
 
     const handleEditEducation = (indexToEdit) => {
-        setEducationId(educationList[indexToEdit].id)
         const educationToEdit = educationList[indexToEdit];
         setEducation(educationToEdit);
         setEditingIndex(indexToEdit);

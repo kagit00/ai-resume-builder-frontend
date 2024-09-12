@@ -10,7 +10,6 @@ import DOMPurify from 'dompurify';
 
 const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
      const [suggestions, setSuggestions] = React.useState('');
-     const [experienceId, setExperienceId] = React.useState('');
      const sectionType = 'experience'
      const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
      const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !experience.description;
@@ -21,12 +20,19 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
      }, []);
 
      const handleEditorChange = (value) => {
-          setExperience({ ...experience, description: DOMPurify.sanitize(value) }); 
-     };
+        setExperience(prev => ({
+            ...prev,
+            description: DOMPurify.sanitize(value)
+        }));
+    };
 
-     const handleExperienceDetailChange = (e) => {
-          setExperience({ ...experience, [e.target.name]: DOMPurify.sanitize(e.target.value) });
-     };
+    const handleExperienceDetailChange = (e) => {
+        const { name, value } = e.target;
+        setExperience(prev => ({
+            ...prev,
+            [name]: DOMPurify.sanitize(value)
+        }));
+    };
 
      const getAllExperiencesForResume = async () => {
           const experiences = await getExperiences(resume.id)
@@ -36,7 +42,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
      const handleCheckboxChange = () => {
           setIsCurrentlyEnrolled(!isCurrentlyEnrolled);
           if (!isCurrentlyEnrolled) {
-               setEducation((prev) => ({
+               setExperience((prev) => ({
                     ...prev,
                     endDate: '',
                }));
@@ -54,18 +60,16 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                     index === editingIndex ? experience : exp
                );
                setExperienceList(updatedExperienceList);
-               await updateExperience(experience, experienceId, resume.id)
+               await updateExperience(experience, experience.id, resume.id)
                setEditingIndex(null);
           } else {
                const ex = await saveExperience(experience, resume.id)
                setExperienceList([...experienceList, ex]);
-               setExperienceId(ex.id);
           }
           setExperience({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' });
      };
 
      const handleEditExperience = (index) => {
-          setExperienceId(experienceList[index].id)
           setExperience(experienceList[index]);
           setEditingIndex(index);
      };

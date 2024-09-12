@@ -6,6 +6,7 @@ import ConfirmDeleteModal from '../ConfirmModals/ConfirmDeleteModal';
 import { useQuery } from '@tanstack/react-query';
 import NothingToDisplay from '@/components/custom/UserDashboard/NothingToDisplay';
 import { getResumeListByUserId } from '@/services/ApiService.js';
+import { useMemo } from 'react';
 
 const PendingResumes = ({ userDetails }) => {
      const navigate = useNavigate();
@@ -22,20 +23,20 @@ const PendingResumes = ({ userDetails }) => {
           enabled: !!userDetails,
      });
 
-     useEffect(() => {
+     const filtered = useMemo(() => {
           if (pendingResumes && (titleFilter || dateFilter)) {
-               const filtered = pendingResumes.filter(card => {
+               return pendingResumes.filter(card => {
                     const titleMatch = card.title.toLowerCase().includes(titleFilter.toLowerCase());
                     const dateMatch = dateFilter ? card.updatedAt.includes(dateFilter) : true;
                     return titleMatch && dateMatch;
                });
-               if (JSON.stringify(filtered) !== JSON.stringify(filteredCards)) {
-                    setFilteredCards(filtered);
-               }
-          } else {
-               setFilteredCards(pendingResumes);
           }
+          return pendingResumes;
      }, [pendingResumes, titleFilter, dateFilter]);
+
+     useEffect(() => {
+          setFilteredCards(filtered);
+     }, [filtered]);
 
 
      const handleApplyFilter = (title, date) => {

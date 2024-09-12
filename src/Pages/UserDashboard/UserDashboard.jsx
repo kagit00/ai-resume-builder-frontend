@@ -37,7 +37,7 @@ const UserDashboard = () => {
           {activeSection === "section1" && <ProfileSection userDetails={userDetails} />}
           {activeSection === "section2" && <PendingResumes userDetails={userDetails} />}
           {activeSection === "section3" && <DownloadableResumes userDetails={userDetails} />}
-          {activeSection === "section4" && <ResumeAnalysis />}
+          {activeSection === "section4" && <ResumeAnalysis userDetails={userDetails} />}
         </div>
       ) : (
         <Skeleton />

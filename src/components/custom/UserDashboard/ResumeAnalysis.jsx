@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react';
-import GlobalHeader from '@/components/custom/Home/Header/GlobalHeader.jsx';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { analyzeResume } from '@/services/ApiService';
 
-const ResumeAnalysis = () => {
+const ResumeAnalysis = ({userDetails}) => {
      const fileInputRef = useRef(null);
      const [file, setFile] = useState(null);
      const [jobDescription, setJobDescription] = useState('');
@@ -12,6 +11,7 @@ const ResumeAnalysis = () => {
      const [error, setError] = useState('');
      const [editorContent, setEditorContent] = useState(jobDescription);
      const quillRef = useRef(null);
+     const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
 
      const handleFileChange = (e) => {
           setFile(e.target.files[0]);
@@ -109,7 +109,14 @@ const ResumeAnalysis = () => {
 
                               {/* Analysis Results */}
                               <div className="flex-1 mb-8">
-                                   <h3 className="text-2xl font-thin text-gray-100 mb-6 text-center">Analysis Result</h3>
+                                   <h2 className="text-2xl font-thin text-gray-100 mb-6 text-center">Analysis Result
+                                        {!isFreeUser && <span className="ml-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 text-sm font-bold px-2 py-1 rounded-full shadow-lg">
+                                        <svg className="inline-block w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        Premium
+                                   </span>}
+                                   </h2>
 
                                    {error && <p className="text-red-500 text-center">{error}</p>}
 
