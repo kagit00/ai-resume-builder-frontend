@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/custom/Home/Header/GlobalHeader.jsx';
+import GlobalHeader from '@/components/custom/Home/Header/GlobalHeader.jsx';
 import { fetchUserDetailsFromToken, getResumeListByUserId } from '@/services/ApiService.js';
 import DownloadableResumes from '@/components/custom/UserDashboard/DownloadableResumes';
 import PendingResumes from '@/components/custom/UserDashboard/PendingResumes';
 import SkeletonUserDashboard from './SkeletonUserDashboard';
 import { useQuery } from '@tanstack/react-query';
 import ProfileSection from './ProfileSection';
+import ResumeAnalysis from '@/components/custom/UserDashboard/ResumeAnalysis';
 
 const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState("section1");
@@ -32,10 +33,11 @@ const UserDashboard = () => {
     <>
       {!isSkeletonLoading ? (
         <div className="bg-gray-900 text-white min-h-screen flex flex-col font-sans overflow-x-hidden scroll-smooth">
-          <Header onSectionChange={handleSectionChange} activeSection={activeSection} />
+          <GlobalHeader onSectionChange={handleSectionChange} activeSection={activeSection} />
           {activeSection === "section1" && <ProfileSection userDetails={userDetails} />}
-          {activeSection === "section2" && (<PendingResumes userDetails={userDetails} />)}
-          {activeSection === "section3" && (<DownloadableResumes userDetails={userDetails} />)}
+          {activeSection === "section2" && <PendingResumes userDetails={userDetails} />}
+          {activeSection === "section3" && <DownloadableResumes userDetails={userDetails} />}
+          {activeSection === "section4" && <ResumeAnalysis />}
         </div>
       ) : (
         <Skeleton />

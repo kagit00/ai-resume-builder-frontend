@@ -27,6 +27,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                     queryClient.invalidateQueries('userDetails')
           }
           setBillingDetails(false)
+          setViewingProfile(false)
      }
 
      const handleToggleNotifications = async () => {

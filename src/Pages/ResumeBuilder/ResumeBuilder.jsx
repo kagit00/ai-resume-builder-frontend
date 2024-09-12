@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import GlobalHeader from '@/components/custom/Home/Header/GlobalHeader.jsx';
 import ResumePreview from '../../components/custom/ResumeBuilder/ResumePreview/ResumePreview.jsx'
@@ -75,7 +75,7 @@ const ResumeBuilder = () => {
           }
           await updateResumeStatus(resume.id)
           if (isNotificationEnabled)
-               await sendEmail(userDetails.username, isFreeUser)
+               await sendEmail(userDetails.name, isFreeUser)
      }
 
      const closeUpgradeToPremiumModal = () => {

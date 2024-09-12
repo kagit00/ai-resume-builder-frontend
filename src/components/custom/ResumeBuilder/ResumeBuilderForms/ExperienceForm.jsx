@@ -9,21 +9,23 @@ import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 
 const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
-     const [editorContent, setEditorContent] = useState(experience.description);
      const [suggestions, setSuggestions] = React.useState('');
      const [experienceId, setExperienceId] = React.useState('');
      const sectionType = 'experience'
      const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
-     const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !editorContent;
+     const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !experience.description;
      setResumeValidity('experiences', experienceList.length > 0)
 
      useEffect(() => {
           getAllExperiencesForResume()
      }, []);
 
-     const handleEditorChange = (content) => {
-          setEditorContent(content);
-          handleExperienceDetailChange({ target: { name: 'description', value: DOMPurify.sanitize(content) } }); 
+     const handleEditorChange = (value) => {
+          setExperience({ ...experience, description: DOMPurify.sanitize(value) }); 
+     };
+
+     const handleExperienceDetailChange = (e) => {
+          setExperience({ ...experience, [e.target.name]: DOMPurify.sanitize(e.target.value) });
      };
 
      const getAllExperiencesForResume = async () => {
@@ -39,10 +41,6 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                     endDate: '',
                }));
           }
-     };
-
-     const handleExperienceDetailChange = (e) => {
-          setExperience({ ...experience, [e.target.name]: e.target.value });
      };
 
      const handleGenerateSuggestions = async () => {
@@ -210,7 +208,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                          <ReactQuill
                               id="description"
                               name="description"
-                              value={editorContent}
+                              value={experience.description}
                               onChange={handleEditorChange}
                               className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               placeholder="Experience description or click on the bottom-right button to write with AI"

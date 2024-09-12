@@ -8,10 +8,9 @@ import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 
 const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editingIndex, setEditingIndex, resume }) => {
-     const [editorContent, setEditorContent] = useState(project.description);
      const [projectId, setProjectId] = useState('')
      const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
-     const isDisabled = !project.title || !project.location || !project.organization || !project.startDate || !editorContent;
+     const isDisabled = !project.title || !project.location || !project.organization || !project.startDate || !project.description;
      setResumeValidity('projects', projectsList.length > 0)
 
      useEffect(() => {
@@ -19,18 +18,17 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
      }, []);
 
      const handleEditorChange = (content) => {
-          setEditorContent(content);
-          handleProjectDetailChange({ target: { name: 'description', value: DOMPurify.sanitize(content) } });
+          setProject({ ...project, description: DOMPurify.sanitize(content) })
+     };
+
+     const handleProjectDetailChange = (e) => {
+          setProject({ ...project, [e.target.name]: DOMPurify.sanitize(e.target.value) });
      };
 
      const getAllProjectsForResume = async () => {
           const projects = await getProjects(resume.id)
           setProjectsList(projects)
      }
-
-     const handleProjectDetailChange = (e) => {
-          setProject({ ...project, [e.target.name]: e.target.value });
-     };
 
      const handleCheckboxChange = () => {
           setIsCurrentlyEnrolled(!isCurrentlyEnrolled);
@@ -51,8 +49,8 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                await updateProject(project, projectId, resume.id)
                setEditingIndex(null);
           } else {
-               setProjectsList([...projectsList, project]);
                const proj = await saveProject(project, resume.id)
+               setProjectsList([...projectsList, proj]);
                setProjectId(proj.id)
           }
           setProject({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' });
@@ -198,7 +196,7 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                               <ReactQuill
                                    id="description"
                                    name="description"
-                                   value={editorContent}
+                                   value={project.description}
                                    onChange={handleEditorChange}
                                    className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                                    placeholder="Put Some Details About Your Project"

@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 import { doNormalLogOut } from '@/utils/AuthUtils';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
 function GlobalHeader({ onSectionChange, activeSection }) {
      const location = useLocation();
-     const queryClient = useQueryClient();
-
      const sectionNames = {
           section1: "Profile & Misc.",
           section2: "Pending Resumes",
           section3: "Downloadable Resumes",
+          section4: "Resume Analysis",
      };
 
      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -69,6 +67,15 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                                   }}
                                              >
                                                   Downloadable Resumes
+                                             </li>
+                                             <li
+                                                  className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                                                  onClick={() => {
+                                                       onSectionChange("section4");
+                                                       setIsDropdownOpen(false);
+                                                  }}
+                                             >
+                                                  Resume Analysis
                                              </li>
                                         </ul>
                                    </div>

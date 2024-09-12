@@ -8,33 +8,27 @@ import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 
 const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
-    const [editorContent, setEditorContent] = useState(education.description);
     const [educationId, setEducationId] = useState('')
     const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
-    const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !editorContent;
+    const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !education.description;
     setResumeValidity('educations', educationList.length > 0)
 
     useEffect(() => {
         getAllEducationsForResume(resume.id);
     }, []);
 
-    const handleEditorChange = (content) => {
-        setEditorContent(content);
-        handleEducationDetailChange({ target: { name: 'description', value: DOMPurify.sanitize(content) } });
+    const handleEditorChange = (value) => {
+        setEducation({ ...education, description: DOMPurify.sanitize(value) });
+    };
+
+    const handleEducationDetailChange = (e) => {
+        setEducation({ ...education, [e.target.name]: DOMPurify.sanitize(e.target.value) });
     };
 
     const getAllEducationsForResume = async (resumeId) => {
         const educations = await getEducations(resumeId)
         setEducationList(educations)
     }
-
-    const handleEducationDetailChange = (e) => {
-        const { name, value } = e.target;
-        setEducation((prevEducation) => ({
-            ...prevEducation,
-            [name]: value,
-        }));
-    };
 
     const handleCheckboxChange = () => {
         setIsCurrentlyEnrolled(!isCurrentlyEnrolled);
@@ -55,12 +49,14 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
             await updateEducation(education, educationId, resume.id)
             setEditingIndex(null);
         } else {
-            setEducationList([...educationList, education]);
             const ed = await saveEducation(education, resume.id)
+            setEducationList([...educationList, ed]);
             setEducation(ed);
             setEducationId(ed.id)
         }
+        console.log(education)
         setEducation({ title: '', organization: '', location: '', startDate: '', endDate: '', description: '' });
+        console.log(education)
     };
 
     const handleDeleteEducation = async (indexToRemove) => {
@@ -196,7 +192,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         <ReactQuill
                             id="description"
                             name="description"
-                            value={editorContent}
+                            value={education.description}
                             onChange={handleEditorChange}
                             theme="snow"
                             className="bg-slate-300 rounded-sm text-gray-900 border-transparent w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"

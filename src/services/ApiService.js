@@ -19,6 +19,12 @@ export const fetchUserDetailsFromToken = async () => {
                logUserOut();
                return;
           }
+          toast.error('Error while logging you in', {
+               style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+               },
+          });
      }
 };
 
@@ -73,14 +79,16 @@ export const registerUser = async (formData) => {
 export const doJWtLogIn = async (creds) => {
      try {
           const response = await axios.post(`${API_BASE_URL}/auth/log-in`, creds);
-          setJwtToken(response.data.token)
-          window.location.href = "/user/dashboard"
-          toast.success('Successfully logged in.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          if (response.status === 200) {
+               setJwtToken(response.data.token)
+               window.location.href = "/user/dashboard"
+               toast.success('Successfully logged in.', {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
+          }
      } catch (error) {
           toast.error('An error occurred while logging in the user.', {
                style: {
@@ -844,11 +852,11 @@ export const doLogOut = async () => {
      }
 }
 
-export const sendEmail = async (username, isFreeUser) => {
+export const sendEmail = async (name, isFreeUser) => {
      try {
           await axios.get(`${API_BASE_URL}/resume/completed/send-email`, {
                headers: { ...headers },
-               params: { username, isFreeUser },
+               params: { name, isFreeUser },
                withCredentials: !jWtToken,
           });
      } catch (error) {
@@ -964,5 +972,20 @@ export const cancelPremiumMembership = async (userId) => {
                     color: '#fff'
                },
           });
+     }
+}
+
+export const analyzeResume = async (formData) => {
+     try {
+          const response = await axios.post(`${API_BASE_URL}/resume/analysis/upload-and-analyze`, formData, {
+               headers: { 'Content-Type': 'multipart/form-data', },
+               withCredentials: !jWtToken,
+          });
+          return response.data
+     } catch (err) {
+          if (err.response && err.response.data.status === 'UNAUTHORIZED') {
+               logUserOut();
+               return;
+          }
      }
 }
