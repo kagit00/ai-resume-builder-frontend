@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { saveProject, updateProject, deleteProject, getProjects } from '@/services/ApiService';
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
+import { getGenerateSuggestions } from '@/services/ApiService';
+import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
 
 const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editingIndex, setEditingIndex, resume }) => {
      const isDisabled = !project.title || !project.startDate || !project.description;
@@ -67,6 +71,21 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                setEditingIndex(null);
           }
      };
+
+     const handleGenerateSuggestions = async () => {
+          if (!project.title) {
+               toast.error("Project Name Required For Generating AI Suggestions", {
+                    style: {
+                         backgroundColor: '#1F2937', 
+                         color: '#fff' 
+                    },
+               });
+               return;
+          }
+          const suggestions = await getGenerateSuggestions(project.title, 'project description in four sentences');
+          setProject(prev => { return { ...prev, description: suggestions.generatedSuggestion }; });
+     };
+
 
      return (
           <div className='scroll-smooth'>
@@ -174,23 +193,24 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                          <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="description">
                               Tell Us More
                          </label>
-                         <div>
+                         <div className="relative">
                               <ReactQuill
                                    id="description"
                                    name="description"
                                    value={project.description}
                                    onChange={handleEditorChange}
-                                   className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                                   className="editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                                    placeholder="Put Some Details About Your Project"
                                    style={{ minHeight: '140px' }}
                               />
+                              <AISuggestionsButton onClick={handleGenerateSuggestions} />
                          </div>
                     </div>
                     <div className="flex space-x-3">
                          <button
                               onClick={handleAddProject}
                               className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
-                                   ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                                   ? 'opacity-50 cursor-not-allowed bg-gray-600'
                                    : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
                                    }`}
                               disabled={isDisabled}

@@ -61,7 +61,7 @@ const ResumeAnalysis = ({ userDetails }) => {
                                    name="jobDescription"
                                    value={editorContent}
                                    onChange={handleEditorChange}
-                                   className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                                   className="editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                                    placeholder="Job description"
                                    style={{ minHeight: '150px' }}
                               />
@@ -183,7 +183,7 @@ const ResumeAnalysis = ({ userDetails }) => {
                     {isFreeUser && <div className="bg-gray-900 w-full md:w-1/2 px-6 flex justify-center items-center mt-10 overflow-y-auto md:max-h-screen hidden-scrollbar rounded-xl shadow-lg">
                          <div className="text-center p-8 max-w-md mx-auto bg-gray-800 rounded-lg shadow-md">
                               <h2 className="text-4xl text-gray-200 mb-6 font-thin">
-                                   Premium Feature
+                                   Analysis Result
                               </h2>
                               <p className="text-red-300 text-sm text-left font-thin mb-6">
                                    Resume Analysis feature is available only to premium users. Please upgrade to access this functionality and enjoy additional benefits.

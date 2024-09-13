@@ -164,4 +164,22 @@ html, body {
   display: none; /* Chrome, Safari, and Opera */
 }
 
+.editor-container {
+  min-height: 120px;
+  max-height: 180px;
+  overflow-y: scroll; /* Enable vertical scrolling */
+}
+
+/* Optional: Style for hidden scrollbars on WebKit browsers */
+.editor-container::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+}
+
+.editor-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scrollbar color */
+}
+
+.editor-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Scrollbar color on hover */
+}
 

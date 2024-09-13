@@ -107,7 +107,7 @@ const DownloadableResumes = ({ userDetails }) => {
             {filteredCards.map(card => (
               <div
                 key={card.id}
-                className="relative min-w-[250px] bg-gradient-to-l from-gray-800 to-gray-900 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 mb-6 mr-6"
+                className="relative max-w-[350px] min-w-[300px] bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 mb-6"
               >
                 {/* Action Icons */}
                 <div className="absolute top-4 right-4 flex items-center space-x-4">
@@ -189,16 +189,16 @@ const DownloadableResumes = ({ userDetails }) => {
                 {/* Card Content */}
                 <div className="flex flex-col justify-between h-full pt-8">
                   <div className="mb-4">
-                    <p className="text-sm font-bold text-white mb-2 rounded-full truncate shadow-xl bg-gradient-to-l from-gray-600 to-gray-900 p-2">
+                    <p className="font-thin text-4xl text-white mb-2 shadow-3xl p-2">
                       {card.title}
                     </p>
-                    <p className="text-xs text-gray-300 leading-relaxed px-2">
+                    <p className="text-xs text-gray-200 leading-relaxed font-light px-2">
                       Enhance your chances of getting hired with a well-structured resume. Stand out from the crowd with a compelling CV!
                     </p>
                   </div>
 
                   <div className="flex items-center mt-4">
-                    <span className="text-xs font-semibold text-gray-500 px-2">
+                    <span className="text-xs font-light text-gray-300 px-2">
                       {new Date(card.updatedAt).toLocaleString('en-US', {
                         month: 'long',
                         day: 'numeric',

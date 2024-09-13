@@ -110,7 +110,7 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
                          <button
                          onClick={handleAddLanguage}
                          className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
-                              ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                              ? 'opacity-50 cursor-not-allowed bg-gray-600'
                               : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
                               }`}
                          disabled={isDisabled}

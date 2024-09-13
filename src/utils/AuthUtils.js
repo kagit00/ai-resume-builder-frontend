@@ -48,6 +48,8 @@ export const getExpiryForJwtToken = () => {
 }
 
 export const logUserOut = () => {
+    /* This code snippet is creating an overlay element that will be displayed on top of the webpage
+    when a user's session expires. Here's a breakdown of what each line is doing: */
     const overlay = document.createElement('div');
     overlay.style.position = 'fixed';
     overlay.style.top = '0';

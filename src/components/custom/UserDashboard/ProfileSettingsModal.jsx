@@ -13,6 +13,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
      const [notificationsEnabled, setNotificationsEnabled] = useState(userDetails.notificationEnabled);
      const [billingDetails, setBillingDetails] = useState(false)
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
+     console.log(userDetails)
 
      const handleDeleteAccount = async () => {
           if (isDeletingAccount) {

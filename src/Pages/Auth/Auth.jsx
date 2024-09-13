@@ -9,6 +9,7 @@ function Auth() {
           username: '',
           name: '',
           password: '',
+          authTypeJwt: true
      });
 
      const [creds, setCreds] = useState({

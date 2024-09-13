@@ -6,10 +6,11 @@ import { FiTrash2 } from 'react-icons/fi';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
      const [suggestions, setSuggestions] = React.useState('');
-     const sectionType = 'experience'
      const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !experience.description;
 
      useEffect(() => {
@@ -42,7 +43,16 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
      }
 
      const handleGenerateSuggestions = async () => {
-          const suggestions = await getGenerateSuggestions(resume.title, sectionType);
+          if (!experience.title) {
+               toast.error("Job Title Required For Generating AI Suggestions", {
+                    style: {
+                         backgroundColor: '#1F2937', 
+                         color: '#fff' 
+                    },
+               });
+               return;
+          }
+          const suggestions = await getGenerateSuggestions(experience.title, 'experencie description in six bullet points');
           setExperience(prevExperience => { return { ...prevExperience, description: suggestions.generatedSuggestion }; });
      };
 
@@ -192,9 +202,8 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                               name="description"
                               value={experience.description}
                               onChange={handleEditorChange}
-                              className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                              className="editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               placeholder="Experience description or click on the bottom-right button to write with AI"
-                              style={{ minHeight: '140px' }}
                          />
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>
@@ -204,7 +213,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                     <button
                          onClick={handleAddExperience}
                          className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
-                              ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                              ? 'opacity-50 cursor-not-allowed bg-gray-600'
                               : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
                               }`}
                          disabled={isDisabled}

@@ -5,7 +5,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 
-
 const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary }) => {
      const [summary, setSummary] = useState('');
 
@@ -26,9 +25,8 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
     };
 
      const handleGenerateSuggestions = async () => {
-          const suggestions = await getGenerateSuggestions(resume.title, 'overview');
+          const suggestions = await getGenerateSuggestions(resume.title, 'overview in two sentences');
           setSummary(suggestions.generatedSuggestion);
-          setAddedSummary(suggestions.generatedSuggestion)
      };
 
      const handleSaveSummary = async () => {
@@ -39,7 +37,7 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                } else if (!addedSummary && summary) {
                     await saveSummary({ details: summary }, resume.id);
                }
-          }
+          } else return;
           setSummary(summary);
           setAddedSummary(summary)
      };
@@ -63,8 +61,7 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                               id={sections[currentStep].title.toLowerCase()}
                               value={summary}
                               onChange={handleEditorChange}
-                              className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
-                              style={{ minHeight: '140px' }}
+                              className="editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               placeholder={sections[currentStep].placeholder}
                          />
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
