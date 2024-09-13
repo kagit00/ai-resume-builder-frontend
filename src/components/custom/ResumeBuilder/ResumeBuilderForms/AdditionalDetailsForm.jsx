@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { saveAdditionalDetails, getAdditionalDetails, updateAdditionalDetails } from '@/services/ApiService';
-import { setResumeValidity } from '@/utils/BasicUtils';
 
 const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedAdditionalDetails, setAddedAdditionalDetails, resume, resumeDetails }) => {
-     setResumeValidity('additionalDetails', addedAdditionalDetails? true : '')
 
      useEffect(() => {
           getResumeAddtionalDetails(resume.id);

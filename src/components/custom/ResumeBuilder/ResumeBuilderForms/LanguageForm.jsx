@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { getLanguages, saveLanguage, updateLanguage, deleteLanguage } from '@/services/ApiService';
 import { FiTrash2 } from 'react-icons/fi';
-import { setResumeValidity } from '@/utils/BasicUtils';
 
 const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume }) => {
      const [languageId, setLanguageId] = useState('')
      const isDisabled = !language.name || !language.proficiencyLevel 
-     setResumeValidity('languages', languagesList.length > 0)
 
      useEffect(() => {
           getAllLanguagesForResume()
@@ -30,9 +28,9 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
                await updateLanguage(resume.id, languageId, language)
                setEditingIndex(null);
           } else {
-               const lang = await saveLanguage(resume.id, language);
-               setLanguagesList([...languagesList, lang]);
-               setLanguageId(lang.id)
+               const l = await saveLanguage(resume.id, language);
+               setLanguagesList([...languagesList, l]);
+               setLanguageId(l.id)
           }
           setLanguage({ name: '', proficiencyLevel: '' });
      };

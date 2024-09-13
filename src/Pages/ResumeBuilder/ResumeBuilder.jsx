@@ -13,7 +13,6 @@ import { useLocation } from 'react-router-dom';
 import { sendEmail, updateResumeStatus } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
 import UpgradeToPremium from '@/components/custom/UserDashboard/UpgradeToPremium.jsx';
-import { getResumeValidity } from '@/utils/BasicUtils.js';
 
 const ResumeBuilder = () => {
      const navigate = useNavigate()
@@ -37,9 +36,9 @@ const ResumeBuilder = () => {
      const resumeTitle = resume.title
      const [addedAdditionalDetails, setAddedAdditionalDetails] = useState({ phoneNumber: '', githubLink: '', linkedInProfileLink: '' })
      const [isUpgradeToPremiumModalOpen, setIsUpgradeToPremiumModalOpen] = useState(false)
-     const isValidResume = getResumeValidity()
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
      const isNotificationEnabled = userDetails.notificationEnabled;
+     const isResumeSubmitDisabled = !addedSummary || (educationList.length < 1) || (experienceList.length < 1) || (projectsList.length < 1) || (languagesList.length < 1) || (skills.length < 1) || !addedAdditionalDetails || !userDetails
 
      const sections = [
           { title: 'Summary', value: summary, setValue: setSummary, placeholder: 'Put Qualification Summary' },
@@ -196,30 +195,64 @@ const ResumeBuilder = () => {
 
                               <div className="flex justify-between mt-8">
                                    {currentStep > 0 && (
-                                        <button
-                                             onClick={handlePrevious}
-                                             className="text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
-                                        >
-                                             <ChevronLeftIcon className="w-6 h-6" />
-                                             <span className="sr-only">Previous</span>
-                                        </button>
+                                        <div className="relative flex flex-col items-center group">
+                                             <button
+                                                  onClick={handlePrevious}
+                                                  className={`text-white p-2 rounded-lg bg-gray-800 transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center ${editingIndex !== null ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                                  disabled={editingIndex !== null}
+                                             >
+                                                  <ChevronLeftIcon className="w-6 h-6" />
+                                                  <span className="sr-only">Previous</span>
+                                             </button>
+
+                                             {editingIndex !== null && (
+                                                  <div className="absolute bottom-0 left-full ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg px-6 py-3 shadow-lg w-64">
+                                                            If you are not editing, reset the form before navigating to other sections
+                                                       </p>
+                                                  </div>
+                                             )}
+                                        </div>
                                    )}
                                    {currentStep < sections.length - 1 ? (
-                                        <button
-                                             onClick={handleNext}
-                                             className=" text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
-                                        >
-                                             <ChevronRightIcon className="w-6 h-6" />
-                                             <span className="sr-only">Next</span>
-                                        </button>
-                                   ) : (isValidResume &&
-                                        <button
-                                             onClick={() => updateResume()}
-                                             className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center"
-                                        >
-                                             <CheckCircleIcon className="w-6 h-6" />
-                                             <span className="sr-only">Submit Resume</span>
-                                        </button>
+                                        <div className="relative flex flex-col items-center group">
+                                             <button
+                                                  onClick={handleNext}
+                                                  className={`text-white p-2 rounded-lg bg-gray-800 transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center ${editingIndex !== null ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                                                  disabled={editingIndex !== null}
+                                             >
+                                                  <ChevronRightIcon className="w-6 h-6" />
+                                                  <span className="sr-only">Next</span>
+                                             </button>
+
+                                             {editingIndex !== null && (
+                                                  <div className="absolute bottom-0 right-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg px-6 py-3 shadow-lg w-64">
+                                                            If you are not editing, reset the form before navigating to other sections
+                                                       </p>
+                                                  </div>
+                                             )}
+                                        </div>
+
+                                   ) : (
+                                        <div className="relative flex flex-col items-center group">
+                                             <button
+                                                  onClick={() => updateResume()}
+                                                  className={`text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center ${isResumeSubmitDisabled ? 'cursor-not-allowed bg-gray-500 hover:bg-gray-600' : 'cursor-pointer bg-green-500 hover:bg-green-600'}`}
+                                                  disabled={isResumeSubmitDisabled}
+                                             >
+                                                  <CheckCircleIcon className="w-6 h-6" />
+                                                  <span className="sr-only">Submit Resume</span>
+                                             </button>
+
+                                             {isResumeSubmitDisabled && (
+                                                  <div className="absolute bottom-0 right-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg px-6 py-3 shadow-lg w-64">
+                                                            You have to complete each section to save your resume.
+                                                       </p>
+                                                  </div>
+                                             )}
+                                        </div>
                                    )}
                                    <UpgradeToPremium
                                         isOpen={isUpgradeToPremiumModalOpen}

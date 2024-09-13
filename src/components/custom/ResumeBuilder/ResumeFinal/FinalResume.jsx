@@ -183,7 +183,7 @@ const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experi
                          <h5 className="text-base font-semibold text-gray-800 border-b border-gray-300 pb-2 tracking-wide">Skills</h5>
 
                          {/* Skills List */}
-                         <p className="text-xs text-gray-700 font-medium mt-1">
+                         <p className="text-xs text-gray-700 font-normal mt-1">
                               {skills.length === 0 ? 'No skills listed' : skills.join(', ')}
                          </p>
                     </section>
@@ -197,9 +197,9 @@ const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experi
                          {languagesList.length > 0 ? (
                               <div className="grid grid-cols-2 gap-x-6 gap-y-2 mt-1">
                                    {languagesList.map((lang, index) => (
-                                        <p key={index} className="text-xs text-gray-700 font-medium">
+                                        <p key={index} className="text-xs text-gray-700">
                                              <span className="font-semibold text-gray-900">{lang.name}:</span>
-                                             <span className="ml-1">{lang.proficiencyLevel}</span>
+                                             <span className="ml-1 font-normal">{lang.proficiencyLevel}</span>
                                         </p>
                                    ))}
                               </div>

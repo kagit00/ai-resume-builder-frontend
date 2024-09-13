@@ -77,7 +77,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                         </svg>
                                         Upgrade To Premium
                                    </li>}
-                                   {userDetails.jwtUser &&
+                                   {userDetails.authTypeJwt &&
                                         <li className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
                                              <svg className="w-6 h-6 mr-3 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                   <path d="M17 10.5V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v5.5"></path>

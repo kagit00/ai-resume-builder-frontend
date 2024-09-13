@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import AISuggestionsButton from '@/components/custom/ResumeBuilder/Buttons/AISuggestionButton.jsx'
 import { getGenerateSuggestions, saveSummary, deleteSummary, updateSummary, getSummary } from '@/services/ApiService';
-import { setResumeValidity } from '@/utils/BasicUtils';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
@@ -9,7 +8,6 @@ import DOMPurify from 'dompurify';
 
 const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary }) => {
      const [summary, setSummary] = useState('');
-     setResumeValidity('summary', addedSummary ? true : '')
 
      useEffect(() => {
           fetchResumeSummary(resume.id);

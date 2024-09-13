@@ -63,7 +63,8 @@ function Auth() {
           const isValid =
                capitalLetterRegex.test(password) &&
                specialCharRegex.test(password) &&
-               numberRegex.test(password);
+               numberRegex.test(password) && 
+               password.length > 8
 
           setPasswordValid(isValid);
           setPasswordTouched(true);

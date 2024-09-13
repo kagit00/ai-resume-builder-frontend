@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { updateSkills, getSkills } from '@/services/ApiService';
-import { setResumeValidity } from '@/utils/BasicUtils';
 
 const skillOptions = [
   'JavaScript', 'Python', 'Java', 'C#', 'C++', 'TypeScript', 'HTML', 'CSS', 'React', 'Angular',
@@ -13,8 +12,6 @@ const skillOptions = [
 
 const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills, resume }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  setResumeValidity('skills', selectedSkills.length > 0)
-
 
   useEffect(() => {
     getResumeSkills(resume.id);

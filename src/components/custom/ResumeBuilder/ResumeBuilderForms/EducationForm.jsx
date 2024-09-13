@@ -2,16 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { saveEducation, updateEducation, deleteEducation, getEducations } from '@/services/ApiService';
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
-import { setResumeValidity } from '@/utils/BasicUtils';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 
 const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
-    const [isCurrentlyEnrolled, setIsCurrentlyEnrolled] = useState(false);
     const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !education.description;
-    setResumeValidity('educations', educationList.length > 0)
-
 
     useEffect(() => {
         getAllEducationsForResume(resume.id);
@@ -23,6 +19,11 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
             description: DOMPurify.sanitize(value)
         }));
     };
+
+     const handleReset = () => {
+          setEducation({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' })
+          setEditingIndex(null)
+     }
 
     const handleEducationDetailChange = (e) => {
         const { name, value } = e.target;
@@ -36,16 +37,6 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
         const educations = await getEducations(resumeId)
         setEducationList(educations)
     }
-
-    const handleCheckboxChange = () => {
-        setIsCurrentlyEnrolled(!isCurrentlyEnrolled);
-        if (!isCurrentlyEnrolled) {
-            setEducation((prev) => ({
-                ...prev,
-                endDate: '',
-            }));
-        }
-    };
 
     const handleAddEducation = async () => {
         if (editingIndex !== null) {
@@ -135,7 +126,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                     />
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="flex flex-col md:flex-row gap-1 mb-6">
                     <div className="w-full md:w-1/2">
                         <label className="block text-gray-300 text-sm md:text-base mb-2" htmlFor="startDate">
                             Start Date
@@ -168,21 +159,7 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                             placeholder="End Date"
                             maxDate={new Date()} // Disables future dates
                             minDate={education.startDate ? new Date(education.startDate) : null} // Prevents selecting an end date before the start date
-                            disabled={isCurrentlyEnrolled} // Disable field if checkbox is checked
                         />
-                    </div>
-
-                    <div className="flex items-center">
-                        <input
-                            type="checkbox"
-                            id="currentlyEnrolled"
-                            className="mr-2"
-                            checked={isCurrentlyEnrolled}
-                            onChange={handleCheckboxChange}
-                        />
-                        <label className="text-gray-300 text-xs" htmlFor="currentlyEnrolled">
-                            Currently Enrolled
-                        </label>
                     </div>
                 </div>
 
@@ -203,17 +180,25 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                         />
                     </div>
                 </div>
+                <div className="flex space-x-3">
+                    <button
+                        onClick={handleAddEducation}
+                        className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
+                            ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
+                            }`}
+                        disabled={isDisabled}
+                    >
+                        <span>{editingIndex !== null ? 'Update' : 'Add'}</span>
+                    </button>
 
-                <button
-                    onClick={handleAddEducation}
-                    className={`text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform flex items-center space-x-2 ${isDisabled
-                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50'
-                        }`}
-                    disabled={isDisabled}
-                >
-                    <span>{editingIndex !== null ? 'Update' : 'Add'}</span>
-                </button>
+                    <button
+                        onClick={handleReset}
+                        className=" text-white py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
+                    >
+                        <span>Reset</span>
+                    </button>
+                </div>
             </>
         </div>
     );
