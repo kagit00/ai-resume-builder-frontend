@@ -19,12 +19,7 @@ export const fetchUserDetailsFromToken = async () => {
                logUserOut();
                return;
           }
-          toast.error('Error while logging you in', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          window.location.href = "/user/dashboarderror"
      }
 };
 
@@ -879,6 +874,7 @@ export const updateNotificationEnabled = async (userId, isNotificationEnabled) =
                logUserOut();
                return;
           }
+          doNormalLogOut()
      }
 };
 
@@ -978,7 +974,7 @@ export const cancelPremiumMembership = async (userId) => {
 export const analyzeResume = async (formData) => {
      try {
           const response = await axios.post(`${API_BASE_URL}/resume/analysis/upload-and-analyze`, formData, {
-               headers: { 'Content-Type': 'multipart/form-data', },
+               headers: { ...(jWtToken && { Authorization: `Bearer ${jWtToken}` }), 'Content-Type': 'multipart/form-data', },
                withCredentials: !jWtToken,
           });
           return response.data

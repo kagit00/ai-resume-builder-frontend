@@ -1,27 +1,89 @@
-import React from 'react'
+import React from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import { CheckCircle, FileText, Zap } from 'lucide-react';
+
+const timelineData = [
+  {
+    icon: <Zap className="h-8 w-8 text-blue-500 opacity-70" />,
+    title: 'AI-Powered Optimization',
+    description: 'Our AI-powered system analyzes your experience and skills to craft a resume that highlights your strengths and aligns with your career goals. Stand out from the competition with a resume designed to impress recruiters and hiring managers.',
+  },
+  {
+    icon: <FileText className="h-8 w-8 text-blue-500 opacity-70" />,
+    title: 'ATS-Friendly Templates',
+    description: 'Choose from a range of templates optimized for Applicant Tracking Systems (ATS). Our templates ensure your resume passes through automated screenings and reaches the hands of hiring professionals.',
+  },
+  {
+    icon: <CheckCircle className="h-8 w-8 text-blue-500 opacity-70" />,
+    title: 'Easy Customization',
+    description: 'Customize your resume effortlessly with our user-friendly interface. Make changes in real-time, and preview your updates instantly to create a resume that reflects your personal style and professional accomplishments.',
+  },
+];
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
 function Features() {
-     return (
-          <section id="features" className="py-20 bg-gray-900">
-               <div className="container mx-auto px-4 md:px-8 text-center">
-                    <h3 className="text-4xl md:text-5xl lg:text-6xl py-20 font-thin text-white">Key Features</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-                         <div className="p-6 md:p-8 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                              <h4 className="text-xl md:text-2xl font-semibold mb-4 text-gray-100">AI-Powered Insights</h4>
-                              <p className="text-gray-400">Our AI analyzes job market trends and customizes your resume to fit the latest requirements.</p>
-                         </div>
-                         <div className="bg-gray-800 p-6 md:p-8 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                              <h4 className="text-xl md:text-2xl font-semibold mb-4 text-gray-100">Professional Templates</h4>
-                              <p className="text-gray-400">Choose from a selection of high-quality templates to give your resume a polished and professional look.</p>
-                         </div>
-                         <div className="p-6 md:p-8 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                              <h4 className="text-xl md:text-2xl font-semibold mb-4 text-gray-100">Easy Customization</h4>
-                              <p className="text-gray-400">Quickly adjust and personalize your resume to highlight your skills and experience effectively.</p>
-                         </div>
-                    </div>
-               </div>
-          </section>
-     )
+  const controls = useAnimation();
+
+  const handleScroll = () => {
+    const elements = document.querySelectorAll('.fade-in');
+    elements.forEach(element => {
+      const rect = element.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        controls.start("visible");
+      }
+    });
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [controls]);
+
+  return (
+    <section id="features" className="w-full py-20 md:py-32 bg-gray-900">
+      <div className="container mx-auto px-4 md:px-8 lg:px-12">
+        <h2 className="text-4xl font-thin tracking-tight sm:text-5xl md:text-7xl text-center mb-16 text-gray-100">
+          Features
+        </h2>
+
+        <div className="relative">
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-full border-l-2 border-blue-500"></div>
+          <div className="flex flex-col items-center">
+            {timelineData.map((feature, index) => (
+              <motion.div
+                key={index}
+                className="relative mb-20 w-full max-w-4xl fade-in"
+                initial="hidden"
+                animate={controls}
+                variants={fadeInUp}
+              >
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 flex items-center justify-center">
+                  {React.cloneElement(feature.icon)}
+                </div>
+                <motion.div
+                  className="ml-24 pl-8 bg-gray-900 p-8 rounded-lg shadow-lg mx-auto"
+                  whileHover={{ scale: 1.05, boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)" }}
+                >
+                  <h3 className="text-xl font-semibold text-gray-100 mb-4">{feature.title}</h3>
+                  <p className="text-gray-300">{feature.description}</p>
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-export default Features
+export default Features;
+
+
+
+
+

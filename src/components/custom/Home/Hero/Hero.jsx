@@ -1,42 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Typewriter } from "react-simple-typewriter";
-
+import { Button } from '@/components/ui/button';
+import { ChevronRight } from 'lucide-react';
+import Typewriter from 'react-typewriter-effect';
+ 
 function Hero() {
+  const handleClick = () => {
+    window.location.href = '/auth/sign-in';
+  };
 
      return (
-          <section id="home" className="relative flex-1 flex flex-col justify-center items-center text-center bg-gray-900 py-40 w-full">
-
-               <div className="relative px-4 md:px-8 container mx-auto">
-                    <h2 className="text-4xl md:text-6xl lg:text-8xl mb-12 font-extralight leading-tight text-white">
-                         Build
-                         <Typewriter
-                              words={[
-                                   " Stunning",
-                                   " Elegant",
-                                   " Creative",
-                                   " Professional",
-                                   " Simple"
-                              ]}
-                              cursor
-                              cursorStyle="_"
-                              typeSpeed={70}
-                              deleteSpeed={50}
-                              delaySpeed={1000}
-                         />
-                         Resumes
-                    </h2>
-                    <p className="text-base md:text-lg lg:text-xl text-gray-300 mb-12 max-w-full font-light md:max-w-3xl mx-auto">Create a professional, eye-catching resume in minutes with our AI-powered resume builder.</p>
-                    <div className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center">
-                         <Link to={'/auth/sign-in'}>
-                              <button className="bg-blue-500 text-white py-3 px-6 md:py-3 md:px-8 rounded-full shadow-xl transform hover:scale-105 transition-transform duration-300 text-base md:text-lg hover:bg-blue-600 font-semibold">Get Started</button>
-                         </Link>
-                         <Link to={'/'}>
-                              <button className="bg-gray-600 text-white py-3 px-6 md:py-3 md:px-8 rounded-full shadow-xl transform hover:scale-105 transition-transform duration-300 text-base md:text-lg font-semibold">Learn More</button>
-                         </Link>
-                    </div>
-               </div>
-          </section>
+          <section className="w-full py-20 md:py-32 lg:py-40 mt-10 bg-gray-900">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-8 text-center">
+              <div className="space-y-4 max-w-3xl">
+                <h1 className="text-5xl font-thin tracking-tighter sm:text-6xl md:text-7xl text-gray-100">
+                  Create Your Perfect Resume with AI
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-300 md:text-xl">
+                  Craft a professional, tailored resume in minutes with our advanced AI technology. Stand out from the crowd and land your dream job.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button  onClick={handleClick} className="bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]">
+                  Get Started <ChevronRight className="ml-2 h-5 w-5 inline" />
+                </Button>
+                <Button className="bg-gray-800 text-blue-400 rounded-full border-2 border-blue-400 hover:bg-gray-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]">
+                  Learn More
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
 
      )
 }

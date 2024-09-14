@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ChevronRight } from 'lucide-react';
 
 const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit }) => {
   const [resumeTitle, setResumeTitle] = useState('');
@@ -33,10 +34,10 @@ const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit }) => {
           <Button
             disabled={!resumeTitle}
             onClick={handleConfirm}
-            className={`${resumeTitle ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-500 cursor-not-allowed"
-              } text-white border-none rounded-full px-6 py-2 transition-colors duration-200`}
+            className={`${resumeTitle ? "bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]" : "bg-gray-500 cursor-not-allowed"
+              } text-white border-none rounded-full transition-colors duration-200`}
           >
-            Confirm
+            Confirm <ChevronRight className="ml-2 h-5 w-5 inline" />
           </Button>
         </div>
       </DialogContent>

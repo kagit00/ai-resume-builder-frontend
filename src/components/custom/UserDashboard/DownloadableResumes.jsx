@@ -187,7 +187,7 @@ const DownloadableResumes = ({ userDetails }) => {
                 </div>
 
                 {/* Card Content */}
-                <div className="flex flex-col justify-between h-full pt-8">
+                <div className="flex flex-col justify-between h-full pt-2">
                   <div className="mb-4">
                     <p className="font-thin text-4xl text-white mb-2 shadow-3xl p-2">
                       {card.title}

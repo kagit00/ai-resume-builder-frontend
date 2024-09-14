@@ -89,9 +89,9 @@ const ResumeAnalysis = ({ userDetails }) => {
                               <div className="flex justify-between space-x-4">
                                    {/* Submit Button */}
                                    <button
-                                        disabled={!file || isFreeUser || !jobDescription}
+                                        disabled={!file || isFreeUser}
                                         onClick={handleAnalyze}
-                                        className={`py-2 px-6 rounded-full text-sm font-medium transition ease-in-out duration-200 ${file && !isFreeUser && jobDescription
+                                        className={`py-2 px-6 rounded-full text-sm font-medium transition ease-in-out duration-200 ${file && !isFreeUser
                                              ? 'bg-green-500 hover:bg-green-600 text-white'
                                              : 'bg-gray-400 text-gray-200 cursor-not-allowed'
                                              }`}

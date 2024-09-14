@@ -30,7 +30,9 @@ const router = createBrowserRouter([
       {
         path: '/user/dashboarderror',
         element: (
+          <ProtectedRoutes>
           <UserDashboardError />
+          </ProtectedRoutes>
         )
       },
       {
