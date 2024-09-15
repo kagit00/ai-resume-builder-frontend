@@ -11,7 +11,7 @@ const SampleResume = () => {
     const closeModal = () => setIsModalOpen(false);
 
     return (
-        <section className="relative w-full py-10 md:py-16 bg-gray-900">
+        <section id="sampleresume" className="relative w-full py-10 md:py-16 bg-gray-900">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-12">
                     {/* Text Section */}

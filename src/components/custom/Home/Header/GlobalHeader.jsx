@@ -37,6 +37,9 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                               <a href="#howitworks" className="text-sm font-medium hover:text-blue-400 transition-colors">
                                    How It Works
                               </a>
+                              <a href="#sampleresume" className="text-sm font-medium hover:text-blue-400 transition-colors">
+                                   Sample Resume
+                              </a>
                               <a href="#pricing" className="text-sm font-medium hover:text-blue-400 transition-colors">
                                    Pricing
                               </a>
