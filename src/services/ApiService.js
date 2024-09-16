@@ -15,11 +15,11 @@ export const fetchUserDetailsFromToken = async () => {
           });
           return response.data
      } catch (error) {
-          if (error.response && error.response.data.status === 'UNAUTHORIZED') {
-               logUserOut();
-               return;
-          }
-          window.location.href = "/user/dashboarderror"
+          // if (error.response && error.response.data.status === 'UNAUTHORIZED') {
+          //      logUserOut();
+          //      return;
+          // }
+          // window.location.href = "/user/dashboarderror"
      }
 };
 
