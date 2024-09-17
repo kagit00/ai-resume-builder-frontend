@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import AISuggestionsButton from '@/components/custom/ResumeBuilder/Buttons/AISuggestionButton.jsx'
 import { getGenerateSuggestions, saveSummary, deleteSummary, updateSummary, getSummary } from '@/services/ApiService';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 import DOMPurify from 'dompurify';
 
 const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary }) => {
@@ -90,13 +89,14 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                          {sections[currentStep].title}
                     </label>
                     <div className="relative">
-                         <ReactQuill
-                              id={sections[currentStep].title.toLowerCase()}
+                         <ResponsiveQuill
+                                   id={sections[currentStep].title.toLowerCase()}
                               value={summary}
                               onChange={handleEditorChange}
-                              className="editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
-                              placeholder={sections[currentStep].placeholder}
-                         />
+                                   placeholder="Job description"
+                                   className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                                   style={{ minHeight: '150px' }}
+                              />
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>
                </div>

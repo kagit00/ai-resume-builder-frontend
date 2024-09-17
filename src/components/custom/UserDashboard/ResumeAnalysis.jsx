@@ -1,36 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import 'react-quill/dist/quill.bubble.css'
+import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 import { analyzeResume } from '@/services/ApiService';
 
 const ResumeAnalysis = ({ userDetails }) => {
-     const [theme, setTheme] = useState(() => window.matchMedia("(min-width: 768px)").matches ? 'snow' : 'bubble');
      const fileInputRef = useRef(null);
      const [file, setFile] = useState(null);
      const [jobDescription, setJobDescription] = useState('');
      const [analysisResult, setAnalysisResult] = useState(null);
      const [error, setError] = useState('');
      const [editorContent, setEditorContent] = useState(jobDescription);
-     const quillRef = useRef(null);
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
      const [isLoading, setIsLoading] = useState(false)
 
      const handleFileChange = (e) => {
           setFile(e.target.files[0]);
      };
-
-     useEffect(() => {
-          const checkTheme = () => {
-               if (window.matchMedia("(min-width: 768px)").matches) {
-                    setTheme('snow');
-               } else {
-                    setTheme('bubble');
-               }
-          };
-          window.addEventListener('resize', checkTheme);
-          return () => window.removeEventListener('resize', checkTheme);
-     }, []);
 
      const handleReset = () => {
           setEditorContent('')
@@ -78,20 +62,18 @@ const ResumeAnalysis = ({ userDetails }) => {
                <div className="flex flex-col h-screen bg-gray-900 text-gray-100 md:flex-row p-6 gap-6 mt-4">
 
                     {/* Left Side - JD and Resume Submission */}
-                    <div className="w-full md:w-1/2 p-9 shadow-xl flex flex-col bg-gray-900 rounded-lg space-y-3 overflow-y-auto md:max-h-screen hidden-scrollbar">
+                    <div className="w-full md:w-1/2 shadow-xl flex flex-col bg-gray-900 rounded-lg space-y-3 overflow-y-auto md:max-h-screen hidden-scrollbar">
                          {/* JD Submission */}
                          <div className="p-6 bg-transparent rounded-lg shadow-md">
                               <h3 className="text-2xl font-thin text-gray-300 mb-4">Job Description</h3>
-                              <ReactQuill
-                                   ref={quillRef}
+                              <ResponsiveQuill
                                    id="jobDescription"
                                    name="jobDescription"
                                    value={editorContent}
                                    onChange={handleEditorChange}
-                                   className={`editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar`}
                                    placeholder="Job description"
+                                   className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                                    style={{ minHeight: '150px' }}
-                                   theme={theme} // Apply the correct theme
                               />
                               <button
                                    onClick={handleReset}
