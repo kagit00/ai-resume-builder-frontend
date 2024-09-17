@@ -139,7 +139,7 @@ function Auth() {
                          },
                     });
                } finally {
-                    
+                    setAuthLoading(false);
                }
           }, 100);
      };
