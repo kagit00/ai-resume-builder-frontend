@@ -70,19 +70,19 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                 </nav>
 
                 {location.pathname.endsWith("/dashboard") && (
-                    <div className="relative">
+                    <div className="absolute top-4 right-20">
                         <button
                             onClick={toggleDropdown}
-                            className="flex items-center px-4 py-2 bg-gray-800 text-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400"
+                            className="flex items-center px-4 py-2 bg-blue-900 text-white rounded-full focus:outline-none"
                         >
-                            <span className="mr-2 text-sm md:text-base">{sectionNames[activeSection]}</span>
+                            <span className="mr-2 text-xs font-semibold">{sectionNames[activeSection]}</span>
                             <ChevronDownIcon className="h-5 w-5" />
                         </button>
                         {isDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-full max-w-xs bg-gray-800 font-normal text-xs md:text-sm lg:text-base text-white rounded shadow-lg z-50">
+                            <div className="absolute right-0 mt-2 w-full max-w-xs bg-blue-900 font-semibold text-xs text-white shadow-lg z-50">
                                 <ul>
                                     <li
-                                        className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
                                         onClick={() => {
                                             onSectionChange("section1");
                                             setIsDropdownOpen(false);
@@ -91,7 +91,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                         Profile & Misc.
                                     </li>
                                     <li
-                                        className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
                                         onClick={() => {
                                             onSectionChange("section2");
                                             setIsDropdownOpen(false);
@@ -100,7 +100,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                         Pending Resumes
                                     </li>
                                     <li
-                                        className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
                                         onClick={() => {
                                             onSectionChange("section3");
                                             setIsDropdownOpen(false);
@@ -109,7 +109,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                         Downloadable Resumes
                                     </li>
                                     <li
-                                        className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
                                         onClick={() => {
                                             onSectionChange("section4");
                                             setIsDropdownOpen(false);
