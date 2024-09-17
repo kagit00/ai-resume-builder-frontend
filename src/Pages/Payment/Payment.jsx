@@ -5,18 +5,19 @@ import { useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
 const Payment = () => {
-    const queryClient = useQueryClient()
-    const location = useLocation()
+    const queryClient = useQueryClient();
+    const location = useLocation();
     const [clientToken, setClientToken] = useState(null);
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const [redirecting, setRedirecting] = useState(false);
+    const [isDropinValid, setIsDropinValid] = useState(false); // State to track Drop-in validity
     const dropinInstance = useRef(null);
     const userId = location.state || 0;
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
-            setLoading(false); 
+            setLoading(false);
         }, 3000);
     }, []);
 
@@ -34,24 +35,35 @@ const Payment = () => {
     }, []);
 
     const handleRedirectToUserDashboard = () => {
-        queryClient.invalidateQueries('userDetails')
+        queryClient.invalidateQueries('userDetails');
         setTimeout(() => {
             window.location.href = '/user/dashboard';
         }, 3000);
-    }
+    };
 
     useEffect(() => {
         if (clientToken && !dropinInstance.current) {
-            dropin.create({
-                authorization: clientToken,
-                container: '#dropin-container'
-            }, (error, instance) => {
-                if (error) {
-                    console.error(error);
-                    return;
+            dropin.create(
+                {
+                    authorization: clientToken,
+                    container: '#dropin-container',
+                },
+                (error, instance) => {
+                    if (error) {
+                        console.error(error);
+                        return;
+                    }
+                    dropinInstance.current = instance;
+
+                    // Enable/disable the Pay Now button based on Drop-in's state
+                    instance.on('paymentMethodRequestable', () => {
+                        setIsDropinValid(true); // Enable when valid
+                    });
+                    instance.on('noPaymentMethodRequestable', () => {
+                        setIsDropinValid(false); // Disable when invalid
+                    });
                 }
-                dropinInstance.current = instance;
-            });
+            );
         }
     }, [clientToken]);
 
@@ -73,7 +85,7 @@ const Payment = () => {
                     setPaymentSuccess(true);
                     setRedirecting(true);
                     console.log('Payment successful:', response);
-                    handleRedirectToUserDashboard()
+                    handleRedirectToUserDashboard();
                 } else {
                     console.error('Payment failed');
                 }
@@ -84,41 +96,67 @@ const Payment = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900 relative">
+        <div className="min-h-screen flex items-center justify-center bg-gray-900">
             {loading && (
-                <div
-                    className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50 text-white text-2xl font-thin "
-                >
+                <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50 text-white text-2xl font-thin">
                     Just a Moment...
                 </div>
             )}
-            <div className={`w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl ${loading ? 'hidden' : ''}`}>
+
+            <div className={`w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl hidden-scrollbar ${loading ? 'hidden' : ''}`} style={{ maxHeight: '90vh', overflowY: 'scroll' }}>
                 <h1 className="text-3xl font-thin text-center text-white mb-3">Complete Your Payment</h1>
-                <p className="text-center text-gray-400 text-xs font-normal">
-                    Secure payment powered by <span className="font-bold text-white">Braintree</span>.
-                </p>
+                 {/* Sandbox Instruction Panel - Moved Here */}
+                        <div className="bg-yellow-200 text-yellow-900 p-3 mb-4 rounded-lg text-sm">
+                            <p>
+                                This is a <strong>Sandbox Environment</strong>. No real money will be transacted.
+                            </p>
+                            <p>Use the following test card details:</p>
+                            <ul className="list-disc list-inside">
+                                <li>
+                                    Card Number: <strong>4111 1111 1111 1111</strong>
+                                </li>
+                                <li>
+                                    Expiration Date: <strong>Any future date</strong>
+                                </li>
+                                <li>
+                                    CVV: <strong>123</strong>
+                                </li>
+                            </ul>
+                        </div>
+
+                {/* Drop-in UI */}
                 <div id="dropin-container" className={`mb-2 bg-gray-800 p-4 rounded-lg ${paymentSuccess ? 'hidden' : ''}`}></div>
+
+                {/* Pay Now Button with updated disabled logic */}
                 {!paymentSuccess && (
-                    <button
-                        onClick={handlePayment}
-                        disabled={!clientToken}
-                        className={`w-full py-1 text-white font-semibold rounded-full ${clientToken ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-500 cursor-not-allowed'}`}
-                    >
-                        Pay Now
-                    </button>
+                    <>
+                        <button
+                            onClick={handlePayment}
+                            disabled={!clientToken || !isDropinValid} // Disable button based on Drop-in validity
+                            className={`w-full py-1 text-white font-semibold rounded-full ${clientToken && isDropinValid ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-500 cursor-not-allowed'}`}
+                        >
+                            Pay Now
+                        </button>
+                    </>
                 )}
+
+                {/* Payment Success Message */}
                 {paymentSuccess && (
                     <div className="text-center">
-                        <svg className="w-16 h-16 mx-auto text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        <p className="text-center text-green-500 font-semibold text-lg">
-                            Payment was successful!
-                        </p>
+                        <div className="w-16 h-16 mx-auto bg-green-500 rounded-full mb-4 flex items-center justify-center">
+                            <svg
+                                className="w-10 h-10 text-white"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <p className="text-2xl text-green-400 font-bold">Payment was successful!</p>
                         {redirecting && (
-                            <p className="text-center text-gray-400 text-sm mt-2">
-                                You are being redirected to the Dashboard ...
-                            </p>
+                            <p className="text-center text-gray-400 text-sm mt-2">You are being redirected to the Dashboard ...</p>
                         )}
                     </div>
                 )}

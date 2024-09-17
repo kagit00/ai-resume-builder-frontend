@@ -38,7 +38,6 @@ const ResumeBuilder = () => {
      const [isUpgradeToPremiumModalOpen, setIsUpgradeToPremiumModalOpen] = useState(false)
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
      const isNotificationEnabled = userDetails.notificationEnabled;
-     const [isLoading, setIsLoading] = useState(false)
      const isResumeSubmitDisabled = !addedSummary || (educationList.length < 1) || (experienceList.length < 1) || (projectsList.length < 1) || (languagesList.length < 1) || (skills.length < 1) || !addedAdditionalDetails || !userDetails
 
      const sections = [
@@ -56,33 +55,26 @@ const ResumeBuilder = () => {
      }
 
      const updateResume = async () => {
-          try {
-               setIsLoading(true)
-               if (isFreeUser) {
-                    openUpgradeToPremiumModal()
-               } else {
-                    navigate('/user/dashboard/resume/success', {
-                         state: {
-                              resumePdfTitle: resumeTitle,
-                              userDetails: userDetails,
-                              addedSummary: addedSummary,
-                              addedAdditionalDetails: addedAdditionalDetails,
-                              experienceList: experienceList,
-                              educationList: educationList,
-                              projectsList: projectsList,
-                              skills: skills,
-                              languagesList: languagesList
-                         }
-                    });
-               }
-               await updateResumeStatus(resume.id)
-               if (isNotificationEnabled)
-                    await sendEmail(userDetails.name, isFreeUser)
-          } catch (err) {
-
-          } finally {
-               setIsLoading(false)
+          if (isFreeUser) {
+               openUpgradeToPremiumModal()
+          } else {
+               navigate('/user/dashboard/resume/success', {
+                    state: {
+                         resumePdfTitle: resumeTitle,
+                         userDetails: userDetails,
+                         addedSummary: addedSummary,
+                         addedAdditionalDetails: addedAdditionalDetails,
+                         experienceList: experienceList,
+                         educationList: educationList,
+                         projectsList: projectsList,
+                         skills: skills,
+                         languagesList: languagesList
+                    }
+               });
           }
+          await updateResumeStatus(resume.id)
+          if (isNotificationEnabled)
+               await sendEmail(userDetails.name, isFreeUser)
      }
 
      const closeUpgradeToPremiumModal = () => {

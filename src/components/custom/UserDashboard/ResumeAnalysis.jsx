@@ -12,6 +12,7 @@ const ResumeAnalysis = ({ userDetails }) => {
      const [editorContent, setEditorContent] = useState(jobDescription);
      const quillRef = useRef(null);
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
+     const [isLoading, setIsLoading] = useState(false)
 
      const handleFileChange = (e) => {
           setFile(e.target.files[0]);
@@ -42,12 +43,24 @@ const ResumeAnalysis = ({ userDetails }) => {
           formData.append('file', file);
           formData.append('jobDescription', editorContent);
 
-          const analyzedData = await analyzeResume(formData);
-          setAnalysisResult(analyzedData)
+          try {
+               setIsLoading(true)
+               const analyzedData = await analyzeResume(formData);
+               setAnalysisResult(analyzedData)
+          } catch (err) {
+
+          } finally {
+               setIsLoading(false)
+          }
      };
 
      return (
           <>
+               {isLoading && (
+                    <div className="loader-overlay">
+                         <div className="loader"></div>
+                    </div>
+               )}
                <div className="flex flex-col h-screen bg-gray-900 text-gray-100 md:flex-row p-6 gap-6 mt-4">
 
                     {/* Left Side - JD and Resume Submission */}

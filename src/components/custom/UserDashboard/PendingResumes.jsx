@@ -16,6 +16,7 @@ const PendingResumes = ({ userDetails }) => {
      const [selectedResumeId, setSelectedResumeId] = useState(null);
      const nothingToDisplayTextPendingResume = 'No Pending Resume Is Here.';
      const [filteredCards, setFilteredCards] = useState([]);
+     const [isLoading, setIsLoading] = useState(false)
 
      const { data: pendingResumes = [], isLoading: isPendingResumesLoading } = useQuery({
           queryKey: ['pendingResumes', userDetails?.id],
@@ -54,9 +55,16 @@ const PendingResumes = ({ userDetails }) => {
           setSelectedResumeId(null);
      };
 
-     const confirmDelete = () => {
-          setFilteredCards(prevCards => prevCards.filter(card => card.id !== selectedResumeId));
-          deleteResume(selectedResumeId); // Ensure this calls your backend to delete the resume
+     const confirmDelete = async () => {
+          try {
+               setIsLoading(true)
+               setFilteredCards(prevCards => prevCards.filter(card => card.id !== selectedResumeId));
+               await deleteResume(selectedResumeId);
+          } catch (error) {
+
+          } finally {
+               setIsLoading(false)
+          }
           closeModal();
      };
 
