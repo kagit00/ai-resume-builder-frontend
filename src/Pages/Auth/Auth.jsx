@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser, doGoogleLogIn, doJWtLogIn, fetchUserDetailsFromToken } from '@/services/ApiService';
 import { FaGoogle, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-import './Auth.css'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -144,8 +143,6 @@ function Auth() {
           }, 100);
      };
 
-
-
      const isFormValid = () => {
           const fieldsValid = emailValid && passwordValid;
           if (!isSignIn) {
@@ -176,8 +173,8 @@ function Auth() {
           <div className="bg-gray-900 text-white min-h-screen flex flex-col font-sans overflow-x-hidden">
                <section id="home" className="relative flex-1 flex flex-col justify-center items-center text-center h-full w-full">
                     {authLoading && (
-                         <div className="auth-loader-overlay">
-                              <div className="auth-loader"></div>
+                         <div className="loader-overlay">
+                              <div className="loader"></div>
                          </div>
                     )}
                     <div className="bg-gray-800 text-white p-6 md:p-8 rounded-sm shadow-2xl w-full max-w-md">

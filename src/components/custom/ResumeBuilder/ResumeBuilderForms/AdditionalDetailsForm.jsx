@@ -2,25 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { saveAdditionalDetails, getAdditionalDetails, updateAdditionalDetails } from '@/services/ApiService';
 
 const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedAdditionalDetails, setAddedAdditionalDetails, resume, resumeDetails }) => {
+     const [isLoading, setIsLoading] = useState(false)
 
      useEffect(() => {
           getResumeAddtionalDetails(resume.id);
      }, []);
 
      const getResumeAddtionalDetails = async () => {
-          const ad = await getAdditionalDetails(resume.id)
-          if ((ad.phoneNumber && ad.phoneNumber.length > 0) ||
-               (ad.linkedInProfileLink && ad.linkedInProfileLink.length > 0) ||
-               (ad.githubLink && ad.githubLink.length > 0)) {
-               setAdditionalDetails(ad);
-               setAddedAdditionalDetails(ad)
+          try {
+               setIsLoading(true)
+               const ad = await getAdditionalDetails(resume.id)
+               if ((ad.phoneNumber && ad.phoneNumber.length > 0) ||
+                    (ad.linkedInProfileLink && ad.linkedInProfileLink.length > 0) ||
+                    (ad.githubLink && ad.githubLink.length > 0)) {
+                    setAdditionalDetails(ad);
+                    setAddedAdditionalDetails(ad)
+               }
+          } catch (err) {
+
+          } finally {
+               setIsLoading(false)
           }
      }
 
      const areAllFieldsFilled = (additionalDetails) => {
           return (additionalDetails.phoneNumber && additionalDetails.phoneNumber.length > 0) ||
-          (additionalDetails.linkedInProfileLink && additionalDetails.linkedInProfileLink.length > 0) ||
-          (additionalDetails.githubLink && additionalDetails.githubLink.length > 0);
+               (additionalDetails.linkedInProfileLink && additionalDetails.linkedInProfileLink.length > 0) ||
+               (additionalDetails.githubLink && additionalDetails.githubLink.length > 0);
      }
 
      const handleAdditionalDetailChange = (e) => {
@@ -28,14 +36,21 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
      };
 
      const handleAddAdditionalDetails = async () => {
-          if (areAllFieldsFilled(addedAdditionalDetails)) {
-               await updateAdditionalDetails(resume.id, additionalDetails.id, additionalDetails)
-               setAdditionalDetails(additionalDetails);
-               setAddedAdditionalDetails(additionalDetails)
-          } else {
-               const ad = await saveAdditionalDetails(additionalDetails, resume.id)
-               setAdditionalDetails(ad); //temporary change
-               setAddedAdditionalDetails(ad)
+          try {
+               setIsLoading(true)
+               if (areAllFieldsFilled(addedAdditionalDetails)) {
+                    await updateAdditionalDetails(resume.id, additionalDetails.id, additionalDetails)
+                    setAdditionalDetails(additionalDetails);
+                    setAddedAdditionalDetails(additionalDetails)
+               } else {
+                    const ad = await saveAdditionalDetails(additionalDetails, resume.id)
+                    setAdditionalDetails(ad); //temporary change
+                    setAddedAdditionalDetails(ad)
+               }
+          } catch (err) {
+
+          } finally {
+               setIsLoading(false)
           }
      };
 
@@ -89,7 +104,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                                              <span>Update</span>
                                         </button>
                                    </>
-                              ) : (areAllFieldsFilled(additionalDetails) && 
+                              ) : (areAllFieldsFilled(additionalDetails) &&
                                    <button
                                         onClick={handleAddAdditionalDetails}
                                         className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"

@@ -6,18 +6,30 @@ import { createResume } from '@/services/ApiService';
 function AddResume({ userDetails }) {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const resumeDetails = {
     userDetails: userDetails,
     isEditMode: false
   };
 
   const buildResume = async (title) => {
-    const response = await createResume({ 'title': title }, userDetails.id);
-    navigate('/user/dashboard/resumeBuilder', { state: { resume: response, resumeDetails } });
+    try {
+      setIsLoading(true)
+      const response = await createResume({ 'title': title }, userDetails.id);
+      navigate('/user/dashboard/resumeBuilder', { state: { resume: response, resumeDetails } });
+    } catch (error) {
+    } finally {
+      setIsLoading(false)
+    }
   };
 
   return (
     <div>
+      {isLoading && (
+        <div className="loader-overlay">
+          <div className="loader"></div>
+        </div>
+      )}
       <div
         className="flex items-center justify-center  p-6 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer"
         onClick={() => setOpenDialog(true)}
@@ -41,9 +53,9 @@ function AddResume({ userDetails }) {
       </div>
 
       <ResumeCreationPopUp
-        isOpen={openDialog} 
-        onClose={() => setOpenDialog(false)} 
-        onSubmit={buildResume} 
+        isOpen={openDialog}
+        onClose={() => setOpenDialog(false)}
+        onSubmit={buildResume}
       />
     </div>
   );

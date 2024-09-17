@@ -7,35 +7,57 @@ import DOMPurify from 'dompurify';
 
 const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary }) => {
      const [summary, setSummary] = useState('');
+     const [isLoading, setIsLoading] = useState(false)
 
      useEffect(() => {
           fetchResumeSummary(resume.id);
      }, [resume.id]);
 
      const fetchResumeSummary = async (resumeId) => {
-          const result = await getSummary(resumeId);
-          if (result?.details) {
-               setSummary(result.details);
-               setAddedSummary(result.details)
+          try {
+               setIsLoading(true)
+               const result = await getSummary(resumeId);
+               if (result?.details) {
+                    setSummary(result.details);
+                    setAddedSummary(result.details)
+               }
+          } catch (err) {
+
+          } finally {
+               setIsLoading(false)
           }
      };
 
      const handleEditorChange = (content) => {
-        setSummary(DOMPurify.sanitize(content));
-    };
+          setSummary(DOMPurify.sanitize(content));
+     };
 
      const handleGenerateSuggestions = async () => {
-          const suggestions = await getGenerateSuggestions(resume.title, 'overview in two sentences');
-          setSummary(suggestions.generatedSuggestion);
+          try {
+               setIsLoading(true)
+               const suggestions = await getGenerateSuggestions(resume.title, 'overview in two sentences');
+               setSummary(suggestions.generatedSuggestion);
+          } catch (err) {
+
+          } finally {
+               setIsLoading(false)
+          }
      };
 
      const handleSaveSummary = async () => {
           if (currentStep !== 0) return;
           if (summary.trim()) {
-               if (summary && summary !== sections[currentStep].value && addedSummary) {
-                    await updateSummary({ details: summary }, resume.id);
-               } else if (!addedSummary && summary) {
-                    await saveSummary({ details: summary }, resume.id);
+               try {
+                    setIsLoading(true)
+                    if (summary && summary !== sections[currentStep].value && addedSummary) {
+                         await updateSummary({ details: summary }, resume.id);
+                    } else if (!addedSummary && summary) {
+                         await saveSummary({ details: summary }, resume.id);
+                    }
+               } catch (err) {
+
+               } finally {
+                    setIsLoading(false)
                }
           } else return;
           setSummary(summary);
@@ -44,14 +66,25 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
 
      const handleDeleteSummary = async () => {
           if (currentStep !== 0) return;
+          try {
+               setIsLoading(true)
+               await deleteSummary(resume.id);
+          } catch (err) {
 
-          await deleteSummary(resume.id);
+          } finally {
+               setIsLoading(false)
+          }
           setSummary('');
           setAddedSummary('');
      };
 
      return (
           <>
+               {isLoading && (
+                    <div className="loader-overlay">
+                         <div className="loader"></div>
+                    </div>
+               )}
                <div className="relative mb-6">
                     <label className="block text-gray-400 text-sm mb-2" htmlFor={sections[currentStep].title.toLowerCase()}>
                          {sections[currentStep].title}

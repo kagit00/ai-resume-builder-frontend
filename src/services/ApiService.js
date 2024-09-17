@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { doNormalLogOut, getJwtToken, logUserOut, setJwtToken } from '@/utils/AuthUtils';
 
-const API_BASE_URL = 'https://resumed-433110.uc.r.appspot.com'
+const API_BASE_URL = 'http://localhost:8080'
 const jWtToken = getJwtToken()
 const headers = jWtToken ? { Authorization: `Bearer ${jWtToken}`, 'Content-Type': 'application/json', } : { 'Content-Type': 'application/json', };
 
@@ -68,7 +68,7 @@ export const doJWtLogIn = async (creds) => {
                window.location.href = "/user/dashboard"
           }
      } catch (error) {
-         throw error;
+          throw error;
      }
 }
 
