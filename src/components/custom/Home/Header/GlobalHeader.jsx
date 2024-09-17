@@ -11,7 +11,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
           section3: "Downloadable Resumes",
           section4: "Resume Analysis",
      };
-
+     const [isOpen, setIsOpen] = useState(false);
      const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
      const toggleDropdown = () => {
@@ -29,22 +29,45 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                          </svg>
                     </a>
 
-                    {!location.pathname.startsWith('/user') &&
-                         <nav className="ml-auto flex gap-8">
-                              <a href="#features" className="text-sm font-medium hover:text-blue-400 transition-colors">
-                                   Features
-                              </a>
-                              <a href="#howitworks" className="text-sm font-medium hover:text-blue-400 transition-colors">
-                                   How It Works
-                              </a>
-                              <a href="#sampleresume" className="text-sm font-medium hover:text-blue-400 transition-colors">
-                                   Sample Resume
-                              </a>
-                              <a href="#pricing" className="text-sm font-medium hover:text-blue-400 transition-colors">
-                                   Pricing
-                              </a>
-                         </nav>
-                    }
+
+
+                    {/* Hamburger Menu Button */}
+                    <button
+                         className="block lg:hidden p-2"
+                         onClick={() => setIsOpen(!isOpen)}
+                    >
+                         <svg
+                              className="w-6 h-6"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                         >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                         </svg>
+                    </button>
+
+                    {/* Navigation Links */}
+                    <nav
+                         className={`lg:flex lg:gap-8 flex-col lg:flex-row absolute lg:relative top-16 right-2 lg:top-auto lg:left-auto bg-black text-white opacity-80 lg:bg-transparent shadow-md lg:shadow-none ${isOpen ? 'block' : 'hidden'}`}
+                    >
+                         {!location.pathname.startsWith('/user') && (
+                              <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 p-4 lg:p-0">
+                                   <a href="#features" className="text-sm font-medium hover:text-blue-400 transition-colors">
+                                        Features
+                                   </a>
+                                   <a href="#howitworks" className="text-sm font-medium hover:text-blue-400 transition-colors">
+                                        How It Works
+                                   </a>
+                                   <a href="#sampleresume" className="text-sm font-medium hover:text-blue-400 transition-colors">
+                                        Sample Resume
+                                   </a>
+                                   <a href="#pricing" className="text-sm font-medium hover:text-blue-400 transition-colors">
+                                        Pricing
+                                   </a>
+                              </div>
+                         )}
+                    </nav>
 
                     {location.pathname.endsWith("/dashboard") && (
                          <div className="relative">
