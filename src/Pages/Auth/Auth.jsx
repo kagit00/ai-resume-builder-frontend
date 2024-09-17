@@ -127,20 +127,23 @@ function Auth() {
      };
 
      const doGoogleSignIn = () => {
-          try {
-               setAuthLoading(true)
-               doGoogleLogIn()
-          } catch (err) {
-               toast.error('An error occurred while logging in.', {
-                    style: {
-                         backgroundColor: '#1F2937',
-                         color: '#fff'
-                    },
-               });
-          } finally {
-               setAuthLoading(false);
-          }
-     }
+          setAuthLoading(true);
+          setTimeout(() => {
+               try {
+                    doGoogleLogIn();
+               } catch (err) {
+                    toast.error('An error occurred while logging in.', {
+                         style: {
+                              backgroundColor: '#1F2937',
+                              color: '#fff'
+                         },
+                    });
+               } finally {
+                    
+               }
+          }, 100);
+     };
+
 
 
      const isFormValid = () => {
