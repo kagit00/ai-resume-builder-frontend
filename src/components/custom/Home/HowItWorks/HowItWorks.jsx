@@ -46,7 +46,7 @@ export default function HowItWorksTimeline() {
   return (
     <section id="howitworks" className="py-16 bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <h3 className="text-4xl font-thin tracking-tighter sm:text-5xl md:text-6xl mb-16 text-white text-center">
+        <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-thin tracking-tighter mb-12 md:mb-16 text-white text-center">
           How It Works
         </h3>
 
@@ -57,22 +57,22 @@ export default function HowItWorksTimeline() {
           {steps.map((step, index) => (
             <motion.div
               key={index}
-              className={`relative flex items-center mb-16 ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'}`}
+              className={`relative flex items-center mb-16 ${index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'} md:mb-24`}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               viewport={{ once: true }}
             >
               {/* Enhanced Timeline circle icon separated from the line */}
-              <div className="relative z-10 w-16 h-16 flex items-center justify-center mr-8">
-                <step.icon className="text-blue-400 w-10 h-10" />
+              <div className="relative z-10 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center mr-4 md:mr-8">
+                <step.icon className="text-blue-400 w-8 h-8 md:w-10 md:h-10" />
               </div>
 
               {/* Step Content with background */}
               <div className="w-full text-center relative">
-                <div className="mb-6 p-10 bg-gray-800 rounded-full shadow-xl">
-                  <h4 className="text-lg font-semibold text-white mb-2">{step.title}</h4>
-                  <p className="text-gray-300">{step.description}</p>
+                <div className="mb-6 p-6 md:p-8 lg:p-10 bg-gray-800 rounded-full shadow-xl">
+                  <h4 className="text-base md:text-lg lg:text-xl font-semibold text-white mb-2">{step.title}</h4>
+                  <p className="text-xs md:text-base lg:text-base text-gray-300 text-center">{step.description}</p>
                 </div>
 
                 {/* Vertical line below each step */}

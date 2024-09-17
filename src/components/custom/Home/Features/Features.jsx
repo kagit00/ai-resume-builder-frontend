@@ -1,5 +1,4 @@
-import React from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 import { CheckCircle, FileText, Zap } from 'lucide-react';
 
 const timelineData = [
@@ -20,60 +19,85 @@ const timelineData = [
   },
 ];
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
 function Features() {
-  const controls = useAnimation();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const handleScroll = () => {
-    const elements = document.querySelectorAll('.fade-in');
-    elements.forEach(element => {
-      const rect = element.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom >= 0) {
-        controls.start("visible");
-      }
-    });
+  useEffect(() => {
+    if (!isPaused) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prevSlide) => (prevSlide + 1) % timelineData.length);
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [isPaused]);
+
+  const goToNextSlide = () => {
+    setCurrentSlide((prevSlide) => (prevSlide + 1) % timelineData.length);
   };
 
-  React.useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [controls]);
+  const goToPreviousSlide = () => {
+    setCurrentSlide((prevSlide) => (prevSlide - 1 + timelineData.length) % timelineData.length);
+  };
+
+  const togglePause = () => {
+    setIsPaused(!isPaused);
+  };
 
   return (
-    <section id="features" className="w-full py-20 md:py-32 bg-gray-900">
-      <div className="container mx-auto px-4 md:px-8 lg:px-12">
-        <h2 className="text-4xl font-thin tracking-tight sm:text-5xl md:text-7xl text-center mb-16 text-gray-100">
+    <section id="features" className="w-full py-12 md:py-20 lg:py-32 bg-gray-900">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-thin tracking-tight text-center mb-12 md:mb-16 text-gray-100">
           Features
         </h2>
 
-        <div className="relative">
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 h-full border-l-2 border-blue-500"></div>
-          <div className="flex flex-col items-center">
+        {/* Slider Wrapper */}
+        <div className="relative max-w-5xl mx-auto overflow-hidden h-64 md:h-72 lg:h-80">
+          <div
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }} // Slide movement
+          >
             {timelineData.map((feature, index) => (
-              <motion.div
-                key={index}
-                className="relative mb-20 w-full max-w-4xl fade-in"
-                initial="hidden"
-                animate={controls}
-                variants={fadeInUp}
-              >
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 flex items-center justify-center">
-                  {React.cloneElement(feature.icon)}
+              <div key={index} className="w-full flex-shrink-0 flex flex-col items-center justify-center px-6">
+                <div className="flex items-center justify-center mb-4">
+                  {React.cloneElement(feature.icon, { className: 'h-10 w-10 text-blue-500' })}
                 </div>
-                <motion.div
-                  className="ml-24 pl-8 bg-gray-900 p-8 rounded-lg shadow-lg mx-auto"
-                  whileHover={{ scale: 1.05, boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)" }}
-                >
-                  <h3 className="text-xl font-semibold text-gray-100 mb-4">{feature.title}</h3>
-                  <p className="text-gray-300">{feature.description}</p>
-                </motion.div>
-              </motion.div>
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue-400 mb-4">
+                  {feature.title}
+                </h3>
+                <p className="text-xs md:text-sm lg:text-base text-left text-gray-300 max-w-2xl">
+                  {feature.description}
+                </p>
+              </div>
             ))}
+          </div>
+
+          {/* Slider Navigation */}
+          <div className="absolute top-1/2 transform -translate-y-1/2 left-4 md:left-8">
+            <button
+              className="text-gray-300 p-2 hover:bg-gray-700 rounded-full text-2xl"
+              onClick={goToPreviousSlide}
+            >
+              &#8592; {/* Left arrow */}
+            </button>
+          </div>
+          <div className="absolute top-1/2 transform -translate-y-1/2 right-4 md:right-8">
+            <button
+              className="text-gray-300 p-2 hover:bg-gray-700 rounded-full text-2xl"
+              onClick={goToNextSlide}
+            >
+              &#8594; {/* Right arrow */}
+            </button>
+          </div>
+
+          {/* Pause/Play Button */}
+          <div className="absolute top-4 right-4">
+            <button
+              className="text-gray-300 p-2 hover:bg-gray-700 rounded-full text-sm"
+              onClick={togglePause}
+            >
+              {isPaused ? 'Play' : 'Pause'}
+            </button>
           </div>
         </div>
       </div>
@@ -82,8 +106,4 @@ function Features() {
 }
 
 export default Features;
-
-
-
-
 

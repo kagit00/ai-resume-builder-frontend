@@ -20,7 +20,7 @@ const SampleResume = () => {
                             See a Sample Resume
                         </h2>
                         <p className="mx-auto max-w-md text-gray-300 text-lg md:text-xl mt-4">
-                            Click on the resume at right side and get an insight.
+                            Click on the resume and get an insight.
                         </p>
                     </div>
 
@@ -56,9 +56,9 @@ const SampleResume = () => {
                             <XMarkIcon className="w-6 h-6" />
                         </button>
 
-                        {/* React PDF Viewer */}
+                        
                         <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.0.279/build/pdf.worker.min.js`}>
-                            <Viewer fileUrl="./sample_resume.pdf" /> {/* Replace with your actual PDF */}
+                            <Viewer fileUrl="./sample_resume.pdf" />
                         </Worker>
                     </div>
                 </div>
