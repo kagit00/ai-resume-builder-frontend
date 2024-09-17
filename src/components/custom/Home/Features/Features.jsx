@@ -32,14 +32,6 @@ function Features() {
     }
   }, [isPaused]);
 
-  const goToNextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % timelineData.length);
-  };
-
-  const goToPreviousSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + timelineData.length) % timelineData.length);
-  };
-
   const togglePause = () => {
     setIsPaused(!isPaused);
   };
@@ -70,24 +62,6 @@ function Features() {
                 </p>
               </div>
             ))}
-          </div>
-
-          {/* Slider Navigation */}
-          <div className="absolute top-1/2 transform -translate-y-1/2 left-4 md:left-8">
-            <button
-              className="text-gray-300 p-2 hover:bg-gray-700 rounded-full text-2xl"
-              onClick={goToPreviousSlide}
-            >
-              &#8592; {/* Left arrow */}
-            </button>
-          </div>
-          <div className="absolute top-1/2 transform -translate-y-1/2 right-4 md:right-8">
-            <button
-              className="text-gray-300 p-2 hover:bg-gray-700 rounded-full text-2xl"
-              onClick={goToNextSlide}
-            >
-              &#8594; {/* Right arrow */}
-            </button>
           </div>
 
           {/* Pause/Play Button */}
