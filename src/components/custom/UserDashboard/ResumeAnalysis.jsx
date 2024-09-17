@@ -1,9 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css'
 import { analyzeResume } from '@/services/ApiService';
 
 const ResumeAnalysis = ({ userDetails }) => {
+     const [theme, setTheme] = useState(() => window.matchMedia("(min-width: 768px)").matches ? 'snow' : 'bubble');
      const fileInputRef = useRef(null);
      const [file, setFile] = useState(null);
      const [jobDescription, setJobDescription] = useState('');
@@ -17,6 +19,18 @@ const ResumeAnalysis = ({ userDetails }) => {
      const handleFileChange = (e) => {
           setFile(e.target.files[0]);
      };
+
+     useEffect(() => {
+          const checkTheme = () => {
+               if (window.matchMedia("(min-width: 768px)").matches) {
+                    setTheme('snow');
+               } else {
+                    setTheme('bubble');
+               }
+          };
+          window.addEventListener('resize', checkTheme);
+          return () => window.removeEventListener('resize', checkTheme);
+     }, []);
 
      const handleReset = () => {
           setEditorContent('')
@@ -74,9 +88,10 @@ const ResumeAnalysis = ({ userDetails }) => {
                                    name="jobDescription"
                                    value={editorContent}
                                    onChange={handleEditorChange}
-                                   className="editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                                   className={`editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar`}
                                    placeholder="Job description"
                                    style={{ minHeight: '150px' }}
+                                   theme={theme} // Apply the correct theme
                               />
                               <button
                                    onClick={handleReset}
