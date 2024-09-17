@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { doNormalLogOut, getJwtToken, logUserOut, setJwtToken } from '@/utils/AuthUtils';
 
-const API_BASE_URL = 'https://resumed-433110.uc.r.appspot.com';
+const API_BASE_URL = 'https://resumed-433110.uc.r.appspot.com'
 const jWtToken = getJwtToken()
 const headers = jWtToken ? { Authorization: `Bearer ${jWtToken}`, 'Content-Type': 'application/json', } : { 'Content-Type': 'application/json', };
 
@@ -54,20 +54,9 @@ export const getGenerateSuggestions = async (title, sectionType) => {
 export const registerUser = async (formData) => {
      try {
           const response = await axios.post(`${API_BASE_URL}/user`, formData);
-          toast.success('User registered successfully.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data;
      } catch (error) {
-          toast.error('An error occurred while registering the user.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error;
      }
 };
 
@@ -77,20 +66,9 @@ export const doJWtLogIn = async (creds) => {
           if (response.status === 200) {
                setJwtToken(response.data.token)
                window.location.href = "/user/dashboard"
-               toast.success('Successfully logged in.', {
-                    style: {
-                         backgroundColor: '#1F2937',
-                         color: '#fff'
-                    },
-               });
           }
      } catch (error) {
-          toast.error('An error occurred while logging in the user.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+         throw error;
      }
 }
 
@@ -823,7 +801,7 @@ export const updateSummary = async (summary, resumeId) => {
      }
 }
 
-export const doGoogleLogIn = async () => {
+export const doGoogleLogIn = () => {
      window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
 }
 

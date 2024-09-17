@@ -53,16 +53,16 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                 >
                     {!location.pathname.startsWith('/user') && (
                         <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 p-4 lg:p-0">
-                            <a href="#features" className="text-xs md:text-sm lg:text-base font-medium hover:text-blue-400 transition-colors">
+                            <a href="#features" className="text-xs md:text-sm lg:text-base font-normal hover:text-blue-400 transition-colors">
                                 Features
                             </a>
-                            <a href="#howitworks" className="text-xs md:text-sm lg:text-base font-medium hover:text-blue-400 transition-colors">
+                            <a href="#howitworks" className="text-xs md:text-sm lg:text-base font-normal hover:text-blue-400 transition-colors">
                                 How It Works
                             </a>
-                            <a href="#sampleresume" className="text-xs md:text-sm lg:text-base font-medium hover:text-blue-400 transition-colors">
+                            <a href="#sampleresume" className="text-xs md:text-sm lg:text-base font-normal hover:text-blue-400 transition-colors">
                                 Sample Resume
                             </a>
-                            <a href="#pricing" className="text-xs md:text-sm lg:text-base font-medium hover:text-blue-400 transition-colors">
+                            <a href="#pricing" className="text-xs md:text-sm lg:text-base font-normal hover:text-blue-400 transition-colors">
                                 Pricing
                             </a>
                         </div>

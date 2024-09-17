@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser, doGoogleLogIn, doJWtLogIn, fetchUserDetailsFromToken } from '@/services/ApiService';
 import { FaGoogle, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import './Auth.css'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Auth() {
      const navigate = useNavigate();
@@ -24,6 +27,7 @@ function Auth() {
      const [nameTouched, setNameTouched] = useState(false);
      const [passwordValid, setPasswordValid] = useState(false);
      const [passwordTouched, setPasswordTouched] = useState(false);
+     const [authLoading, setAuthLoading] = useState(false);
 
      const handleChange = (e) => {
           const { name, value } = e.target;
@@ -64,7 +68,7 @@ function Auth() {
           const isValid =
                capitalLetterRegex.test(password) &&
                specialCharRegex.test(password) &&
-               numberRegex.test(password) && 
+               numberRegex.test(password) &&
                password.length > 8
 
           setPasswordValid(isValid);
@@ -78,18 +82,65 @@ function Auth() {
 
      const handleSignIn = async (e) => {
           e.preventDefault();
-          await doJWtLogIn(creds);
+          setAuthLoading(true);
+          try {
+               await doJWtLogIn(creds);
+          } catch (error) {
+               toast.error('An error occurred while logging in the user.', {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
+          } finally {
+               setAuthLoading(false);
+          }
      };
 
      const handleSignUp = async (e) => {
           e.preventDefault();
-          await registerUser(formData);
+          setAuthLoading(true);
+          try {
+               await registerUser(formData);
+               toast.success('Registration Successful.', {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
+               setIsSignIn(true)
+          } catch (error) {
+               toast.error('An error occurred while logging in the user.', {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
+          } finally {
+               setAuthLoading(false);
+          }
      };
 
      const toggleForm = (e) => {
-        e.preventDefault();
-        setIsSignIn(!isSignIn);
-    };
+          e.preventDefault();
+          setIsSignIn(!isSignIn);
+     };
+
+     const doGoogleSignIn = () => {
+          try {
+               setAuthLoading(true)
+               doGoogleLogIn()
+          } catch (err) {
+               toast.error('An error occurred while logging in.', {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
+          } finally {
+               setAuthLoading(false);
+          }
+     }
 
 
      const isFormValid = () => {
@@ -121,6 +172,11 @@ function Auth() {
      return (
           <div className="bg-gray-900 text-white min-h-screen flex flex-col font-sans overflow-x-hidden">
                <section id="home" className="relative flex-1 flex flex-col justify-center items-center text-center h-full w-full">
+                    {authLoading && (
+                         <div className="auth-loader-overlay">
+                              <div className="auth-loader"></div>
+                         </div>
+                    )}
                     <div className="bg-gray-800 text-white p-6 md:p-8 rounded-sm shadow-2xl w-full max-w-md">
                          <h2 className="flex items-center justify-center text-xl md:text-2xl mb-6 font-thin text-center">
                               {isSignIn ? 'Sign In To ' : 'Sign Up To '}
@@ -245,6 +301,7 @@ function Auth() {
                               >
                                    Reset
                               </button>
+
                          </form>
                          <p className="text-sm text-gray-400 mt-6">
                               {isSignIn ? 'Don\'t have an account?' : 'Already have an account?'}{' '}
@@ -255,7 +312,7 @@ function Auth() {
                          <div className="mt-8 space-y-4">
                               <p className="text-sm text-gray-400">Or sign in with</p>
                               <div className="flex justify-center space-x-8">
-                                   <button onClick={doGoogleLogIn} className="bg-transparent text-white px-6 flex items-center">
+                                   <button onClick={doGoogleSignIn} className="bg-transparent text-white px-6 flex items-center">
                                         <FaGoogle className="mr-2" />
                                         <span>Google</span>
                                    </button>
