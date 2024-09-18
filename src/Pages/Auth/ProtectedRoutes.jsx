@@ -8,8 +8,14 @@ const ProtectedRoutes = ({ children }) => {
   const hasValidJwtToken = !isJwtTokenExpired(jwtTokenExpiry);
   const hasValidOuth2Token = !isGoogleAuthTokenExpired(outh2TokenExpiry);
 
-  // User is authenticated if they have a valid JWT token or a valid OAuth2 token
   const isAuthenticated = hasValidJwtToken || hasValidOuth2Token;
+
+  console.log("OAuth2 Expiry:", outh2TokenExpiry);
+  console.log("JWT Expiry:", jwtTokenExpiry);
+  console.log("OAuth2 Check:", isGoogleAuthTokenExpired(outh2TokenExpiry));
+  console.log("JWT Check:", isJwtTokenExpired(jwtTokenExpiry));
+  console.log("Is Authenticated:", isAuthenticated);
+
 
   if (!isAuthenticated) {
     logUserOut();
