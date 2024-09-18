@@ -90,13 +90,14 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                     </label>
                     <div className="relative">
                          <ResponsiveQuill
-                                   id={sections[currentStep].title.toLowerCase()}
+                              id={sections[currentStep].title.toLowerCase()}
+                              name={sections[currentStep].title.toLowerCase()}
                               value={summary}
                               onChange={handleEditorChange}
-                                   placeholder="Job description"
-                                   className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
-                                   style={{ minHeight: '150px' }}
-                              />
+                              placeholder="Job description"
+                              className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                              style={{ minHeight: '100px', maxHeight: '180px' }}
+                         />
                          <AISuggestionsButton onClick={handleGenerateSuggestions} />
                     </div>
                </div>

@@ -25,6 +25,8 @@ const ResponsiveQuill = ({ value, onChange, placeholder, className, style }) => 
     return (
         <ReactQuill
             ref={quillRef}
+            id={id}
+            name={name}
             value={value}
             onChange={onChange}
             className={`editor-container ${theme}-theme ${className}`}

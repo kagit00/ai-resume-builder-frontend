@@ -229,14 +229,14 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                                    Tell Us More
                               </label>
                               <div className="relative">
-                                   <ReactQuill
+                                   <ResponsiveQuill
                                         id="description"
                                         name="description"
                                         value={project.description}
                                         onChange={handleEditorChange}
-                                        className="editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                                         placeholder="Put Some Details About Your Project"
-                                        style={{ minHeight: '140px' }}
+                                        className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                                        style={{ minHeight: '100px', maxHeight: '180px' }}
                                    />
                                    <AISuggestionsButton onClick={handleGenerateSuggestions} />
                               </div>

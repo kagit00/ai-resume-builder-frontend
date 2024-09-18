@@ -3,11 +3,11 @@ import { getGenerateSuggestions, saveExperience, updateExperience, deleteExperie
 import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
+
 
 const ExperienceForm = ({ experience, setExperience, experienceList, setExperienceList, editingIndex, setEditingIndex, resume }) => {
      const [suggestions, setSuggestions] = React.useState('');
@@ -232,13 +232,14 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                               Responsibilities
                          </label>
                          <div className="relative">
-                              <ReactQuill
+                              <ResponsiveQuill
                                    id="description"
                                    name="description"
                                    value={experience.description}
                                    onChange={handleEditorChange}
-                                   className="editor-container bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
+                                   style={{ minHeight: '100px', maxHeight: '180px' }}
                                    placeholder="Experience description or click on the bottom-right button to write with AI"
+                                   className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               />
                               <AISuggestionsButton onClick={handleGenerateSuggestions} />
                          </div>

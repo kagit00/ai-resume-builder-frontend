@@ -5,6 +5,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
+import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 
 const EducationForm = ({ education, setEducation, educationList, setEducationList, editingIndex, setEditingIndex, resume }) => {
     const isDisabled = !education.title || !education.location || !education.organization || !education.startDate || !education.description;
@@ -196,15 +197,14 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                             Tell Us More
                         </label>
                         <div className="relative">
-                            <ReactQuill
+                            <ResponsiveQuill
                                 id="description"
                                 name="description"
                                 value={education.description}
                                 onChange={handleEditorChange}
-                                theme="snow"
-                                className="bg-slate-300 rounded-sm text-gray-900 border-transparent w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out"
                                 placeholder="Enter description here..."
-                                style={{ minHeight: '140px' }}
+                                style={{ minHeight: '100px', maxHeight: '180px' }}
+                                className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                             />
                         </div>
                     </div>
