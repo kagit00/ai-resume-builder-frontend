@@ -207,8 +207,8 @@ const ResumeBuilder = () => {
 
                                              {editingIndex !== null && (
                                                   <div className="absolute bottom-0 left-full ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg px-6 py-3 shadow-lg w-64">
-                                                            If you are not editing, reset the form before navigating to other sections
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg shadow-lg px-6 py-3 w-64 md:w-64 sm:w-40 sm:text-xs">
+                                                            If you are not editing, reset the form before navigating to other sections.
                                                        </p>
                                                   </div>
                                              )}
@@ -227,13 +227,12 @@ const ResumeBuilder = () => {
 
                                              {editingIndex !== null && (
                                                   <div className="absolute bottom-0 right-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg px-6 py-3 shadow-lg w-64">
-                                                            If you are not editing, reset the form before navigating to other sections
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg shadow-lg px-6 py-3 w-64 md:w-64 sm:w-40 sm:text-xs">
+                                                            If you are not editing, reset the form before navigating to other sections.
                                                        </p>
                                                   </div>
                                              )}
                                         </div>
-
                                    ) : (
                                         <div className="relative flex flex-col items-center group">
                                              <button
@@ -247,12 +246,13 @@ const ResumeBuilder = () => {
 
                                              {isResumeSubmitDisabled && (
                                                   <div className="absolute bottom-0 right-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg px-6 py-3 shadow-lg w-64">
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg shadow-lg px-6 py-3 w-64 md:w-64 sm:w-40 sm:text-xs">
                                                             You have to complete each section to save your resume.
                                                        </p>
                                                   </div>
                                              )}
                                         </div>
+
                                    )}
                                    <UpgradeToPremium
                                         isOpen={isUpgradeToPremiumModalOpen}
@@ -275,7 +275,6 @@ const ResumeBuilder = () => {
                     />
                </div>
           </>
-
      );
 };
 
