@@ -4,8 +4,7 @@ import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 import DOMPurify from 'dompurify';
 import { getGenerateSuggestions } from '@/services/ApiService';
 import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
