@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Auth() {
      const navigate = useNavigate();
+     const [errorMessage, setErrorMessage] = useState(null)
      const [formData, setFormData] = useState({
           username: '',
           name: '',
@@ -85,12 +86,7 @@ function Auth() {
           try {
                await doJWtLogIn(creds);
           } catch (error) {
-               toast.error('An error occurred while logging in the user.', {
-                    style: {
-                         backgroundColor: '#1F2937',
-                         color: '#fff'
-                    },
-               });
+               setErrorMessage(error.response?.data?.errorMsg)
           } finally {
                setAuthLoading(false);
           }
@@ -101,20 +97,9 @@ function Auth() {
           setAuthLoading(true);
           try {
                await registerUser(formData);
-               toast.success('Registration Successful.', {
-                    style: {
-                         backgroundColor: '#1F2937',
-                         color: '#fff'
-                    },
-               });
                setIsSignIn(true)
           } catch (error) {
-               toast.error('An error occurred while logging in the user.', {
-                    style: {
-                         backgroundColor: '#1F2937',
-                         color: '#fff'
-                    },
-               });
+               setErrorMessage(error.response?.data?.errorMsg)
           } finally {
                setAuthLoading(false);
           }
@@ -167,6 +152,7 @@ function Auth() {
           setPasswordTouched(false);
           setNameValid(false);
           setNameTouched(false);
+          setErrorMessage(null)
      };
 
      return (
@@ -199,7 +185,11 @@ function Auth() {
                                    />
                               </svg>
                          </h2>
-
+                         {errorMessage && (
+                              <div className=" text-red-400 mb-1">
+                              <p className='text-medium font-bold text-center'>{errorMessage}</p>
+                              </div>
+                         )}
                          <form className="space-y-6" onSubmit={isSignIn ? handleSignIn : handleSignUp}>
                               <div className="relative">
                                    <input
