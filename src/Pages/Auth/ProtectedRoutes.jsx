@@ -5,7 +5,11 @@ const ProtectedRoutes = ({ children }) => {
   const jwtTokenExpiry = getExpiryForJwtToken();
   const outh2TokenExpiry = getExpiryForOuth2Token();
 
-  const isAuthenticated = !(outh2TokenExpiry && isGoogleAuthTokenExpired(outh2TokenExpiry)) && !(jwtTokenExpiry && isJwtTokenExpired(jwtTokenExpiry));
+  const hasValidJwtToken = !isJwtTokenExpired(jwtTokenExpiry);
+  const hasValidOuth2Token = !isGoogleAuthTokenExpired(outh2TokenExpiry);
+
+  // User is authenticated if they have a valid JWT token or a valid OAuth2 token
+  const isAuthenticated = hasValidJwtToken || hasValidOuth2Token;
 
   if (!isAuthenticated) {
     logUserOut();

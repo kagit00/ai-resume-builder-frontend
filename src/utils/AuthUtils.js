@@ -5,14 +5,15 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const isGoogleAuthTokenExpired = (expiresAt) => {
-    if (!expiresAt) return false;
-    return BigInt(expiresAt) < new Date().getTime();
+    if (expiresAt === undefined || expiresAt === null) return true; 
+    return BigInt(expiresAt) < BigInt(new Date().getTime());
 };
 
 export const isJwtTokenExpired = (expiresAt) => {
-    if (!expiresAt) return false;
-    return BigInt(expiresAt) < new Date().getTime();
+    if (expiresAt === undefined || expiresAt === null) return true; 
+    return BigInt(expiresAt) < BigInt(new Date().getTime());
 };
+
 
 export const setJwtToken = (token) => {
     sessionStorage.setItem('JWT_TOKEN', encryptData(token, 'passwordpassword'))
