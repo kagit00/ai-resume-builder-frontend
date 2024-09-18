@@ -13,6 +13,7 @@ import { useLocation } from 'react-router-dom';
 import { sendEmail, updateResumeStatus } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
 import UpgradeToPremium from '@/components/custom/UserDashboard/UpgradeToPremium.jsx';
+import Modal from '@mui/material/Modal';
 
 const ResumeBuilder = () => {
      const navigate = useNavigate()
@@ -204,15 +205,8 @@ const ResumeBuilder = () => {
                                                   <ChevronLeftIcon className="w-6 h-6" />
                                                   <span className="sr-only">Previous</span>
                                              </button>
-
-                                             {editingIndex !== null && (
-                                                  <div className="absolute sm:top-full bottom-0 left-full sm:left-0 sm:transform sm:-translate-y-full ml-2 sm:ml-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm sm:text-xs rounded-2xl shadow-lg px-4 py-5 sm:px-3 sm:py-4 w-48 md:w-64 sm:w-32">
-                                                            If you are not editing, reset the form before navigating to other sections.
-                                                       </p>
-                                                  </div>
-                                             )}
                                         </div>
+
                                    )}
                                    {currentStep < sections.length - 1 ? (
                                         <div className="relative flex flex-col items-center group">
@@ -224,17 +218,9 @@ const ResumeBuilder = () => {
                                                   <ChevronRightIcon className="w-6 h-6" />
                                                   <span className="sr-only">Next</span>
                                              </button>
-
-                                             {editingIndex !== null && (
-                                                  <div className="absolute sm:top-full bottom-0 right-full sm:right-0 sm:transform sm:-translate-y-full mr-2 sm:mr-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm sm:text-xs rounded-2xl shadow-lg px-4 py-6 sm:px-2 sm:py-4 w-40 md:w-64 sm:w-28">
-                                                            If you are not editing, reset the form before navigating to other sections.
-                                                       </p>
-                                                  </div>
-                                             )}
                                         </div>
                                    ) : (
-                                        <div className="relative flex flex-col items-center group">
+                                        <div className="relative flex flex-col items-center">
                                              <button
                                                   onClick={() => updateResume()}
                                                   className={`text-white p-2 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:shadow-outline flex items-center ${isResumeSubmitDisabled ? 'cursor-not-allowed bg-gray-500 hover:bg-gray-600' : 'cursor-pointer bg-green-500 hover:bg-green-600'}`}
@@ -245,13 +231,12 @@ const ResumeBuilder = () => {
                                              </button>
 
                                              {isResumeSubmitDisabled && (
-                                                  <div className="absolute sm:top-full bottom-0 right-full sm:right-0 sm:transform sm:-translate-y-full mr-2 sm:mr-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm sm:text-xs rounded-2xl shadow-lg px-4 py-6 sm:px-3 sm:py-4 w-40 md:w-64 sm:w-28">
-                                                            You have to complete each section to save your resume.
-                                                       </p>
+                                                  <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-xs bg-red-700 text-white text-sm rounded-lg shadow-lg px-4 py-4 z-50">
+                                                       You have to complete each section to save your resume.
                                                   </div>
                                              )}
                                         </div>
+
                                    )}
                                    <UpgradeToPremium
                                         isOpen={isUpgradeToPremiumModalOpen}
