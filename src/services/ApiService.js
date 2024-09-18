@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { doNormalLogOut, getJwtToken, logUserOut, setExpiryForJwtToken, setJwtToken } from '@/utils/AuthUtils';
+import { doNormalLogOut, getJwtToken, logUserOut, setExpiryForJwtToken, setJwtToken, setAuthTypeForOAuth2 } from '@/utils/AuthUtils';
 
 const API_BASE_URL = 'https://resumed-433110.uc.r.appspot.com'
 const jWtToken = getJwtToken()
@@ -803,8 +803,8 @@ export const updateSummary = async (summary, resumeId) => {
 }
 
 export const doGoogleLogIn = () => {
-     window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
      setAuthTypeForOAuth2()
+     window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
 }
 
 export const doLogOut = async () => {
