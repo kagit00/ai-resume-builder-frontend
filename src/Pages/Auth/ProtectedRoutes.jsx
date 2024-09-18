@@ -10,9 +10,14 @@ const ProtectedRoutes = ({ children }) => {
 
   const isAuthenticated = hasValidJwtToken || hasValidOuth2Token;
 
+  console.log("OAuth2 Expiry:", outh2TokenExpiry);
+  console.log("JWT Expiry:", jwtTokenExpiry);
+  console.log("OAuth2 Check:", isGoogleAuthTokenExpired(outh2TokenExpiry));
+  console.log("JWT Check:", isJwtTokenExpired(jwtTokenExpiry));
 
-  if (!isAuthenticated) {
-    doNormalLogOut();
+
+    if (!isAuthenticated) {
+    //doNormalLogOut();
   }
 
   return children;
