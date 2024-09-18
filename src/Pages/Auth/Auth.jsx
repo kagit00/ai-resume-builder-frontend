@@ -4,6 +4,7 @@ import { registerUser, doGoogleLogIn, doJWtLogIn, fetchUserDetailsFromToken } fr
 import { FaGoogle, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Typography, Box } from '@mui/material';
 
 function Auth() {
      const navigate = useNavigate();
@@ -186,9 +187,27 @@ function Auth() {
                               </svg>
                          </h2>
                          {errorMessage && (
-                              <div className=" text-red-400 mb-1">
-                              <p className='text-medium font-bold text-center'>{errorMessage}</p>
-                              </div>
+                              <Box
+                                   display="flex"
+                                   justifyContent="center"
+                                   alignItems="center"
+                                   mb={2}
+                                   p={1}
+                                   sx={{
+                                        backgroundColor: 'rgba(255, 0, 0, 0.1)', // Light red background for warning
+                                        borderRadius: '4px',
+                                        border: '1px solid #f44336', // Red border for a clear error look
+                                   }}
+                              >
+                                   <Typography
+                                        variant="body2" // Smaller font
+                                        fontWeight="bold"
+                                        textAlign="center"
+                                        color="error" // MUI built-in error color (red)
+                                   >
+                                        {errorMessage}
+                                   </Typography>
+                              </Box>
                          )}
                          <form className="space-y-6" onSubmit={isSignIn ? handleSignIn : handleSignUp}>
                               <div className="relative">
