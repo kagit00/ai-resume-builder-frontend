@@ -13,9 +13,7 @@ export const fetchUserDetailsFromToken = async () => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          const userDetails = response.data;
-          if (!userDetails.authTypeJwt) setAuthTypeForOAuth2()
-          return userDetails
+          return response.data;
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
@@ -806,6 +804,7 @@ export const updateSummary = async (summary, resumeId) => {
 
 export const doGoogleLogIn = () => {
      window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
+     setAuthTypeForOAuth2()
 }
 
 export const doLogOut = async () => {
