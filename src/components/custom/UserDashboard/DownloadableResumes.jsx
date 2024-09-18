@@ -16,6 +16,7 @@ const DownloadableResumes = ({ userDetails }) => {
   const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
   const nothingToDisplayTextDownloadableResume = 'No Downloadable Resume Is Here';
 
+
   const { data: downloadableResumes = [], isLoading: isDownloadableResumesLoading } = useQuery({
     queryKey: ['downloadableResumes', userDetails?.id],
     queryFn: () => getResumeListByUserId(userDetails?.id, 'completed'),
@@ -31,6 +32,14 @@ const DownloadableResumes = ({ userDetails }) => {
   const handleApplyFilter = (title, date) => {
     setTitleFilter(title);
     setDateFilter(date);
+  };
+
+  const handleUpgrade = () => {
+    setShowPricingModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowPricingModal(false);
   };
 
   const handleResetFilter = () => {
@@ -213,6 +222,21 @@ const DownloadableResumes = ({ userDetails }) => {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div
+            className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 bg-black opacity-90 transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
+              } z-50`}
+          >
+            <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />
+
+            {/* Close Button */}
+            <button
+              className="absolute top-4 right-4 text-white hover:text-gray-400"
+              onClick={handleCloseModal}
+            >
+              &times;
+            </button>
           </div>
         </section>
       ) : (

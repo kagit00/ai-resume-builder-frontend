@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 import { analyzeResume } from '@/services/ApiService';
+import PricingModal from '../UpgradeToPremium/PricingModal';
 
 const ResumeAnalysis = ({ userDetails }) => {
      const fileInputRef = useRef(null);
@@ -11,9 +12,18 @@ const ResumeAnalysis = ({ userDetails }) => {
      const [editorContent, setEditorContent] = useState(jobDescription);
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
      const [isLoading, setIsLoading] = useState(false)
+     const [showPricingModal, setShowPricingModal] = useState(false);
 
      const handleFileChange = (e) => {
           setFile(e.target.files[0]);
+     };
+
+     const handleUpgrade = () => {
+          setShowPricingModal(true);
+     };
+
+     const handleCloseModal = () => {
+          setShowPricingModal(false);
      };
 
      const handleReset = () => {
@@ -60,7 +70,6 @@ const ResumeAnalysis = ({ userDetails }) => {
                     </div>
                )}
                <div className="flex flex-col h-screen bg-gray-900 text-gray-100 md:flex-row p-6 gap-6 mt-4">
-
                     {/* Left Side - JD and Resume Submission */}
                     <div className="w-full md:w-1/2 shadow-xl flex flex-col bg-gray-900 rounded-lg space-y-3 overflow-y-auto md:max-h-screen hidden-scrollbar">
                          {/* JD Submission */}
@@ -113,6 +122,19 @@ const ResumeAnalysis = ({ userDetails }) => {
 
                     </div>
 
+                    {isFreeUser && <div className="w-full md:w-1/2 px-6 flex justify-center items-center mt-10 overflow-y-auto md:max-h-screen hidden-scrollbar">
+                         <div className="bg-gray-900 rounded-lg shadow-lg py-6 h-full w-full flex flex-col justify-between">
+                              <div className="flex-1 mb-8">
+                                   <p className="text-red-300 text-sm text-left font-thin mb-6">
+                                        Resume Analysis feature is available only to premium users. Please upgrade to access this functionality and enjoy additional benefits.
+                                   </p>
+                                   <button onClick={() => handleUpgrade()} className="bg-blue-500 text-white py-2 px-4 text-xs focus:ring-opacity-50 rounded-full font-semibold">
+                                        Upgrade To Premium
+                                   </button>
+                              </div>
+                         </div>
+                    </div>}
+
                     {/* Right Side - Full Height Card with Scores and Feedback */}
                     {!isFreeUser && <div className="w-full md:w-1/2 px-6 flex justify-center items-center mt-10 overflow-y-auto md:max-h-screen hidden-scrollbar">
                          <div className="bg-gray-900 rounded-lg shadow-lg py-6 h-full w-full flex flex-col justify-between">
@@ -120,12 +142,12 @@ const ResumeAnalysis = ({ userDetails }) => {
                               {/* Analysis Results */}
                               <div className="flex-1 mb-8">
                                    <h2 className="text-2xl font-thin text-gray-100 mb-6 text-center">Analysis Result
-                                        {!isFreeUser && <span className="ml-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 text-sm font-bold px-2 py-1 rounded-full shadow-lg">
+                                        <span className="ml-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 text-sm font-bold px-2 py-1 rounded-full shadow-lg">
                                              <svg className="inline-block w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                                              </svg>
                                              Premium
-                                        </span>}
+                                        </span>
                                    </h2>
 
                                    {error && <p className="text-red-500 text-center">{error}</p>}
@@ -190,22 +212,21 @@ const ResumeAnalysis = ({ userDetails }) => {
                          </div>
                     </div>}
 
-                    {isFreeUser && <div className="bg-gray-900 w-full md:w-1/2 px-6 flex justify-center items-center mt-10 overflow-y-auto md:max-h-screen hidden-scrollbar rounded-xl shadow-lg">
-                         <div className="text-center p-8 max-w-md mx-auto bg-gray-800 rounded-lg shadow-md">
-                              <h2 className="text-4xl text-gray-200 mb-6 font-thin">
-                                   Analysis Result
-                              </h2>
-                              <p className="text-red-300 text-sm text-left font-thin mb-6">
-                                   Resume Analysis feature is available only to premium users. Please upgrade to access this functionality and enjoy additional benefits.
-                              </p>
-                              <button className="bg-blue-500 text-white py-2 px-4 text-xs focus:ring-opacity-50 rounded-full font-semibold">
-                                   Upgrade To Premium
-                              </button>
-                         </div>
-                    </div>}
+                    <div
+                         className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 bg-black opacity-90 transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
+                              } z-50`}
+                    >
+                         <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />
 
+                         {/* Close Button */}
+                         <button
+                              className="absolute top-4 right-4 text-white hover:text-gray-400"
+                              onClick={handleCloseModal}
+                         >
+                              &times;
+                         </button>
+                    </div>
                </div>
-
           </>
      );
 };
