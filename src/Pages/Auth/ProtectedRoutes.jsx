@@ -12,7 +12,7 @@ const ProtectedRoutes = ({ children }) => {
 
 
   if (!isAuthenticated) {
-    doNormalLogOut();
+    //doNormalLogOut();
   }
 
   return children;
