@@ -79,10 +79,10 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                             <ChevronDownIcon className="h-5 w-5" />
                         </button>
                         {isDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-full max-w-xs bg-transparent font-semibold text-xs text-white shadow-lg z-50">
+                            <div className="absolute right-0 mt-2 w-full max-w-xs bg-black text-white opacity-80 font-semibold text-xs shadow-lg z-50">
                                 <ul>
                                     <li
-                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer rounded-full"
+                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
                                         onClick={() => {
                                             onSectionChange("section1");
                                             setIsDropdownOpen(false);
@@ -91,7 +91,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                         Profile & Misc.
                                     </li>
                                     <li
-                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer rounded-full"
+                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
                                         onClick={() => {
                                             onSectionChange("section2");
                                             setIsDropdownOpen(false);
@@ -100,7 +100,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                         Pending Resumes
                                     </li>
                                     <li
-                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer rounded-full"
+                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
                                         onClick={() => {
                                             onSectionChange("section3");
                                             setIsDropdownOpen(false);
@@ -109,7 +109,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                         Downloadable Resumes
                                     </li>
                                     <li
-                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer rounded-full"
+                                        className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
                                         onClick={() => {
                                             onSectionChange("section4");
                                             setIsDropdownOpen(false);
