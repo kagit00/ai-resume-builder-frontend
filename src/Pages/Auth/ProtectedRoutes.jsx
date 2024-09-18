@@ -18,8 +18,8 @@ const ProtectedRoutes = ({ children }) => {
 
 
   if (!isAuthenticated) {
-    logUserOut();
-    return <Navigate to="/auth/sign-in" />;
+    //logUserOut();
+    //return <Navigate to="/auth/sign-in" />;
   }
 
   return children;
