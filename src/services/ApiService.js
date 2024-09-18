@@ -13,7 +13,9 @@ export const fetchUserDetailsFromToken = async () => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          return response.data
+          const userDetails = response.data;
+          if (!userDetails.authTypeJwt) setAuthTypeForOAuth2()
+          return userDetails
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();

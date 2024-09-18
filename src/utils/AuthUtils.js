@@ -48,6 +48,14 @@ export const getExpiryForJwtToken = () => {
     return sessionStorage.getItem('JWT_TOKEN_EXPIRY')
 }
 
+export const setAuthTypeForOAuth2 = () => {
+    sessionStorage.setItem('authTypeForOAuth2', true)
+} 
+
+export const getAuthTypeForOAuth2 = () => {
+    sessionStorage.getItem('authTypeForOAuth2')
+} 
+
 export const logUserOut = () => {
     /* This code snippet is creating an overlay element that will be displayed on top of the webpage
     when a user's session expires. Here's a breakdown of what each line is doing: */
