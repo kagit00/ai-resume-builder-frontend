@@ -7,11 +7,10 @@ const ProtectedRoutes = ({ children }) => {
   const authType = getAuthTypeForOAuth2();
 
   const isAuthenticated = hasValidJwtToken || authType;
-  console.log(hasValidJwtToken, authType, isAuthenticated)
 
 
   if (!isAuthenticated) {
-    //doNormalLogOut(); 
+    doNormalLogOut(); 
   }
 
   return children;

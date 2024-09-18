@@ -53,7 +53,7 @@ export const setAuthTypeForOAuth2 = () => {
 } 
 
 export const getAuthTypeForOAuth2 = () => {
-    sessionStorage.getItem('authTypeForOAuth2')
+    return sessionStorage.getItem('authTypeForOAuth2')
 } 
 
 export const logUserOut = () => {
