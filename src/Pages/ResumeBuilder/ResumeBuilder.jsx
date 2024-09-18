@@ -207,7 +207,7 @@ const ResumeBuilder = () => {
 
                                              {editingIndex !== null && (
                                                   <div className="absolute sm:top-full bottom-0 left-full sm:left-0 sm:transform sm:-translate-y-full ml-2 sm:ml-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg shadow-lg px-6 py-3 w-64 md:w-64 sm:w-40 sm:text-xs">
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm sm:text-xs rounded-2xl shadow-lg px-4 py-5 sm:px-3 sm:py-4 w-48 md:w-64 sm:w-32">
                                                             If you are not editing, reset the form before navigating to other sections.
                                                        </p>
                                                   </div>
@@ -227,7 +227,7 @@ const ResumeBuilder = () => {
 
                                              {editingIndex !== null && (
                                                   <div className="absolute sm:top-full bottom-0 right-full sm:right-0 sm:transform sm:-translate-y-full mr-2 sm:mr-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg shadow-lg px-6 py-3 w-64 md:w-64 sm:w-40 sm:text-xs">
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm sm:text-xs rounded-2xl shadow-lg px-4 py-6 sm:px-2 sm:py-4 w-40 md:w-64 sm:w-28">
                                                             If you are not editing, reset the form before navigating to other sections.
                                                        </p>
                                                   </div>
@@ -246,7 +246,7 @@ const ResumeBuilder = () => {
 
                                              {isResumeSubmitDisabled && (
                                                   <div className="absolute sm:top-full bottom-0 right-full sm:right-0 sm:transform sm:-translate-y-full mr-2 sm:mr-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm rounded-lg shadow-lg px-6 py-3 w-64 md:w-64 sm:w-40 sm:text-xs">
+                                                       <p className="bg-red-700 bg-opacity-65 text-white text-sm sm:text-xs rounded-2xl shadow-lg px-4 py-6 sm:px-3 sm:py-4 w-40 md:w-64 sm:w-28">
                                                             You have to complete each section to save your resume.
                                                        </p>
                                                   </div>
