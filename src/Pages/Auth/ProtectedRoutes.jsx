@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { getExpiryForJwtToken, getExpiryForOuth2Token, isGoogleAuthTokenExpired, isJwtTokenExpired, logUserOut } from '@/utils/AuthUtils';
+import { getExpiryForJwtToken, getExpiryForOuth2Token, isGoogleAuthTokenExpired, isJwtTokenExpired, doNormalLogOut } from '@/utils/AuthUtils';
 
 const ProtectedRoutes = ({ children }) => {
   const jwtTokenExpiry = getExpiryForJwtToken();
@@ -10,16 +10,9 @@ const ProtectedRoutes = ({ children }) => {
 
   const isAuthenticated = hasValidJwtToken || hasValidOuth2Token;
 
-  console.log("OAuth2 Expiry:", outh2TokenExpiry);
-  console.log("JWT Expiry:", jwtTokenExpiry);
-  console.log("OAuth2 Check:", isGoogleAuthTokenExpired(outh2TokenExpiry));
-  console.log("JWT Check:", isJwtTokenExpired(jwtTokenExpiry));
-  console.log("Is Authenticated:", isAuthenticated);
-
 
   if (!isAuthenticated) {
-    //logUserOut();
-    //return <Navigate to="/auth/sign-in" />;
+    doNormalLogOut();
   }
 
   return children;

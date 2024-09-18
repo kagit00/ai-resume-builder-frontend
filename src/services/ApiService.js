@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { doNormalLogOut, getJwtToken, logUserOut, setJwtToken } from '@/utils/AuthUtils';
+import { doNormalLogOut, getJwtToken, logUserOut, setExpiryForJwtToken, setJwtToken } from '@/utils/AuthUtils';
 
 const API_BASE_URL = 'https://resumed-433110.uc.r.appspot.com'
 const jWtToken = getJwtToken()
@@ -65,6 +65,7 @@ export const doJWtLogIn = async (creds) => {
           const response = await axios.post(`${API_BASE_URL}/auth/log-in`, creds);
           if (response.status === 200) {
                setJwtToken(response.data.token)
+               setExpiryForJwtToken(response.data.expiry)
                window.location.href = "/user/dashboard"
           }
      } catch (error) {
