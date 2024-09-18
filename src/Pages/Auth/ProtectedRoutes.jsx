@@ -6,6 +6,8 @@ const ProtectedRoutes = ({ children }) => {
   const hasValidJwtToken = !isJwtTokenExpired(jwtTokenExpiry);
   const authType = getAuthTypeForOAuth2();
 
+  console.log (hasValidJwtToken, authType)
+
   const isAuthenticated = hasValidJwtToken || authType;
 
 
