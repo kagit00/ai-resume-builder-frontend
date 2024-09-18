@@ -1,5 +1,4 @@
 import { getExpiryForJwtToken, isJwtTokenExpired, doNormalLogOut, getAuthTypeForOAuth2  } from '@/utils/AuthUtils';
-import { console } from 'inspector';
 
 const ProtectedRoutes = ({ children }) => {
   const jwtTokenExpiry = getExpiryForJwtToken();
