@@ -12,7 +12,6 @@ function Auth() {
           username: '',
           name: '',
           password: '',
-          authTypeJwt: true
      });
 
      const [creds, setCreds] = useState({
@@ -96,6 +95,7 @@ function Auth() {
           e.preventDefault();
           setAuthLoading(true);
           try {
+               formData.authTypeJwt = true
                await registerUser(formData);
                setIsSignIn(true)
           } catch (error) {
