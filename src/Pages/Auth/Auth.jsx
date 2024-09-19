@@ -126,7 +126,7 @@ function Auth() {
                } finally {
                     setAuthLoading(false);
                }
-          }, 100);
+          }, 3000);
      };
 
      const isFormValid = () => {
