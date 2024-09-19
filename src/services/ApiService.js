@@ -965,3 +965,14 @@ export const analyzeResume = async (formData) => {
           }
      }
 }
+
+export const changePassword = async (currentPassword, newPassword, confirmPassword, userId) => {
+     try {
+          await axios.put(`${API_BASE_URL}/user/change-password`, {currentPassword, newPassword, confirmPassword, userId}, {
+               headers: { ...headers },
+               withCredentials: !jWtToken,
+          })
+     } catch (error) {
+          throw error
+     }
+}

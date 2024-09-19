@@ -10,11 +10,11 @@ function ResumeTipsModal({ onClose }) {
 
   return (
     <div
-      className={`fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-end transition-all duration-300 ${
+      className={`fixed inset-0 backdrop-blur-lg z-50 flex items-center justify-end transition-all duration-300 ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
-      <div className="relative bg-blue-900 text-gray-200 shadow-xl w-full md:w-1/3 h-full p-8">
+      <div className="relative text-gray-200 shadow-xl w-full md:w-1/3 h-full p-8">
         {/* Close Button */}
         <button
           onClick={handleClose}
@@ -61,7 +61,7 @@ function ResumeTipsModal({ onClose }) {
         <div className="mt-auto pt-6 border-t border-gray-700">
           <button
             disabled
-            className="w-full bg-gray-500 text-gray-300 py-2 rounded-full shadow-lg cursor-not-allowed"
+            className="w-full bg-gray-600 text-white py-2 text-xs font-semibold rounded-full shadow-lg cursor-not-allowed"
             title="Coming soon"
           >
             Explore Resume Templates (Coming Soon)

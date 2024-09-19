@@ -4,6 +4,7 @@ import PlanCard from "./PlanCard";
 
 const PricingModal = ({ isOpen, setShowPricingModal, userId }) => {
      if (!isOpen) return null;
+     
      const handleBack = () => setShowPricingModal(false);
      const navigate = useNavigate()
 
@@ -24,7 +25,7 @@ const PricingModal = ({ isOpen, setShowPricingModal, userId }) => {
                </div>
 
                <div className="overflow-auto hidden-scrollbar">
-                    <section id="pricing" className="bg-transparent">
+                    <section id="pricing">
                          <div className="container mx-auto px-4">
                               <h3 className="text-lg md:text-xl lg:text-3xl font-thin text-white mb-6">
                                    Pricing Plans
@@ -32,11 +33,11 @@ const PricingModal = ({ isOpen, setShowPricingModal, userId }) => {
                               <div className="flex flex-col md:flex-row justify-center items-stretch space-y-4 md:space-y-0 md:space-x-4">
                                    {/* Reusable Plan Component */}
                                    <PlanCard
-                                        title="Basic Plan"
-                                        price="Rs. 0/month"
+                                        title="Basic @ Rs. 0"
+                                        subHeader="Lifetime Access With Basic Features"
                                         features={[
                                              'Unlimited Resume Creation',
-                                             'Basic AI features',
+                                             'AI features',
                                              'Email support',
                                              'Unlimited Resume Edit',
                                         ]}
@@ -45,15 +46,13 @@ const PricingModal = ({ isOpen, setShowPricingModal, userId }) => {
                                    />
 
                                    <PlanCard
-                                        title="Premium Plan"
-                                        price="Rs. 20/month"
+                                        title="Premium @ Rs. 20"
+                                        subHeader="Lifetime Access With Advanced Features"
                                         features={[
-                                             'Unlimited Resume Creation',
-                                             'Basic AI features',
-                                             'Email support',
-                                             'Unlimited Resume Edit',
+                                             'All Basic Featues',
+                                             'Analyze Your Resumes & Get Insights',
                                              'Download Your Resumes',
-                                             'Share Resumes',
+                                             'Share Resumes on Social',
                                         ]}
                                         buttonLabel="Subscribe"
                                         onClick={subscribe}

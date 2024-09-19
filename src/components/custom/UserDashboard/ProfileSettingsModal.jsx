@@ -50,12 +50,12 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
           <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-lg">
                <div className="relative bg-transparent text-white shadow-sm w-full p-8 max-w-sm">
                     {/* Close Button */}
-                    <button
+                    {(!changePassword && !showPricingModal) && <button
                          onClick={onClose}
                          className="absolute top-4 right-4 text-gray-300 hover:text-white focus:outline-none"
                     >
                          &times;
-                    </button>
+                    </button>}
 
                     {/* Main Content */}
                     {!viewingProfile && !managingEmailNotifications && !isDeletingAccount && !showPricingModal && !billingDetails && !changePassword ? (
@@ -72,7 +72,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
                               <ul className="space-y-4">
                                    {!isFreeUser && <li onClick={() => setBillingDetails(true)}
-                                        className="gap-2 flex items-center text-sm font-medium hover:bg-blue-700 px-4 py-2 rounded-full cursor-pointer transition-colors duration-300">
+                                        className="gap-2 flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-full cursor-pointer transition-colors duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <circle cx="12" cy="12" r="10" />
                                              <path d="M15 9l-6 6" />
@@ -232,7 +232,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                          </>
                     ) : showPricingModal ? (
                          <div
-                              className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 bg-blue-900 transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
+                              className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2  transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
                                    } z-50`}
                          >
                               <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />
@@ -271,7 +271,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
                          </>
                     ) : changePassword ? (
-                         <ChangePasswordModal isOpen={true} onClose={onClose} />
+                         <ChangePasswordModal isOpen={true} userId={userDetails.id} setChangePassword={setChangePassword}/>
                     ) : null}
                </div>
           </div>
