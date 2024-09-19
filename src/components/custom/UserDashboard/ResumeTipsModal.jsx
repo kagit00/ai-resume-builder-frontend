@@ -10,7 +10,7 @@ function ResumeTipsModal({ onClose }) {
 
   return (
     <div
-      className={`fixed inset-0 backdrop-blur-lg z-50 flex items-center justify-end transition-all duration-300 ${
+      className={`fixed inset-0 backdrop-blur-xl z-50 flex items-center justify-end transition-all duration-300 ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
