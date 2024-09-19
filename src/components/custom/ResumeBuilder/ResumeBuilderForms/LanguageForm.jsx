@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getLanguages, saveLanguage, updateLanguage, deleteLanguage } from '@/services/ApiService';
 import { FiTrash2 } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume }) => {
      const [languageId, setLanguageId] = useState('')
@@ -35,8 +37,13 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
                     setLanguagesList([...languagesList, l]);
                     setLanguageId(l.id)
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -59,8 +66,13 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
                if (editingIndex !== null && editingIndex >= index) {
                     setEditingIndex(null);
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }

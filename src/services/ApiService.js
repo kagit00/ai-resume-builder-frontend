@@ -30,24 +30,13 @@ export const getGenerateSuggestions = async (title, sectionType) => {
                params: { title, sectionType },
                withCredentials: !jWtToken,
           });
-          toast.success('AI Suggestion Successfully Generated', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data;
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('An error occurred while generating AI suggestions.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 };
 
@@ -79,24 +68,13 @@ export const createResume = async (resume, userId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Resume initiated successfully.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data;
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while creating resume', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -115,12 +93,7 @@ export const getResumeListByUserId = async (userId, status) => {
                logUserOut();
                return;
           }
-          toast.error('Error while fetching resumes', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -130,23 +103,12 @@ export const deleteResume = async (resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Resume deleted successfully.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while deleting resume', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -156,24 +118,13 @@ export const saveSummary = async (summary, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Summary saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving summary', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -189,12 +140,7 @@ export const getSummary = async (resumeId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while fetching summary', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -210,12 +156,7 @@ export const getEducations = async (resumeId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while fetching educations', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -231,12 +172,7 @@ export const getExperiences = async (resumeId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while fetching experiences', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -252,12 +188,7 @@ export const getProjects = async (resumeId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while fetching projects', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -273,12 +204,7 @@ export const getLanguages = async (resumeId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while fetching projects', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -289,24 +215,13 @@ export const saveEducation = async (education, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Education details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving education details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -316,23 +231,12 @@ export const updateEducation = async (education, resumeSectionId, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Education details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving education details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -343,23 +247,12 @@ export const deleteEducation = async (resumeId, resumeSectionId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Education details deleted.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while deleting education details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -369,23 +262,12 @@ export const updateExperience = async (experience, resumeSectionId, resumeId) =>
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Experience details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving experience details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -395,23 +277,12 @@ export const deleteExperience = async (resumeId, resumeSectionId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Experience details deleted.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while deleting experience details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+         throw error
      }
 }
 
@@ -421,23 +292,12 @@ export const updateProject = async (proj, resumeSectionId, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Project details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while updating project details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -447,23 +307,12 @@ export const deleteProject = async (resumeId, resumeSectionId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Project details deleted.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while deleting project details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -474,24 +323,13 @@ export const saveExperience = async (experience, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Experience details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data;
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving experience details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -502,24 +340,13 @@ export const saveProject = async (project, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Project details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data;
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving project details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -529,24 +356,13 @@ export const saveLanguage = async (resumeId, language) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Language details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data;
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving language details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -556,23 +372,12 @@ export const updateLanguage = async (resumeId, languageId, language) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Language details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while updating language details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -582,23 +387,12 @@ export const deleteLanguage = async (resumeId, languageId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Language details deleted.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while deleting language details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -608,23 +402,12 @@ export const updateSkills = async (skills, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Skills saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving skills', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -640,12 +423,7 @@ export const getSkills = async (resumeId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while fetching skills', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -655,24 +433,13 @@ export const saveAdditionalDetails = async (additionalDetails, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Additional details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response.data;
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving additional details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -688,12 +455,7 @@ export const getAdditionalDetails = async (resumeId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while saving additional details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -703,38 +465,20 @@ export const updateAdditionalDetails = async (resumeId, additionalDetailsId, add
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Additional details saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while saving additional details', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
 export const updateResumeStatus = async (resumeId) => {
-
      try {
           await axios.put(`${API_BASE_URL}/resume/${resumeId}/status-update`, null, {
                headers: { ...headers },
                withCredentials: !jWtToken,
-          });
-          toast.success('Resume saved.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
           });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
@@ -756,23 +500,12 @@ export const deleteSummary = async (resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Summary deleted.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while deleteing summary', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -782,23 +515,12 @@ export const updateSummary = async (summary, resumeId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Summary updated.', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while updating summary', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -818,12 +540,7 @@ export const doLogOut = async () => {
                logUserOut();
                return;
           }
-          toast.error('Error while logging you out', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -854,7 +571,7 @@ export const updateNotificationEnabled = async (userId, isNotificationEnabled) =
                logUserOut();
                return;
           }
-          doNormalLogOut()
+          throw error
      }
 };
 
@@ -870,12 +587,7 @@ export const deleteAccount = async (userId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while deleting account', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+         throw error
      }
 }
 
@@ -891,12 +603,7 @@ export const getClientTokenForPayment = async (userId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while generating client token', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -915,12 +622,7 @@ export const doSubscribe = async (paymentMethodNonce, amount, userId) => {
                logUserOut();
                return;
           }
-          toast.error('Error while subscribing to premium', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -930,24 +632,13 @@ export const cancelPremiumMembership = async (userId) => {
                headers: { ...headers },
                withCredentials: !jWtToken,
           });
-          toast.success('Premium Membership Cancelled Successfully', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
           return response;
      } catch (error) {
           if (error.response && error.response.data.status === 'UNAUTHORIZED') {
                logUserOut();
                return;
           }
-          toast.error('Error while cancelling premium', {
-               style: {
-                    backgroundColor: '#1F2937',
-                    color: '#fff'
-               },
-          });
+          throw error
      }
 }
 
@@ -963,6 +654,7 @@ export const analyzeResume = async (formData) => {
                logUserOut();
                return;
           }
+          throw err
      }
 }
 

@@ -3,6 +3,8 @@ import AISuggestionsButton from '@/components/custom/ResumeBuilder/Buttons/AISug
 import { getGenerateSuggestions, saveSummary, deleteSummary, updateSummary, getSummary } from '@/services/ApiService';
 import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 import DOMPurify from 'dompurify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary }) => {
      const [summary, setSummary] = useState('');
@@ -20,8 +22,13 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                     setSummary(result.details);
                     setAddedSummary(result.details)
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -36,8 +43,13 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                setIsLoading(true)
                const suggestions = await getGenerateSuggestions(resume.title, 'overview in two sentences');
                setSummary(suggestions.generatedSuggestion);
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -53,8 +65,13 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                     } else if (!addedSummary && summary) {
                          await saveSummary({ details: summary }, resume.id);
                     }
-               } catch (err) {
-
+               } catch (error) {
+                    toast.error(error?.response?.data?.errorMsg, {
+                         style: {
+                              backgroundColor: '#1F2937',
+                              color: '#fff'
+                         },
+                    });
                } finally {
                     setIsLoading(false)
                }
@@ -68,8 +85,13 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
           try {
                setIsLoading(true)
                await deleteSummary(resume.id);
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }

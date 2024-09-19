@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 import { analyzeResume } from '@/services/ApiService';
 import PricingModal from '../UpgradeToPremium/PricingModal';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ResumeAnalysis = ({ userDetails }) => {
      const fileInputRef = useRef(null);
@@ -56,7 +58,12 @@ const ResumeAnalysis = ({ userDetails }) => {
                const analyzedData = await analyzeResume(formData);
                setAnalysisResult(analyzedData)
           } catch (err) {
-
+               toast.error(err?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }

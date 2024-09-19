@@ -42,8 +42,13 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                setIsLoading(true)
                const projects = await getProjects(resume.id)
                setProjectsList(projects)
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -63,8 +68,13 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                     const proj = await saveProject(project, resume.id)
                     setProjectsList([...projectsList, proj]);
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -86,8 +96,13 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                     setProject({ title: '', startDate: '', endDate: '', description: '' });
                     setEditingIndex(null);
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -107,8 +122,13 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
                setIsLoading(true)
                const suggestions = await getGenerateSuggestions(project.title, 'project description in four sentences');
                setProject(prev => { return { ...prev, description: suggestions.generatedSuggestion }; });
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }

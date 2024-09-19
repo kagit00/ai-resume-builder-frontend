@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { saveAdditionalDetails, getAdditionalDetails, updateAdditionalDetails } from '@/services/ApiService';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedAdditionalDetails, setAddedAdditionalDetails, resume, resumeDetails }) => {
      const [isLoading, setIsLoading] = useState(false)
@@ -18,8 +20,13 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                     setAdditionalDetails(ad);
                     setAddedAdditionalDetails(ad)
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -47,15 +54,25 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                     setAdditionalDetails(ad); //temporary change
                     setAddedAdditionalDetails(ad)
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
      };
 
      return (
-          <div className=' scroll-smooth'>
+          <div className='scroll-smooth'>
+               {isLoading && (
+                    <div className="loader-overlay">
+                         <div className="loader"></div>
+                    </div>
+               )}
                <>
                     <div className="mb-6">
                          <label className="block text-gray-300 text-sm md:text-base mb-2 mt-3" htmlFor="phoneNumber">

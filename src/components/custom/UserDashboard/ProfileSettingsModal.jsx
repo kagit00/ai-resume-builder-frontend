@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import PricingModal from '../UpgradeToPremium/PricingModal';
 import { useQueryClient } from '@tanstack/react-query';
 import ChangePasswordModal from './ChangePasswordModal';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProfileSettingsModal = ({ onClose, userDetails }) => {
      const queryClient = useQueryClient();
@@ -15,10 +17,23 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
      const [billingDetails, setBillingDetails] = useState(false)
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
      const [changePassword, setChangePassword] = useState(false)
+     const [isLoading, setIsLoading] = useState(false)
 
      const handleDeleteAccount = async () => {
           if (isDeletingAccount) {
-               await deleteAccount(userDetails.id)
+               try {
+                    setIsLoading(true)
+                    await deleteAccount(userDetails.id)
+               } catch (error) {
+                    toast.error(error?.response?.data?.errorMsg, {
+                         style: {
+                              backgroundColor: '#1F2937',
+                              color: '#fff'
+                         },
+                    });
+               } finally {
+                    setIsLoading(false)
+               }
           }
      };
 
@@ -32,9 +47,21 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
      const handleCancelPremiumMembership = async () => {
           if (!isFreeUser) {
-               const res = await cancelPremiumMembership(userDetails.id)
-               if (res.status === 200)
-                    queryClient.invalidateQueries('userDetails')
+               try {
+                    setIsLoading(true)
+                    const res = await cancelPremiumMembership(userDetails.id)
+                    if (res.status === 200)
+                         queryClient.invalidateQueries('userDetails')
+               } catch (err) {
+                    toast.error(err?.response?.data?.errorMsg, {
+                         style: {
+                              backgroundColor: '#1F2937',
+                              color: '#fff'
+                         },
+                    });
+               } finally {
+                    setIsLoading(false)
+               }
           }
           setBillingDetails(false)
           setViewingProfile(false)
@@ -49,6 +76,11 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
      return (
           <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-lg">
                <div className="relative bg-transparent text-white shadow-sm w-full p-8 max-w-sm">
+                    {isLoading && (
+                         <div className="loader-overlay">
+                              <div className="loader"></div>
+                         </div>
+                    )}
                     {/* Close Button */}
                     {(!changePassword && !showPricingModal) && <button
                          onClick={onClose}
@@ -271,7 +303,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
                          </>
                     ) : changePassword ? (
-                         <ChangePasswordModal isOpen={true} userId={userDetails.id} setChangePassword={setChangePassword}/>
+                         <ChangePasswordModal isOpen={true} userId={userDetails.id} setChangePassword={setChangePassword} />
                     ) : null}
                </div>
           </div>

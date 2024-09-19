@@ -3,6 +3,8 @@ import dropin from 'braintree-web-drop-in';
 import { getClientTokenForPayment, doSubscribe } from '@/services/ApiService';
 import { useLocation } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Payment = () => {
     const queryClient = useQueryClient();
@@ -10,24 +12,32 @@ const Payment = () => {
     const [clientToken, setClientToken] = useState(null);
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const [redirecting, setRedirecting] = useState(false);
-    const [isDropinValid, setIsDropinValid] = useState(false); // State to track Drop-in validity
+    const [isDropinValid, setIsDropinValid] = useState(false); 
     const dropinInstance = useRef(null);
     const userId = location.state || 0;
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
-            setLoading(false);
+            setIsLoading(false);
         }, 3000);
     }, []);
 
     useEffect(() => {
         const fetchClientToken = async () => {
             try {
+                setIsLoading(true)
                 const tokenResponse = await getClientTokenForPayment();
                 setClientToken(tokenResponse.clientToken);
             } catch (error) {
-                console.error('Error fetching client token:', error);
+                 toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -50,7 +60,6 @@ const Payment = () => {
                 },
                 (error, instance) => {
                     if (error) {
-                        console.error(error);
                         return;
                     }
                     dropinInstance.current = instance;
@@ -69,39 +78,40 @@ const Payment = () => {
 
     const handlePayment = async () => {
         if (!dropinInstance.current) {
-            console.error('Braintree drop-in not initialized');
             return;
         }
 
         dropinInstance.current.requestPaymentMethod(async (err, payload) => {
-            if (err) {
-                console.error('Error requesting payment method:', err);
-                return;
-            }
+            if (err) return;
 
             try {
+                setIsLoading(true)
                 const response = await doSubscribe(payload.nonce, '20.00', userId);
                 if (response) {
                     setPaymentSuccess(true);
                     setRedirecting(true);
-                    console.log('Payment successful:', response);
                     handleRedirectToUserDashboard();
-                } else {
-                    console.error('Payment failed');
                 }
             } catch (error) {
-                console.error('Error during payment:', error);
+                toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
+            } finally {
+                setIsLoading(false)
             }
         });
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900">
-            {loading && (
-                <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50 text-white text-2xl font-thin">
-                    Just a Moment...
-                </div>
-            )}
+            {isLoading && (
+                    <div className="loader-overlay">
+                         <div className="loader"></div>
+                    </div>
+               )}
 
             <div className={`w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl hidden-scrollbar ${loading ? 'hidden' : ''}`} style={{ maxHeight: '90vh', overflowY: 'scroll' }}>
                 <h1 className="text-3xl font-thin text-center text-white mb-3">Complete Your Payment</h1>

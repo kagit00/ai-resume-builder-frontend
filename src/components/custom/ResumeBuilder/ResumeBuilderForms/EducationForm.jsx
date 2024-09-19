@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { saveEducation, updateEducation, deleteEducation, getEducations } from '@/services/ApiService';
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
-import ReactQuill from 'react-quill';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
@@ -40,8 +41,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
             setIsLoading(true)
             const educations = await getEducations(resumeId)
             setEducationList(educations)
-        } catch (err) {
-
+        } catch (error) {
+            toast.error(error?.response?.data?.errorMsg, {
+                style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+                },
+            });
         } finally {
             setIsLoading(false)
         }
@@ -61,8 +67,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
                 const ed = await saveEducation(education, resume.id)
                 setEducationList([...educationList, ed]);
             }
-        } catch (err) {
-
+        } catch (error) {
+            toast.error(error?.response?.data?.errorMsg, {
+                style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+                },
+            });
         } finally {
             setIsLoading(false)
         }
@@ -75,8 +86,13 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
             const updatedEducationList = educationList.filter((_, index) => index !== indexToRemove);
             await deleteEducation(resume.id, educationList[indexToRemove].id)
             setEducationList(updatedEducationList);
-        } catch (err) {
-
+        } catch (error) {
+            toast.error(error?.response?.data?.errorMsg, {
+                style: {
+                    backgroundColor: '#1F2937',
+                    color: '#fff'
+                },
+            });
         } finally {
             setIsLoading(false)
         }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { updateSkills, getSkills } from '@/services/ApiService';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const skillOptions = [
   'JavaScript', 'Python', 'Java', 'C#', 'C++', 'TypeScript', 'HTML', 'CSS', 'React', 'Angular',
@@ -23,8 +25,13 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
       setIsLoading(true);
       const skills = await getSkills(resume.id)
       setSelectedSkills(skills)
-    } catch (err) {
-
+    } catch (error) {
+      toast.error(error?.response?.data?.errorMsg, {
+        style: {
+          backgroundColor: '#1F2937',
+          color: '#fff'
+        },
+      });
     } finally {
       setIsLoading(false)
     }
@@ -46,8 +53,13 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
       const skillsStr = selectedSkills.join(",")
       await updateSkills(skillsStr, resume.id);
       setDropdownOpen(false);
-    } catch (err) {
-
+    } catch (error) {
+      toast.error(error?.response?.data?.errorMsg, {
+        style: {
+          backgroundColor: '#1F2937',
+          color: '#fff'
+        },
+      });
     } finally {
       setIsLoading(false)
     }

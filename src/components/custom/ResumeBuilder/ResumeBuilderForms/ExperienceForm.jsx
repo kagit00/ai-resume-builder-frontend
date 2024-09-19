@@ -43,8 +43,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                setIsLoading(true)
                const experiences = await getExperiences(resume.id)
                setExperienceList(experiences)
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -64,8 +69,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                setIsLoading(true)
                const suggestions = await getGenerateSuggestions(experience.title, 'experencie description in six bullet points');
                setExperience(prevExperience => { return { ...prevExperience, description: suggestions.generatedSuggestion }; });
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -85,8 +95,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                     const ex = await saveExperience(experience, resume.id)
                     setExperienceList([...experienceList, ex]);
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
@@ -107,8 +122,13 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                if (editingIndex !== null && editingIndex >= index) {
                     setEditingIndex(editingIndex === index ? null : editingIndex - 1);
                }
-          } catch (err) {
-
+          } catch (error) {
+               toast.error(error?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
           } finally {
                setIsLoading(false)
           }
