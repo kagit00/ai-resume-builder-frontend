@@ -43,7 +43,7 @@ const SearchFilter = ({ onApply, onReset, placeholderTitle = "Filter by title", 
       </button>
 
       {isOpen && (
-        <div className="absolute top-16 right-4 bg-transparent rounded-lg p-4 shadow-lg w-72 z-10">
+        <div className="absolute top-16 right-4 backdrop-blur-xl rounded-lg p-4 shadow-lg w-72 z-10">
           <div className="flex items-center justify-between mb-4">
             <button
               onClick={handleClosePanel}
@@ -70,14 +70,14 @@ const SearchFilter = ({ onApply, onReset, placeholderTitle = "Filter by title", 
             placeholder={placeholderTitle}
             value={titleFilter}
             onChange={(e) => setTitleFilter(e.target.value)}
-            className="bg-gray-700 rounded-sm p-2 text-xs mb-4 w-full"
+            className="border-b-2 p-2 text-xs mb-4 w-full bg-transparent"
           />
           <input
             type="text"
             placeholder={placeholderDate}
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
-            className="bg-gray-700 rounded-sm p-2 text-xs mb-4 w-full"
+            className="border-b-2 p-2 text-xs mb-4 w-full bg-transparent"
           />
           <div className="flex justify-end space-x-2">
             <button

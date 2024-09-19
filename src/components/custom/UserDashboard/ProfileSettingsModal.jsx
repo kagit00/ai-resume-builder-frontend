@@ -155,19 +155,22 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                               <div className="space-y-6">
                                    <div className="p-2">
                                         <p className="flex items-center mb-4">
-                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-full mr-4">Email</span>
+                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-l-none rounded-r-full mr-4">
+                                                  Email
+                                             </span>
+
                                              <span className="text-gray-300 text-sm font-semibold">{userDetails.username}</span>
                                         </p>
                                         <p className="flex items-center mb-4">
-                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-full mr-4">Name</span>
+                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-l-none rounded-r-full mr-4">Name</span>
                                              <span className="text-gray-300 text-sm font-semibold">{userDetails.name}</span>
                                         </p>
                                         <p className="flex items-center mb-4">
-                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-full mr-4">Member Since</span>
+                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-l-none rounded-r-full mr-4">Member Since</span>
                                              <span className="text-gray-300 text-sm font-semibold">{userDetails.timestamp ? userDetails.timestamp.slice(0, 4) : ""}</span>
                                         </p>
                                         <p className="flex items-center">
-                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-full mr-4">Bio</span>
+                                             <span className="bg-blue-600 text-xs font-semibold text-white py-2 px-4 rounded-l-none rounded-r-full mr-4">Bio</span>
                                              <span className="text-gray-300 text-sm font-semibold">{userDetails.bio ? userDetails.bio : 'Nothing to show as of now'}</span>
                                         </p>
                                    </div>
@@ -268,7 +271,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
                          </>
                     ) : changePassword ? (
-                         <ChangePasswordModal isOpen={true} onClose={onClose}/>
+                         <ChangePasswordModal isOpen={true} onClose={onClose} />
                     ) : null}
                </div>
           </div>

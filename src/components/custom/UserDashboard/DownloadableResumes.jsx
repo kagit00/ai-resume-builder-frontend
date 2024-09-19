@@ -97,10 +97,10 @@ const DownloadableResumes = ({ userDetails }) => {
               </span>}
             </h2>
             {isFreeUser && <div className="flex items-center">
-              <a onClick={() => setShowPricingModal(true)} className="text-blue-500 hover:text-blue-700 font-semibold text-sm cursor-pointer">
+              <a onClick={() => setShowPricingModal(true)} className="text-blue-500 hover:text-blue-700 font-semibold text-xs md:text-sm cursor-pointer">
                 Upgrade
               </a>
-              <p className="ml-2 text-gray-300 text-sm">
+              <p className="ml-2 text-gray-300 text-xs md:text-sm">
                 to download and share your resumes with employers
               </p>
             </div>}
