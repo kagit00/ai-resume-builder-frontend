@@ -14,7 +14,7 @@ function ResumeTipsModal({ onClose }) {
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
-      <div className="relative bg-blue-900 text-gray-200 shadow-xl w-1/3 h-full p-8">
+      <div className="relative bg-blue-900 text-gray-200 shadow-xl w-full md:w-1/3 h-full p-8">
         {/* Close Button */}
         <button
           onClick={handleClose}
