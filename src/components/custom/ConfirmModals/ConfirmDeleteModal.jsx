@@ -5,8 +5,8 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm }) => {
 
      return (
           <div className="fixed inset-0 flex items-center justify-center z-50">
-               <div className="bg-black bg-opacity-90 absolute inset-0" onClick={onClose}></div>
-               <div className="bg-transparent p-8 rounded-lg shadow-2xl z-10 transform transition-transform scale-100">
+               <div className="backdrop-blur-xl absolute inset-0" onClick={onClose}></div>
+               <div className="bg-transparent p-8 z-10 transform transition-transform scale-100">
                     <div className="flex items-center mb-4">
                          <div className="p-2 bg-red-600 rounded-full shadow-lg animate-pulse mr-4">
                               <svg
