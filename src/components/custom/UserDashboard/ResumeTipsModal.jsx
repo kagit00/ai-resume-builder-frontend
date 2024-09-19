@@ -10,11 +10,11 @@ function ResumeTipsModal({ onClose }) {
 
   return (
     <div
-      className={`fixed inset-0 backdrop-blur-xl z-50 flex items-center justify-end transition-all duration-300 ${
+      className={`fixed inset-0 backdrop-blur-md z-50 flex items-center justify-end transition-all duration-300 ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}
     >
-      <div className="relative text-gray-200 shadow-xl w-full md:w-1/3 h-full p-8">
+      <div className="relative text-gray-200 bg-blue-900 shadow-xl w-full md:w-1/3 h-full p-8">
         {/* Close Button */}
         <button
           onClick={handleClose}
