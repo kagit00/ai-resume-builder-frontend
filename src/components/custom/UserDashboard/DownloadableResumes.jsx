@@ -34,10 +34,6 @@ const DownloadableResumes = ({ userDetails }) => {
     setDateFilter(date);
   };
 
-  const handleUpgrade = () => {
-    setShowPricingModal(true);
-  };
-
   const handleCloseModal = () => {
     setShowPricingModal(false);
   };
@@ -225,7 +221,7 @@ const DownloadableResumes = ({ userDetails }) => {
           </div>
 
           <div
-            className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 bg-black opacity-90 transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
+            className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 bg-blue-900 transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
               } z-50`}
           >
             <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />

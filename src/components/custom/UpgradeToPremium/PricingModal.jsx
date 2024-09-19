@@ -26,7 +26,7 @@ const PricingModal = ({ isOpen, setShowPricingModal, userId }) => {
                <div className="overflow-auto hidden-scrollbar">
                     <section id="pricing" className="bg-transparent">
                          <div className="container mx-auto px-4">
-                              <h3 className="text-lg md:text-xl lg:text-2xl font-thin text-white mb-6">
+                              <h3 className="text-lg md:text-xl lg:text-3xl font-thin text-white mb-6">
                                    Pricing Plans
                               </h3>
                               <div className="flex flex-col md:flex-row justify-center items-stretch space-y-4 md:space-y-0 md:space-x-4">

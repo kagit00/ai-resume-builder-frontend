@@ -2,6 +2,7 @@ import { cancelPremiumMembership, deleteAccount, updateNotificationEnabled } fro
 import React, { useEffect, useState } from 'react';
 import PricingModal from '../UpgradeToPremium/PricingModal';
 import { useQueryClient } from '@tanstack/react-query';
+import ChangePasswordModal from './ChangePasswordModal';
 
 const ProfileSettingsModal = ({ onClose, userDetails }) => {
      const queryClient = useQueryClient();
@@ -13,12 +14,20 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
      const [notificationsEnabled, setNotificationsEnabled] = useState(userDetails.notificationEnabled);
      const [billingDetails, setBillingDetails] = useState(false)
      const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
-     console.log(userDetails)
+     const [changePassword, setChangePassword] = useState(false)
 
      const handleDeleteAccount = async () => {
           if (isDeletingAccount) {
                await deleteAccount(userDetails.id)
           }
+     };
+
+     const handleChangePassword = () => {
+          setChangePassword(true)
+     }
+
+     const handleCloseModal = () => {
+          setShowPricingModal(false);
      };
 
      const handleCancelPremiumMembership = async () => {
@@ -38,8 +47,8 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
      };
 
      return (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-90">
-               <div className="relative bg-transparent text-white rounded-2xl shadow-xl w-full p-8 max-w-md">
+          <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-lg">
+               <div className="relative bg-transparent text-white shadow-sm w-full p-8 max-w-sm">
                     {/* Close Button */}
                     <button
                          onClick={onClose}
@@ -49,9 +58,9 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                     </button>
 
                     {/* Main Content */}
-                    {!viewingProfile && !managingEmailNotifications && !isDeletingAccount && !showPricingModal && !billingDetails ? (
+                    {!viewingProfile && !managingEmailNotifications && !isDeletingAccount && !showPricingModal && !billingDetails && !changePassword ? (
                          <>
-                              <h2 className="text-xl md:text-2xl mb-6 font-thin text-gray-100 flex items-center">
+                              <h2 className="text-xl md:text-3xl mb-6 font-thin text-gray-100 flex items-center">
                                    Profile Settings
                                    {!isFreeUser && <span className="ml-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 text-sm font-bold px-3 py-1 rounded-full shadow-lg">
                                         <svg className="inline-block w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +72,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
 
                               <ul className="space-y-4">
                                    {!isFreeUser && <li onClick={() => setBillingDetails(true)}
-                                        className="gap-2 flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        className="gap-2 flex items-center text-sm font-medium hover:bg-blue-700 px-4 py-2 rounded-full cursor-pointer transition-colors duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <circle cx="12" cy="12" r="10" />
                                              <path d="M15 9l-6 6" />
@@ -72,14 +81,14 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                         Cancel Premium Membership
                                    </li>}
                                    {isFreeUser && <li onClick={() => handleUpgrade()}
-                                        className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        className="flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-full cursor-pointer transition-colors duration-300">
                                         <svg className="w-6 h-6 mr-3 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <path d="M12 2L2 12h3v8h8v-8h3L12 2z"></path>
                                         </svg>
                                         Upgrade To Premium
                                    </li>}
                                    {userDetails.authTypeJwt &&
-                                        <li className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300">
+                                        <li onClick={() => handleChangePassword()} className="flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-full cursor-pointer transition-colors duration-300">
                                              <svg className="w-6 h-6 mr-3 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                   <path d="M17 10.5V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v5.5"></path>
                                                   <path d="M2 10.5h20"></path>
@@ -90,7 +99,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    }
                                    <li
                                         onClick={() => setManagingEmailNotifications(true)}
-                                        className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300"
+                                        className="flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-full cursor-pointer transition-colors duration-300"
                                    >
                                         <svg className="w-6 h-6 mr-3 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <path d="M8 17l4-4 4 4"></path>
@@ -100,7 +109,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    </li>
                                    <li
                                         onClick={() => setViewingProfile(true)}
-                                        className="flex items-center text-sm font-medium hover:bg-gray-700 p-4 rounded-lg cursor-pointer transition-colors duration-300"
+                                        className="flex items-center text-sm font-medium hover:bg-blue-700 p-4 rounded-full cursor-pointer transition-colors duration-300"
                                    >
                                         <svg className="w-6 h-6 mr-3 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                              <circle cx="12" cy="12" r="4"></circle>
@@ -219,9 +228,20 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                               </button>
                          </>
                     ) : showPricingModal ? (
-                         <>
+                         <div
+                              className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 bg-blue-900 transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
+                                   } z-50`}
+                         >
                               <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />
-                         </>
+
+                              {/* Close Button */}
+                              <button
+                                   className="absolute top-4 right-4 text-white hover:text-gray-400"
+                                   onClick={handleCloseModal}
+                              >
+                                   &times;
+                              </button>
+                         </div>
                     ) : billingDetails ? (
                          <>
                               <div className="p-6 max-w-md mx-auto rounded-lg shadow-lg">
@@ -237,7 +257,7 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                                    <p className="text-gray-300 mb-6">
                                         Are you sure you want to cancel your membership? This action is irreversible and all your billing details will be removed.
                                    </p>
-                              
+
                                    <button
                                         onClick={() => handleCancelPremiumMembership()}
                                         className="w-full py-3 bg-red-500 hover:bg-red-600 rounded-full text-white font-semibold transition-colors duration-300"
@@ -247,6 +267,8 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
                               </div>
 
                          </>
+                    ) : changePassword ? (
+                         <ChangePasswordModal isOpen={true} onClose={onClose}/>
                     ) : null}
                </div>
           </div>
