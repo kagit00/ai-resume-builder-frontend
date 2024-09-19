@@ -213,7 +213,7 @@ const ResumeAnalysis = ({ userDetails }) => {
                     </div>}
 
                     <div
-                         className={`fixed top-0 right-0 bg-blue-900 px-3 py-10 h-full w-full md:w-1/2 backdrop-blur-xl transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
+                         className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 backdrop-blur-xl transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
                               } z-50`}
                     >
                          <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />

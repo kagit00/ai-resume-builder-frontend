@@ -75,7 +75,7 @@ const ResumeBuilder = () => {
           }
           await updateResumeStatus(resume.id)
           if (isNotificationEnabled)
-               await sendEmail(userDetails.name, isFreeUser)
+               await sendEmail(userDetails.username, userDetails.name, isFreeUser)
      }
 
      const closeUpgradeToPremiumModal = () => {

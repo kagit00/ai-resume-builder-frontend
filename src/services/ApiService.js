@@ -827,11 +827,11 @@ export const doLogOut = async () => {
      }
 }
 
-export const sendEmail = async (name, isFreeUser) => {
+export const sendEmail = async (username, name, isFreeUser) => {
      try {
           await axios.get(`${API_BASE_URL}/resume/completed/send-email`, {
                headers: { ...headers },
-               params: { name, isFreeUser },
+               params: { username, name, isFreeUser },
                withCredentials: !jWtToken,
           });
      } catch (error) {

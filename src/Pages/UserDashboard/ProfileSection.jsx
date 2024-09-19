@@ -46,6 +46,32 @@ const ProfileSection = ({ userDetails }) => {
                                         <AddResume userDetails={userDetails} />
                                    </div>
 
+                                    {/* Profile Settings Card */}
+                                   <div className="relative p-6 rounded-xl shadow-2xl bg-gradient-to-l from-gray-800 to-gray-900 overflow-hidden duration-300">
+                                        <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
+                                        <h4 className="text-xl font-semibold text-white mb-4">Profile Settings</h4>
+                                        <p className="text-sm text-gray-400 leading-relaxed mb-4">
+                                             Customize your profile to reflect your personal and professional identity.
+                                        </p>
+                                        <div className="relative flex items-center justify-center mb-6">
+                                             <div className="p-4 rounded-full bg-gradient-to-l from-gray-600 via-transparent to-gray-900 shadow-lg hover:shadow-xl duration-300">
+                                                  <svg className="h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l2 2-2 2m-6-6l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l-2 2 2 2m12-6l-2-2 2-2m0 0l2 2-2 2m0-2V6" />
+                                                  </svg>
+                                             </div>
+                                        </div>
+                                        <button
+                                             onClick={handleOpenProfileModal}
+                                             className="absolute top-4 right-4 text-white shadow-md transform hover:shadow-lg duration-300 ease-in-out"
+                                        >
+                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                  <circle cx="12" cy="12" r="3"></circle>
+                                                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 5 15.4a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 5.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1.4z"></path>
+                                             </svg>
+                                        </button>
+                                        {isProfileModalOpen && <ProfileSettingsModal onClose={handleCloseProfileModal} userDetails={userDetails} />}
+                                   </div>
+
                                    {/* Resume Tips Card */}
                                    <div className="relative p-6 rounded-xl shadow-2xl bg-gradient-to-l from-gray-800 to-gray-900 overflow-hidden duration-300">
                                         <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
@@ -71,32 +97,6 @@ const ProfileSection = ({ userDetails }) => {
                                              </svg>
                                         </button>
                                         {isResumeTipsModalOpen && <ResumeTipsModal onClose={handleCloseResumeTipsModal} />}
-                                   </div>
-
-                                   {/* Profile Settings Card */}
-                                   <div className="relative p-6 rounded-xl shadow-2xl bg-gradient-to-l from-gray-800 to-gray-900 overflow-hidden duration-300">
-                                        <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
-                                        <h4 className="text-xl font-semibold text-white mb-4">Profile Settings</h4>
-                                        <p className="text-sm text-gray-400 leading-relaxed mb-4">
-                                             Customize your profile to reflect your personal and professional identity.
-                                        </p>
-                                        <div className="relative flex items-center justify-center mb-6">
-                                             <div className="p-4 rounded-full bg-gradient-to-l from-gray-600 via-transparent to-gray-900 shadow-lg hover:shadow-xl duration-300">
-                                                  <svg className="h-10 w-10 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l2 2-2 2m-6-6l-2-2 2-2m0 0l2 2-2 2m0-2V6m0 12l-2 2 2 2m12-6l-2-2 2-2m0 0l2 2-2 2m0-2V6" />
-                                                  </svg>
-                                             </div>
-                                        </div>
-                                        <button
-                                             onClick={handleOpenProfileModal}
-                                             className="absolute top-4 right-4 text-white shadow-md transform hover:shadow-lg duration-300 ease-in-out"
-                                        >
-                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                  <circle cx="12" cy="12" r="3"></circle>
-                                                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 5 15.4a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 5.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1.4z"></path>
-                                             </svg>
-                                        </button>
-                                        {isProfileModalOpen && <ProfileSettingsModal onClose={handleCloseProfileModal} userDetails={userDetails} />}
                                    </div>
                               </div>
                          </div>
