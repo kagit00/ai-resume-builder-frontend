@@ -196,13 +196,6 @@ html, body {
   z-index: 999; 
 }
 
-  .loader-overlay p {
-  margin-top: 10px;
-  font-size: 16px;
-  color: #333; /* Adjust the color to fit your theme */
-  text-align: center;
-}
-
 .loader {
   border: 6px solid #f3f3f3;
   border-top: 6px solid #3498db; 
