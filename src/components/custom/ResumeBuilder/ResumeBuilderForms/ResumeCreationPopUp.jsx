@@ -7,11 +7,14 @@ import { ChevronRight } from 'lucide-react';
 const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit }) => {
   const [resumeTitle, setResumeTitle] = useState('');
 
+  const isValidTitle = (title) => {
+    const titleRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9 ]*$/
+    return titleRegex.test(title) && title.length >= 3
+  }
+
   const handleConfirm = () => {
-    if (resumeTitle) {
       onSubmit(resumeTitle);
       onClose();
-    }
   };
 
   return (
@@ -22,6 +25,7 @@ const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit }) => {
             Create New Resume
           </DialogTitle>
         </DialogHeader>
+
         <DialogDescription className="text-gray-400">
           Please provide a title for your resume:
           <Input
@@ -32,9 +36,9 @@ const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit }) => {
         </DialogDescription>
         <div className="flex justify-end gap-4">
           <Button
-            disabled={!resumeTitle}
+            disabled={!isValidTitle(resumeTitle)}
             onClick={handleConfirm}
-            className={`${resumeTitle ? "bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]" : "bg-gray-500 cursor-not-allowed"
+            className={`${isValidTitle(resumeTitle) ? "bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]" : "bg-gray-500 cursor-not-allowed"
               } text-white border-none rounded-full transition-colors duration-200`}
           >
             Confirm <ChevronRight className="ml-2 h-5 w-5 inline" />

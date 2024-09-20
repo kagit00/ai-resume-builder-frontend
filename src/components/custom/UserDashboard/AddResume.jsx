@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ResumeCreationPopUp from '../ResumeBuilder/ResumeBuilderForms/ResumeCreationPopUp';
 import { createResume } from '@/services/ApiService';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddResume({ userDetails }) {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
   const resumeDetails = {
     userDetails: userDetails,
     isEditMode: false
@@ -17,7 +20,13 @@ function AddResume({ userDetails }) {
       setIsLoading(true)
       const response = await createResume({ 'title': title }, userDetails.id);
       navigate('/user/dashboard/resumeBuilder', { state: { resume: response, resumeDetails } });
-    } catch (error) {
+    } catch (err) {
+      toast.error(err?.response?.data?.errorMsg, {
+        style: {
+          backgroundColor: '#1F2937',
+          color: '#fff'
+        },
+      });
     } finally {
       setIsLoading(false)
     }
@@ -56,6 +65,7 @@ function AddResume({ userDetails }) {
         isOpen={openDialog}
         onClose={() => setOpenDialog(false)}
         onSubmit={buildResume}
+        errorMessage={errorMessage}
       />
     </div>
   );

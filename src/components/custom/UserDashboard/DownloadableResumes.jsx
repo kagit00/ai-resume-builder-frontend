@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { SiIndeed } from 'react-icons/si';
 import SearchFilter from './SearchFilter';
 import generatePdf from '../ResumeBuilder/ResumeFinal/PdfGenerator';
 import FinalResume from '../ResumeBuilder/ResumeFinal/FinalResume';
 import NothingToDisplay from '@/components/custom/UserDashboard/NothingToDisplay';
-import { useQuery } from '@tanstack/react-query';
 import { getResumeListByUserId } from '@/services/ApiService.js';
 import PricingModal from '../UpgradeToPremium/PricingModal';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DownloadableResumes = ({ userDetails }) => {
   const [showPricingModal, setShowPricingModal] = useState(false);
@@ -15,13 +16,29 @@ const DownloadableResumes = ({ userDetails }) => {
   const [dateFilter, setDateFilter] = useState('');
   const isFreeUser = userDetails.authorities.length === 1 && userDetails.authorities[0].authority === 'FREE_USER'
   const nothingToDisplayTextDownloadableResume = 'No Downloadable Resume Is Here';
+  const [isLoading, setIsLoading] = useState(false)
+  const [downloadableResumes, setDownloadableResumes] = useState([])
 
+  useEffect(() => {
+    fetchDownloadableResumesOfUser()
+  }, [userDetails]);
 
-  const { data: downloadableResumes = [], isLoading: isDownloadableResumesLoading } = useQuery({
-    queryKey: ['downloadableResumes', userDetails?.id],
-    queryFn: () => getResumeListByUserId(userDetails?.id, 'completed'),
-    enabled: !!userDetails,
-  });
+  const fetchDownloadableResumesOfUser = async () => {
+    try {
+      setIsLoading(true)
+      const data = await getResumeListByUserId(userDetails?.id, 'completed')
+      setDownloadableResumes(data)
+    } catch (err) {
+      toast.error(err?.response?.data?.errorMsg, {
+        style: {
+          backgroundColor: '#1F2937',
+          color: '#fff'
+        },
+      });
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const filteredCards = downloadableResumes.filter(card => {
     const titleMatch = card.title.toLowerCase().includes(titleFilter.toLowerCase());
@@ -84,6 +101,11 @@ const DownloadableResumes = ({ userDetails }) => {
 
   return (
     <>
+      {isLoading && (
+        <div className="loader-overlay">
+          <div className="loader"></div>
+        </div>
+      )}
       {downloadableResumes.length > 0 ? (
         <section id="downloadable-resumes" className="relative flex-1 flex flex-col py-20 px-10">
           <div className="flex flex-col items-center mb-4 relative">

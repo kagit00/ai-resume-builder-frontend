@@ -3,7 +3,6 @@ import SearchFilter from './SearchFilter';
 import { deleteResume } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDeleteModal from '../ConfirmModals/ConfirmDeleteModal';
-import { useQuery } from '@tanstack/react-query';
 import NothingToDisplay from '@/components/custom/UserDashboard/NothingToDisplay';
 import { getResumeListByUserId } from '@/services/ApiService.js';
 import { useMemo } from 'react';
@@ -17,12 +16,28 @@ const PendingResumes = ({ userDetails }) => {
      const nothingToDisplayTextPendingResume = 'No Pending Resume Is Here.';
      const [filteredCards, setFilteredCards] = useState([]);
      const [isLoading, setIsLoading] = useState(false)
+     const [pendingResumes, setPendingResumes] = useState([])
 
-     const { data: pendingResumes = [], isLoading: isPendingResumesLoading } = useQuery({
-          queryKey: ['pendingResumes', userDetails?.id],
-          queryFn: () => getResumeListByUserId(userDetails?.id, 'pending'),
-          enabled: !!userDetails,
-     });
+     useEffect(() => {
+          fetchPendingResumesOfUser()
+     }, [userDetails]);
+
+     const fetchPendingResumesOfUser = async () => {
+          try {
+               setIsLoading(true)
+               const data = await getResumeListByUserId(userDetails?.id, 'pending')
+               setPendingResumes(data)
+          } catch (err) {
+               toast.error(err?.response?.data?.errorMsg, {
+                    style: {
+                         backgroundColor: '#1F2937',
+                         color: '#fff'
+                    },
+               });
+          } finally {
+               setIsLoading(false)
+          }
+     }
 
      const filtered = useMemo(() => {
           if (pendingResumes && (titleFilter || dateFilter)) {
@@ -90,6 +105,11 @@ const PendingResumes = ({ userDetails }) => {
 
      return (
           <>
+               {isLoading && (
+                    <div className="loader-overlay">
+                         <div className="loader"></div>
+                    </div>
+               )}
                {pendingResumes.length > 0 ? (
                     <section id="pending-resumes" className="relative flex-1 flex flex-col py-20 px-10">
                          <div className="flex flex-col items-center mb-4">
