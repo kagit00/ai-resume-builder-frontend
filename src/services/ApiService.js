@@ -668,3 +668,11 @@ export const changePassword = async (currentPassword, newPassword, confirmPasswo
           throw error
      }
 }
+
+export const checkServerStatus = async () => {
+     try {
+          await axios.get(`${API_BASE_URL}/heartbeat`);
+     } catch (err) {
+          throw err
+     }
+}

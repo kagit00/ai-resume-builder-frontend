@@ -3,15 +3,27 @@ import Features from '@/components/custom/Home/Features/Features.jsx'
 import HowItWorks from '@/components/custom/Home/HowItWorks/HowItWorks.jsx'
 import Footer from '@/components/custom/Home/Footer/Footer.jsx'
 import Pricing from '@/components/custom/Home/Pricing/Pricing.jsx'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import GlobalHeader from '@/components/custom/Home/Header/GlobalHeader'
 import SampleResume from '@/components/custom/Home/SampleResume/SampleResume'
+import SandboxNotificationBadge from '@/components/custom/Home/SandboxNotificationBadge'
+import { checkServerStatus } from '@/services/ApiService'
 
 export default function Home() {
+
+  useEffect(() => {
+    checkServerHeartbeat()
+  }, []);
+
+  const checkServerHeartbeat = async () => {
+    await checkServerStatus();
+  } 
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-gray-100">
+      <SandboxNotificationBadge/>
       <GlobalHeader />
       <main className="flex-1">
         <Hero />
