@@ -194,12 +194,13 @@ html, body {
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999; 
+}
+
   .loader-overlay p {
   margin-top: 10px;
   font-size: 16px;
   color: #333; /* Adjust the color to fit your theme */
   text-align: center;
-}
 }
 
 .loader {
