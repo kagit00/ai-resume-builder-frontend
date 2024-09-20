@@ -4,9 +4,10 @@ const SandboxNotificationBadge = () => {
     const [showNotification, setShowNotification] = useState(true);
 
     useEffect(() => {
-        const hasSeenNotification = localStorage.getItem('hasSeenSandboxNotification');
-        if (hasSeenNotification) setShowNotification(false);
-    }, []);
+    const hasSeenNotification = localStorage.getItem('hasSeenSandboxNotification');
+    if (hasSeenNotification) setShowNotification(false);
+}, []);
+
 
     const handleDismissClick = () => {
         localStorage.setItem('hasSeenSandboxNotification', 'true');
@@ -16,10 +17,10 @@ const SandboxNotificationBadge = () => {
     if (!showNotification) return null;
 
     return (
-        <div className="fixed top-0 w-full bg-yellow-500 text-black text-center font-bold py-3 z-50">
-            ⚠️ This application is currently deployed in a sandbox environment. You may experience delays or timeouts. 
+        <div className="fixed top-0 w-full bg-yellow-300 text-black px-2 font-bold py-3 z-[9999]">
+            ⚠️ This application is currently deployed in a sandbox environment. You may experience delays or timeouts. In case of timeouts, you can always give a retry 
             <button 
-                className="ml-3 underline text-blue-600 hover:text-blue-800" 
+                className="ml-3 underline text-blue-600 hover:text-blue-800 text-sm" 
                 onClick={handleDismissClick}
             >
                 Dismiss
