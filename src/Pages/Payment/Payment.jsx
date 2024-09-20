@@ -12,7 +12,7 @@ const Payment = () => {
     const [clientToken, setClientToken] = useState(null);
     const [paymentSuccess, setPaymentSuccess] = useState(false);
     const [redirecting, setRedirecting] = useState(false);
-    const [isDropinValid, setIsDropinValid] = useState(false); 
+    const [isDropinValid, setIsDropinValid] = useState(false);
     const dropinInstance = useRef(null);
     const userId = location.state || 0;
     const [isLoading, setIsLoading] = useState(true);
@@ -30,12 +30,12 @@ const Payment = () => {
                 const tokenResponse = await getClientTokenForPayment();
                 setClientToken(tokenResponse.clientToken);
             } catch (error) {
-                 toast.error(error?.response?.data?.errorMsg, {
+                toast.error(error?.response?.data?.errorMsg, {
                     style: {
-                         backgroundColor: '#1F2937',
-                         color: '#fff'
+                        backgroundColor: '#1F2937',
+                        color: '#fff'
                     },
-               });
+                });
             } finally {
                 setIsLoading(false);
             }
@@ -95,10 +95,10 @@ const Payment = () => {
             } catch (error) {
                 toast.error(error?.response?.data?.errorMsg, {
                     style: {
-                         backgroundColor: '#1F2937',
-                         color: '#fff'
+                        backgroundColor: '#1F2937',
+                        color: '#fff'
                     },
-               });
+                });
             } finally {
                 setIsLoading(false)
             }
@@ -108,31 +108,31 @@ const Payment = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900">
             {isLoading && (
-                    <div className="loader-overlay">
-                         <div className="loader"></div>
-                    </div>
-               )}
-
+                <div className="loader-overlay">
+                    <div className="loader"></div>
+                    <p>This may take a while...</p>
+                </div>
+            )}
             <div className={`w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl hidden-scrollbar ${isLoading ? 'hidden' : ''}`} style={{ maxHeight: '90vh', overflowY: 'scroll' }}>
                 <h1 className="text-3xl font-thin text-center text-white mb-3">Complete Your Payment</h1>
-                 {/* Sandbox Instruction Panel - Moved Here */}
-                        <div className="bg-yellow-200 text-yellow-900 p-3 mb-4 rounded-lg text-sm">
-                            <p>
-                                This is a <strong>Sandbox Environment</strong>. No real money will be transacted.
-                            </p>
-                            <p>Use the following test card details:</p>
-                            <ul className="list-disc list-inside">
-                                <li>
-                                    Card Number: <strong>4111 1111 1111 1111</strong>
-                                </li>
-                                <li>
-                                    Expiration Date: <strong>Any future date</strong>
-                                </li>
-                                <li>
-                                    CVV: <strong>123</strong>
-                                </li>
-                            </ul>
-                        </div>
+                {/* Sandbox Instruction Panel - Moved Here */}
+                <div className="bg-yellow-200 text-yellow-900 p-3 mb-4 rounded-lg text-sm">
+                    <p>
+                        This is a <strong>Sandbox Environment</strong>. No real money will be transacted.
+                    </p>
+                    <p>Use the following test card details:</p>
+                    <ul className="list-disc list-inside">
+                        <li>
+                            Card Number: <strong>4111 1111 1111 1111</strong>
+                        </li>
+                        <li>
+                            Expiration Date: <strong>Any future date</strong>
+                        </li>
+                        <li>
+                            CVV: <strong>123</strong>
+                        </li>
+                    </ul>
+                </div>
 
                 {/* Drop-in UI */}
                 <div id="dropin-container" className={`mb-2 bg-gray-800 p-4 rounded-lg ${paymentSuccess ? 'hidden' : ''}`}></div>
