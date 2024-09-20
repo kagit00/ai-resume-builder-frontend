@@ -113,7 +113,7 @@ const Payment = () => {
                     </div>
                )}
 
-            <div className={`w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl hidden-scrollbar ${loading ? 'hidden' : ''}`} style={{ maxHeight: '90vh', overflowY: 'scroll' }}>
+            <div className={`w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl hidden-scrollbar ${isLoading ? 'hidden' : ''}`} style={{ maxHeight: '90vh', overflowY: 'scroll' }}>
                 <h1 className="text-3xl font-thin text-center text-white mb-3">Complete Your Payment</h1>
                  {/* Sandbox Instruction Panel - Moved Here */}
                         <div className="bg-yellow-200 text-yellow-900 p-3 mb-4 rounded-lg text-sm">
