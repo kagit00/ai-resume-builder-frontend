@@ -110,7 +110,6 @@ const Payment = () => {
             {isLoading && (
                 <div className="loader-overlay">
                     <div className="loader"></div>
-                    <p>This may take a while...</p>
                 </div>
             )}
             <div className={`w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-xl hidden-scrollbar ${isLoading ? 'hidden' : ''}`} style={{ maxHeight: '90vh', overflowY: 'scroll' }}>
