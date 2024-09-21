@@ -14,7 +14,8 @@ const skillOptions = [
 
 const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills, resume }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // Add search query state
 
   useEffect(() => {
     getResumeSkills(resume.id);
@@ -23,8 +24,8 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
   const getResumeSkills = async () => {
     try {
       setIsLoading(true);
-      const skills = await getSkills(resume.id)
-      setSelectedSkills(skills)
+      const skills = await getSkills(resume.id);
+      setSelectedSkills(skills);
     } catch (error) {
       toast.error(error?.response?.data?.errorMsg, {
         style: {
@@ -33,9 +34,9 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
         },
       });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
@@ -50,7 +51,7 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
   const handleAddSkills = async () => {
     try {
       setIsLoading(true);
-      const skillsStr = selectedSkills.join(",")
+      const skillsStr = selectedSkills.join(",");
       await updateSkills(skillsStr, resume.id);
       setDropdownOpen(false);
     } catch (error) {
@@ -61,13 +62,18 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
         },
       });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
   const handleResetSkills = () => {
     handleSkillsUpdate([]);
   };
+
+  // Filter skills based on search query
+  const filteredSkills = skillOptions.filter(skill =>
+    skill.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>
@@ -89,16 +95,30 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
           </button>
           {dropdownOpen && (
             <div className="absolute bg-gray-800 rounded-lg mt-1 w-full z-10">
+              {/* Search Input */}
+              <div className="p-2">
+                <input
+                  type="text"
+                  placeholder="Search skills..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-3 py-2 bg-gray-700 text-white rounded focus:outline-none"
+                />
+              </div>
               <div className="max-h-60 overflow-y-auto hidden-scrollbar">
-                {skillOptions.map((skill, index) => (
-                  <div
-                    key={index}
-                    className={`cursor-pointer p-2 hover:bg-gray-600 ${selectedSkills.includes(skill) ? 'bg-gray-600' : ''}`}
-                    onClick={() => handleSkillSelect(skill)}
-                  >
-                    {skill}
-                  </div>
-                ))}
+                {filteredSkills.length > 0 ? (
+                  filteredSkills.map((skill, index) => (
+                    <div
+                      key={index}
+                      className={`cursor-pointer p-2 hover:bg-gray-600 ${selectedSkills.includes(skill) ? 'bg-gray-600' : ''}`}
+                      onClick={() => handleSkillSelect(skill)}
+                    >
+                      {skill}
+                    </div>
+                  ))
+                ) : (
+                  <div className="p-2 text-gray-400">No skills found</div>
+                )}
               </div>
             </div>
           )}

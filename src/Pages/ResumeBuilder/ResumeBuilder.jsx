@@ -13,7 +13,7 @@ import { useLocation } from 'react-router-dom';
 import { sendEmail, updateResumeStatus } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
 import UpgradeToPremium from '@/components/custom/UserDashboard/UpgradeToPremium.jsx';
-import Modal from '@mui/material/Modal';
+import { Typography, Box } from '@mui/material';
 
 const ResumeBuilder = () => {
      const navigate = useNavigate()
@@ -227,12 +227,12 @@ const ResumeBuilder = () => {
                                                   disabled={isResumeSubmitDisabled}
                                              >
                                                   <CheckCircleIcon className="w-6 h-6" />
-                                                  <span className="sr-only">Submit Resume</span>
+                                                  
                                              </button>
 
                                              {isResumeSubmitDisabled && (
-                                                  <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-xs bg-red-700 text-white text-sm rounded-lg shadow-lg px-4 py-4 z-50">
-                                                       You have to complete each section to save your resume.
+                                                  <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-xs bg-red-700 text-white text-sm rounded-sm shadow-lg px-4 py-3 z-50">
+                                                       <p className='font-semibold text-xs text-left'></p>You have to complete each section to save your resume.
                                                   </div>
                                              )}
                                         </div>

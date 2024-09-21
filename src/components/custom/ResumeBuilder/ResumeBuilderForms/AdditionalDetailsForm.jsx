@@ -3,23 +3,39 @@ import { saveAdditionalDetails, getAdditionalDetails, updateAdditionalDetails } 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedAdditionalDetails, setAddedAdditionalDetails, resume, resumeDetails }) => {
+const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedAdditionalDetails, setAddedAdditionalDetails, resume }) => {
      const [isLoading, setIsLoading] = useState(false)
 
      useEffect(() => {
           getResumeAddtionalDetails(resume.id);
      }, []);
+     console.log({ addedAdditionalDetails }, { additionalDetails })
+
+     const isValidMobileNumber = () => {
+          const regex = /^\+?[1-9]\d{1,14}$/
+          return regex.test(additionalDetails.phoneNumber)
+     }
+
+     const isValidGithubLink = () => {
+          const regex = /^https:\/\/github\.com\/[a-zA-Z0-9-]+$/
+          return regex.test(additionalDetails.githubLink)
+     }
+
+     const handleReset = () => {
+          setAdditionalDetails({ phoneNumber: '', githubLink: '', linkedInProfileLink: '' })
+     }
+
+     const isValidLinkedIn = () => {
+          const regex = /^https:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+\/?$/
+          return regex.test(additionalDetails.linkedInProfileLink)
+     }
 
      const getResumeAddtionalDetails = async () => {
           try {
                setIsLoading(true)
                const ad = await getAdditionalDetails(resume.id)
-               if ((ad.phoneNumber && ad.phoneNumber.length > 0) ||
-                    (ad.linkedInProfileLink && ad.linkedInProfileLink.length > 0) ||
-                    (ad.githubLink && ad.githubLink.length > 0)) {
-                    setAdditionalDetails(ad);
-                    setAddedAdditionalDetails(ad)
-               }
+               setAdditionalDetails(ad);
+               setAddedAdditionalDetails(ad)
           } catch (error) {
                toast.error(error?.response?.data?.errorMsg, {
                     style: {
@@ -32,10 +48,12 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
           }
      }
 
-     const areAllFieldsFilled = (additionalDetails) => {
-          return (additionalDetails.phoneNumber && additionalDetails.phoneNumber.length > 0) ||
-               (additionalDetails.linkedInProfileLink && additionalDetails.linkedInProfileLink.length > 0) ||
-               (additionalDetails.githubLink && additionalDetails.githubLink.length > 0);
+     const areAllFieldsValid = (additionalDetails) => {
+          return isValidMobileNumber(additionalDetails.phoneNumber) && isValidLinkedIn(additionalDetails.linkedInProfileLink) && isValidGithubLink(additionalDetails.githubLink);
+     }
+
+     const areAllFieldsEmpty = (details) => {
+          return !details.githubLink && !details.linkedInProfileLink && !details.phoneNumber;
      }
 
      const handleAdditionalDetailChange = (e) => {
@@ -45,7 +63,7 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
      const handleAddAdditionalDetails = async () => {
           try {
                setIsLoading(true)
-               if (areAllFieldsFilled(addedAdditionalDetails)) {
+               if (!areAllFieldsEmpty(addedAdditionalDetails)) {
                     await updateAdditionalDetails(resume.id, additionalDetails.id, additionalDetails)
                     setAdditionalDetails(additionalDetails);
                     setAddedAdditionalDetails(additionalDetails)
@@ -112,24 +130,39 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
                          />
 
                          <div className="flex space-x-4">
-                              {areAllFieldsFilled(addedAdditionalDetails) ? (
-                                   <>
+
+                              <>
+                                   {!areAllFieldsEmpty(addedAdditionalDetails) && (
                                         <button
                                              onClick={handleAddAdditionalDetails}
-                                             className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
+                                             className={`${areAllFieldsValid(additionalDetails)
+                                                  ? "bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 transform hover:scale-105"
+                                                  : "opacity-50 cursor-not-allowed bg-gray-600"
+                                                  } text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2`}
+                                             disabled={!areAllFieldsValid(additionalDetails)}
                                         >
                                              <span>Update</span>
                                         </button>
-                                   </>
-                              ) : (areAllFieldsFilled(additionalDetails) &&
-                                   <button
+                                   )}
+
+                                   {areAllFieldsEmpty(addedAdditionalDetails) && <button
                                         onClick={handleAddAdditionalDetails}
-                                        className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
+                                        className={`${areAllFieldsValid(additionalDetails)
+                                             ? "bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 transform hover:scale-105"
+                                             : "opacity-50 cursor-not-allowed bg-gray-600"
+                                             } text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2`}
+                                        disabled={!areAllFieldsValid(additionalDetails)}
                                    >
                                         <span>Add</span>
-                                   </button>
-                              )
-                              }
+                                   </button>}
+
+                              </>
+                              <button
+                                   onClick={handleReset}
+                                   className='transform hover:scale-105 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2'
+                              >
+                                   <span>Reset</span>
+                              </button>
                          </div>
                     </div>
                </>

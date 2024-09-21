@@ -33,7 +33,7 @@ const ResumePreview = ({ userDetails, addedSummary, addedAdditionalDetails, expe
                               <div className="flex items-center gap-2">
                                    {/* LinkedIn */}
                                    <a
-                                        href={`https://${addedAdditionalDetails.linkedInProfileLink.replace(/^(https?:\/\/)?/, '')}`}
+                                        href={addedAdditionalDetails.linkedInProfileLink}
                                         className="text-blue-800 font-semibold hover:underline"
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -43,7 +43,7 @@ const ResumePreview = ({ userDetails, addedSummary, addedAdditionalDetails, expe
 
                                    {/* GitHub */}
                                    <a
-                                        href={`https://${addedAdditionalDetails.githubLink.replace(/^(https?:\/\/)?/, '')}`}
+                                        href={addedAdditionalDetails.githubLink}
                                         className="text-blue-800 font-semibold hover:underline"
                                         target="_blank"
                                         rel="noopener noreferrer"
