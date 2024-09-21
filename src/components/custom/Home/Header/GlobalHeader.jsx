@@ -88,19 +88,19 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                     </nav>
 
                     {location.pathname.endsWith("/dashboard") && (
-                        <div className="absolute top-4 right-20">
+                        <div className="absolute top-5 right-20">
                             <button
                                 onClick={toggleDropdown}
-                                className="flex items-center px-4 py-2 bg-transparent text-white rounded-full focus:outline-none"
+                                className="flex items-center px-4 py-1 bg-gray-700 text-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-transform duration-150"
                             >
-                                <span className="mr-2 text-xs font-semibold">{sectionNames[activeSection]}</span>
-                                <ChevronDownIcon className="h-5 w-5" />
+                                <span className="mr-2 text-xs font-semibold tracking-wide">{sectionNames[activeSection]}</span>
+                                <ChevronDownIcon className="h-5 w-5 text-gray-400" />
                             </button>
                             {isDropdownOpen && (
-                                <div className="absolute right-0 mt-2 w-full max-w-xs bg-black text-white opacity-80 font-semibold text-xs shadow-lg z-50">
-                                    <ul>
+                                <div className="absolute right-0 mt-2 w-full max-w-xs bg-gray-800 text-gray-200 rounded-lg shadow-lg z-50 opacity-90 transition-opacity duration-200 ease-in-out">
+                                    <ul className="text-xs font-semibold">
                                         <li
-                                            className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
+                                            className="px-4 py-3 hover:bg-gray-700 rounded-lg cursor-pointer transition ease-in-out duration-150"
                                             onClick={() => {
                                                 onSectionChange("section1");
                                                 setIsDropdownOpen(false);
@@ -109,7 +109,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                             Profile & Misc.
                                         </li>
                                         <li
-                                            className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
+                                            className="px-4 py-3 hover:bg-gray-700 rounded-lg cursor-pointer transition ease-in-out duration-150"
                                             onClick={() => {
                                                 onSectionChange("section2");
                                                 setIsDropdownOpen(false);
@@ -118,7 +118,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                             Pending Resumes
                                         </li>
                                         <li
-                                            className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
+                                            className="px-4 py-3 hover:bg-gray-700 rounded-lg cursor-pointer transition ease-in-out duration-150"
                                             onClick={() => {
                                                 onSectionChange("section3");
                                                 setIsDropdownOpen(false);
@@ -127,7 +127,7 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                                             Downloadable Resumes
                                         </li>
                                         <li
-                                            className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
+                                            className="px-4 py-3 hover:bg-gray-700 rounded-lg cursor-pointer transition ease-in-out duration-150"
                                             onClick={() => {
                                                 onSectionChange("section4");
                                                 setIsDropdownOpen(false);
@@ -140,6 +140,8 @@ function GlobalHeader({ onSectionChange, activeSection }) {
                             )}
                         </div>
                     )}
+
+
 
                     {/* Logout Button */}
                     {location.pathname.startsWith("/user/") && (
