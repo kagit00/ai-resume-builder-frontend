@@ -258,7 +258,7 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
                                    value={experience.description}
                                    onChange={handleEditorChange}
                                    style={{ minHeight: '100px', maxHeight: '180px' }}
-                                   placeholder="Experience description or click on the bottom-right button to write with AI"
+                                   placeholder="Put experience description or write with AI"
                                    className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               />
                               <AISuggestionsButton onClick={handleGenerateSuggestions} />

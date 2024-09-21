@@ -60,7 +60,7 @@ const ResumePreview = ({ userDetails, addedSummary, addedAdditionalDetails, expe
                     {/* Summary Section */}
                     <section className="mb-2 text-black">
                          {/* Section Heading */}
-                         <h5 className="text-sm font-semibold border-b border-gray-300 pb-1">Summary</h5>
+                         <h5 className="text-xs font-semibold border-b border-gray-300 pb-1">Summary</h5>
 
                          {/* Summary Content */}
                          <div className="custom font-normal leading-relaxed mt-1 cust" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(addedSummary) }} />
@@ -79,7 +79,7 @@ const ResumePreview = ({ userDetails, addedSummary, addedAdditionalDetails, expe
                     {/* Skills */}
                     <section className="mb-2">
                          {/* Section Heading */}
-                         <h5 className="text-sm font-semibold text-gray-800 border-b border-gray-300 pb-1 tracking-wide">Skills</h5>
+                         <h5 className="text-xs font-semibold text-gray-800 border-b border-gray-300 pb-1 tracking-wide">Skills</h5>
 
                          {/* Skills List */}
                          <p className="text-xs text-gray-700 font-medium mt-1">

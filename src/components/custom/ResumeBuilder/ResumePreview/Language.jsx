@@ -2,7 +2,7 @@ const Language = ({ languagesList }) => {
      return (
           <section className="mb-2">
                {/* Section Heading */}
-               <h5 className="text-sm font-semibold text-gray-800 border-b border-gray-300 pb-1 tracking-wide">Languages</h5>
+               <h5 className="text-xs font-semibold text-gray-800 border-b border-gray-300 pb-1 tracking-wide">Languages</h5>
 
                {/* Languages List */}
                {languagesList.length > 0 ? (

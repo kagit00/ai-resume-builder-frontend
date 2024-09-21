@@ -5,7 +5,7 @@ const Education = ({ educationList }) => {
      return (
           <section className="mb-2">
                {/* Section Heading */}
-               <h5 className="text-sm font-semibold text-black border-b border-gray-300 pb-1">Education</h5>
+               <h5 className="text-xs font-semibold text-black border-b border-gray-300 pb-1">Education</h5>
 
                {/* Education List */}
                {educationList.length > 0 ? (

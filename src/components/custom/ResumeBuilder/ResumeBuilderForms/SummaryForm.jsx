@@ -116,7 +116,7 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                               name={sections[currentStep].title.toLowerCase()}
                               value={summary}
                               onChange={handleEditorChange}
-                              placeholder="Job description"
+                              placeholder="Put summary or write with AI"
                               className="bg-slate-300 text-black border border-transparent rounded-md w-full py-2 md:py-3 px-3 md:px-4 leading-tight focus:outline-none transition duration-200 ease-in-out pr-16 hidden-scrollbar"
                               style={{ minHeight: '100px', maxHeight: '180px' }}
                          />

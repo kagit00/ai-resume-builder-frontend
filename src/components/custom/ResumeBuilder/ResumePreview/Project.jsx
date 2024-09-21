@@ -5,7 +5,7 @@ const Project = ({ projectsList }) => {
      return (
           <section className="mb-2">
                          {/* Section Heading */}
-                         <h5 className="text-sm font-semibold text-black border-b border-gray-300 pb-1">Projects</h5>
+                         <h5 className="text-xs font-semibold text-black border-b border-gray-300 pb-1">Projects</h5>
 
                          {/* Projects List */}
                          {projectsList.length > 0 ? (

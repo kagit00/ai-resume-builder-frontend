@@ -9,10 +9,9 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
      useEffect(() => {
           getResumeAddtionalDetails(resume.id);
      }, []);
-     console.log({ addedAdditionalDetails }, { additionalDetails })
 
      const isValidMobileNumber = () => {
-          const regex = /^\+?[1-9]\d{1,14}$/
+          const regex = /^\+?[0-9. ()-]{10,13}$/
           return regex.test(additionalDetails.phoneNumber)
      }
 

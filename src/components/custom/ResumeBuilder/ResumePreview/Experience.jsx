@@ -5,7 +5,7 @@ const Experience = ({ experienceList }) => {
      return (
           <section className="mb-2">
                {/* Section Heading */}
-               <h5 className="text-sm font-semibold text-black border-b border-gray-300 pb-1">Experience</h5>
+               <h5 className="text-xs font-semibold text-black border-b border-gray-300 pb-1">Experience</h5>
 
                {/* Experience List */}
                {experienceList.length > 0 ? (
