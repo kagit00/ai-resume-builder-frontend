@@ -64,7 +64,7 @@ function ChangePasswordModal({ isOpen, userId, setChangePassword }) {
                className={`fixed inset-0 z-50 flex items-center justify-end transition-all duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
                     }`}
           >
-               <div className="relative  text-gray-200 shadow-xl w-full md:w-1/3 h-full p-8">
+               <div className="relative text-gray-200 shadow-xl w-full md:w-1/3 h-full p-8">
                {isLoading && (
                          <div className="loader-overlay">
                               <div className="loader"></div>
