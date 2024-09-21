@@ -124,7 +124,7 @@ const PendingResumes = ({ userDetails }) => {
                               {filteredCards.map(card => (
                                    <div
                                         key={card.id}
-                                        className="relative max-w-[350px] min-w-[300px] bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 mb-6"
+                                        className="relative  max-w-300px min-w-[270px] md:max-w-[350px] md:min-w-[300px] bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 mb-6"
                                    >
                                         {/* Action Icons */}
                                         <div className="absolute top-4 right-4 flex items-center space-x-4">

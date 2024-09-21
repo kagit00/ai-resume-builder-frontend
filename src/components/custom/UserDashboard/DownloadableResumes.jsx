@@ -111,12 +111,15 @@ const DownloadableResumes = ({ userDetails }) => {
           <div className="flex flex-col items-center mb-4 relative">
             <h2 className="text-3xl md:text-4xl lg:text-6xl mb-10 font-extralight leading-tight text-white flex items-center relative">
               Downloadable Resumes
-              {!isFreeUser && <span className="ml-3 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 text-sm font-bold px-3 py-1 rounded-full shadow-lg">
-                <svg className="inline-block w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Premium
-              </span>}
+              {!isFreeUser && (
+                <span className="ml-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 font-semibold text-xs md:text-sm md:font-bold px-1 md:px-3 py-1 rounded-full shadow-lg inline-flex items-center">
+                  <svg className="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Premium
+                </span>
+              )}
+
             </h2>
             {isFreeUser && <div className="flex items-center">
               <a onClick={() => setShowPricingModal(true)} className="text-blue-500 hover:text-blue-700 font-semibold text-xs md:text-sm cursor-pointer">
@@ -134,7 +137,7 @@ const DownloadableResumes = ({ userDetails }) => {
             {filteredCards.map(card => (
               <div
                 key={card.id}
-                className="relative max-w-[350px] min-w-[300px] bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 mb-6"
+                className="relative max-w-300px min-w-[270px] md:max-w-[350px] md:min-w-[300px] bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105 mb-6"
               >
                 {/* Action Icons */}
                 <div className="absolute top-4 right-4 flex items-center space-x-4">
@@ -243,7 +246,7 @@ const DownloadableResumes = ({ userDetails }) => {
           </div>
 
           <div
-            className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
+            className={`fixed top-0 right-0 px-3 py-10 h-full w-full md:w-1/2 backdrop-blur-lg transition-transform duration-500 transform ${showPricingModal ? 'translate-x-0' : 'translate-x-full'
               } z-50`}
           >
             <PricingModal isOpen={true} setShowPricingModal={setShowPricingModal} userId={userDetails.id} />
