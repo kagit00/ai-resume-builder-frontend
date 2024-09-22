@@ -4,18 +4,18 @@ import { CheckCircle, FileText, Zap } from 'lucide-react';
 const timelineData = [
   {
     icon: <Zap className="h-8 w-8 text-blue-500 opacity-70" />,
-    title: 'AI-Powered Optimization',
-    description: 'Our AI-powered system analyzes your experience and skills to craft a resume that highlights your strengths and aligns with your career goals. Stand out from the competition with a resume designed to impress recruiters and hiring managers.',
+    title: 'AI-Powered Resume Creation',
+    description: 'Implemented AI-driven features to assist users in creating and editing professional resumes, ensuring ease and efficiency for both Basic and Premium subscription models.',
   },
   {
     icon: <FileText className="h-8 w-8 text-blue-500 opacity-70" />,
-    title: 'ATS-Friendly Templates',
-    description: 'Choose from a range of templates optimized for Applicant Tracking Systems (ATS). Our templates ensure your resume passes through automated screenings and reaches the hands of hiring professionals.',
+    title: 'Secure Login with Google',
+    description: 'Users can sign in effortlessly using their Google account through secure OAuth2 authentication, ensuring a smooth and safe login experience',
   },
   {
     icon: <CheckCircle className="h-8 w-8 text-blue-500 opacity-70" />,
-    title: 'Easy Customization',
-    description: 'Customize your resume effortlessly with our user-friendly interface. Make changes in real-time, and preview your updates instantly to create a resume that reflects your personal style and professional accomplishments.',
+    title: 'Upgrade to Premium for Extra Benefits',
+    description: 'Users can upgrade to the Premium Plan to download their resumes in various formats and access advanced analytics for resume performance, providing valuable insights and flexibility',
   },
 ];
 
