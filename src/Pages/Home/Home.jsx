@@ -4,6 +4,7 @@ import HowItWorks from '@/components/custom/Home/HowItWorks/HowItWorks.jsx'
 import Footer from '@/components/custom/Home/Footer/Footer.jsx'
 import Pricing from '@/components/custom/Home/Pricing/Pricing.jsx'
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import GlobalHeader from '@/components/custom/Home/Header/GlobalHeader'
@@ -12,10 +13,14 @@ import SandboxNotificationBadge from '@/components/custom/Home/SandboxNotificati
 import { checkServerStatus } from '@/services/ApiService'
 
 export default function Home() {
-
+const navigate = useNavigate();
   useEffect(() => {
     checkServerHeartbeat()
   }, []);
+
+  const getStarted = () => {
+    navigate('/auth/sign-in')
+  }
 
   const checkServerHeartbeat = async () => {
     await checkServerStatus();
@@ -42,7 +47,7 @@ export default function Home() {
                   Join thousands of job seekers who have successfully landed their dream jobs with our AI-powered resume builder.
                 </p>
               </div>
-              <Button className="bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]">
+              <Button className="bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]" onClick={() => getStarted()}>
                 Get Started Now <ChevronRight className="ml-2 h-5 w-5 inline" />
               </Button>
             </div>
