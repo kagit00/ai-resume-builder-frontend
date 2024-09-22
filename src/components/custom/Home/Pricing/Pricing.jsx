@@ -18,13 +18,13 @@ function Pricing() {
               <li>Email support</li>
               <li>Unlimited Resume Editing</li>
             </ul>
-            <button className="bg-red-600 text-white py-2 px-6 rounded-full hover:bg-red-500 transition duration-300">
+            <button className="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-500 transition duration-300">
               Get Started
             </button>
           </div>
 
           {/* Premium Plan */}
-          <div className="bg-gradient-to-br from-red-600 to-red-400 text-white p-8 rounded-3xl shadow-2xl w-full max-w-md transform scale-105">
+          <div className="bg-gradient-to-br from-blue-600 to-blue-400 text-white p-8 rounded-3xl shadow-2xl w-full max-w-md transform scale-105">
             <h4 className="text-2xl font-semibold mb-4">Premium Plan</h4>
             <p className="text-white text-xl mb-6">Rs. 20 with Lifetime Access</p>
             <ul className="text-left space-y-4 mb-8">
@@ -33,7 +33,7 @@ function Pricing() {
               <li>Download Resumes in PDF</li>
               <li>Share Resumes on Social Platforms</li>
             </ul>
-            <button className="bg-white text-red-600 py-2 px-6 rounded-full hover:bg-gray-200 transition duration-300">
+            <button className="bg-white text-blue-600 py-2 px-6 rounded-full hover:bg-gray-200 transition duration-300">
               Upgrade Now
             </button>
           </div>
@@ -48,7 +48,7 @@ function Pricing() {
               <li>Dedicated Account Manager</li>
               <li>Priority Support</li>
             </ul>
-            <button className="bg-red-600 text-white py-2 px-6 rounded-full hover:bg-red-500 transition duration-300">
+            <button className="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-500 transition duration-300">
               Contact Us
             </button>
           </div>
