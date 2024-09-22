@@ -47,7 +47,7 @@ const navigate = useNavigate();
                   Join thousands of job seekers who have successfully landed their dream jobs with our AI-powered resume builder.
                 </p>
               </div>
-              <Button className="bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]" onClick={() => getStarted()}>
+              <Button onClick={() => getStarted()} className="bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md hover:shadow-lg transform hover:translate-y-[-2px]">
                 Get Started Now <ChevronRight className="ml-2 h-5 w-5 inline" />
               </Button>
             </div>
