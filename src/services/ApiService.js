@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { doNormalLogOut, getJwtToken, logUserOut, setExpiryForJwtToken, setJwtToken, setAuthTypeForOAuth2 } from '@/utils/AuthUtils';
 
-const API_BASE_URL = 'http://localhost:8080'
+const API_BASE_URL = 'https://resumed-433110.uc.r.appspot.com'
 const jWtToken = getJwtToken()
 const headers = jWtToken ? { Authorization: `Bearer ${jWtToken}`, 'Content-Type': 'application/json', } : { 'Content-Type': 'application/json', };
 
