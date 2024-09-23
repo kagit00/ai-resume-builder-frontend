@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import SearchFilter from './SearchFilter';
 import { deleteResume } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,9 @@ import ConfirmDeleteModal from '../ConfirmModals/ConfirmDeleteModal';
 import NothingToDisplay from '@/components/custom/UserDashboard/NothingToDisplay';
 import { getResumeListByUserId } from '@/services/ApiService.js';
 import { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PendingResumes = ({ userDetails }) => {
      const navigate = useNavigate();
@@ -19,7 +22,7 @@ const PendingResumes = ({ userDetails }) => {
      const [pendingResumes, setPendingResumes] = useState([])
 
      useEffect(() => {
-          fetchPendingResumesOfUser()
+          fetchPendingResumesOfUser();
      }, [userDetails]);
 
      const fetchPendingResumesOfUser = async () => {
@@ -75,8 +78,8 @@ const PendingResumes = ({ userDetails }) => {
                setIsLoading(true)
                setFilteredCards(prevCards => prevCards.filter(card => card.id !== selectedResumeId));
                await deleteResume(selectedResumeId);
-          } catch (error) {
-
+          } catch (err) {
+               console.error("Error deleting resume:", err);
           } finally {
                setIsLoading(false)
           }
@@ -203,6 +206,12 @@ const PendingResumes = ({ userDetails }) => {
           </>
 
      );
+};
+
+PendingResumes.propTypes = {
+     userDetails: PropTypes.shape({
+          id: PropTypes.number.isRequired,
+     }).isRequired,
 };
 
 export default PendingResumes;

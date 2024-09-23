@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 
 const AISuggestionsButton = ({ onClick }) => {
   return (
@@ -16,6 +16,10 @@ const AISuggestionsButton = ({ onClick }) => {
       </svg>
     </button>
   );
+};
+
+AISuggestionsButton.propTypes = {
+    onClick: PropTypes.func.isRequired, 
 };
 
 export default AISuggestionsButton;

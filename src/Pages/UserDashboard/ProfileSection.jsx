@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
 import AddResume from '@/components/custom/UserDashboard/AddResume.jsx';
 import ProfileSettingsModal from '@/components/custom/UserDashboard/ProfileSettingsModal.jsx';
 import ResumeTipsModal from '@/components/custom/UserDashboard/ResumeTipsModal.jsx';
 import HeroSection from '@/components/custom/UserDashboard/HeroSection.jsx';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 const ProfileSection = ({ userDetails }) => {
      const [isProfileModalOpen, setProfileModalOpen] = useState(false);
@@ -105,5 +106,9 @@ const ProfileSection = ({ userDetails }) => {
           </>
      )
 }
+
+ProfileSection.propTypes = {
+     userDetails: PropTypes.object.isRequired, 
+};
 
 export default ProfileSection;

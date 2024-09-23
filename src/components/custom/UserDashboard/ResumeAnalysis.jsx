@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 import { analyzeResume } from '@/services/ApiService';
 import PricingModal from '../UpgradeToPremium/PricingModal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 const ResumeAnalysis = ({ userDetails }) => {
      const fileInputRef = useRef(null);
@@ -236,6 +237,17 @@ const ResumeAnalysis = ({ userDetails }) => {
                </div>
           </>
      );
+};
+
+ResumeAnalysis.propTypes = {
+    userDetails: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        authorities: PropTypes.arrayOf(
+            PropTypes.shape({
+                authority: PropTypes.string.isRequired,
+            })
+        ).isRequired,
+    }).isRequired,
 };
 
 export default ResumeAnalysis;

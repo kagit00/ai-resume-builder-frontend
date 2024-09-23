@@ -1,12 +1,12 @@
-import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import PlanCard from "./PlanCard";
+import PropTypes from 'prop-types';
 
 const PricingModal = ({ isOpen, setShowPricingModal, userId }) => {
+     const navigate = useNavigate();
      if (!isOpen) return null;
      
      const handleBack = () => setShowPricingModal(false);
-     const navigate = useNavigate()
 
      const subscribe = () => {
           navigate('/user/premium/subscribe', { state: userId })
@@ -64,6 +64,12 @@ const PricingModal = ({ isOpen, setShowPricingModal, userId }) => {
           </>
 
      );
+};
+
+PricingModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    setShowPricingModal: PropTypes.func.isRequired,
+    userId: PropTypes.number.isRequired,
 };
 
 export default PricingModal;

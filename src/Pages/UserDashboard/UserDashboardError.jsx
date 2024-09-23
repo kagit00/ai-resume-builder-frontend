@@ -1,6 +1,4 @@
 import { doNormalLogOut } from '@/utils/AuthUtils';
-import React from 'react';
-import { useLocation } from 'react-router-dom';
 
 const UserDashboardError = () => {
 

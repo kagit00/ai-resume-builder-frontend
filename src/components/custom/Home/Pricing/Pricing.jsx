@@ -1,5 +1,3 @@
-import React from 'react';
-
 function Pricing() {
   return (
     <section id="pricing" className="py-16 bg-gray-900">

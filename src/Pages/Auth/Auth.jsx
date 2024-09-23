@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { registerUser, doGoogleLogIn, doJWtLogIn, fetchUserDetailsFromToken } from '@/services/ApiService';
+import { useState } from 'react';
+import { registerUser, doGoogleLogIn, doJWtLogIn } from '@/services/ApiService';
 import { FaGoogle, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Typography, Box } from '@mui/material';
 
 function Auth() {
-     const navigate = useNavigate();
      const [errorMessage, setErrorMessage] = useState(null)
      const [formData, setFormData] = useState({
           username: '',
@@ -117,7 +115,7 @@ function Auth() {
                try {
                     doGoogleLogIn();
                } catch (err) {
-                    toast.error('An error occurred while logging in.', {
+                    toast.error(`An error occurred while logging in. ${err.response?.data.errorMsg}`, {
                          style: {
                               backgroundColor: '#1F2937',
                               color: '#fff'

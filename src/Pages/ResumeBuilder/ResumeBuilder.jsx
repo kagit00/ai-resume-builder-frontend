@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import GlobalHeader from '@/components/custom/Home/Header/GlobalHeader.jsx';
 import ResumePreview from '../../components/custom/ResumeBuilder/ResumePreview/ResumePreview.jsx'
@@ -13,7 +13,6 @@ import { useLocation } from 'react-router-dom';
 import { sendEmail, updateResumeStatus } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
 import UpgradeToPremium from '@/components/custom/UserDashboard/UpgradeToPremium.jsx';
-import { Typography, Box } from '@mui/material';
 
 const ResumeBuilder = () => {
      const navigate = useNavigate()
@@ -84,7 +83,7 @@ const ResumeBuilder = () => {
 
      const confirmUpgradeToPremium = () => {
           navigate('/user/upgradetopremium')
-          closeModal();
+          closeUpgradeToPremiumModal();
      };
 
      const handleNext = () => {
@@ -120,8 +119,7 @@ const ResumeBuilder = () => {
                               {currentStep === 0 ? (
                                    <SummaryForm
                                         resume={resume}
-                                        currentStep={currentStep}
-                                        sections={sections}
+                                        section={sections[0]}
                                         resumeDetails={resumeDetails}
                                         addedSummary={addedSummary}
                                         setAddedSummary={setAddedSummary}

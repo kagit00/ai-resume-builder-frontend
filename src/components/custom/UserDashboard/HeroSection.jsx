@@ -1,5 +1,4 @@
-import React from 'react';
-import { Typewriter } from 'react-simple-typewriter';
+import PropTypes from 'prop-types';
 
 const HeroSection = ({userDetails}) => {
   const fullName = userDetails.name
@@ -19,6 +18,12 @@ const HeroSection = ({userDetails}) => {
       </p>
     </div>
   );
+};
+
+HeroSection.propTypes = {
+  userDetails: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default HeroSection;

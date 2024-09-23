@@ -1,5 +1,6 @@
 import DOMPurify from 'dompurify';
 import './styles.css'
+import PropTypes from 'prop-types';
 
 const Project = ({ projectsList }) => {
      return (
@@ -41,5 +42,18 @@ const Project = ({ projectsList }) => {
                     </section>
      )
 }
+
+Project.propTypes = {
+    projectsList: PropTypes.arrayOf(
+        PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            organization: PropTypes.string.isRequired,
+            location: PropTypes.string.isRequired,
+            startDate: PropTypes.string.isRequired,
+            endDate: PropTypes.string,
+            description: PropTypes.string,
+        })
+    ).isRequired,
+};
 
 export default Project;

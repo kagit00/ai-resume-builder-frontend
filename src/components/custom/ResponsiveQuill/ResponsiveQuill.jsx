@@ -1,30 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Import snow theme styles
-import 'react-quill/dist/quill.bubble.css'; // Import bubble theme styles
+import 'react-quill/dist/quill.snow.css'; 
+import 'react-quill/dist/quill.bubble.css'; 
+import PropTypes from 'prop-types';
 
 const ResponsiveQuill = ({ value, onChange, placeholder, className, style }) => {
     const [theme, setTheme] = useState(() => window.matchMedia("(min-width: 768px)").matches ? 'snow' : 'bubble');
-    const quillRef = React.useRef(null);
 
     useEffect(() => {
         const checkTheme = () => {
-            if (window.matchMedia("(min-width: 768px)").matches) {
-                setTheme('snow');
-            } else {
-                setTheme('bubble');
-            }
+            setTheme(window.matchMedia("(min-width: 768px)").matches ? 'snow' : 'bubble');
         };
 
         window.addEventListener('resize', checkTheme);
-
+        
         // Clean up the event listener
         return () => window.removeEventListener('resize', checkTheme);
     }, []);
 
     return (
         <ReactQuill
-            ref={quillRef}
             value={value}
             onChange={onChange}
             className={`editor-container ${theme}-theme ${className}`}
@@ -35,4 +30,13 @@ const ResponsiveQuill = ({ value, onChange, placeholder, className, style }) => 
     );
 };
 
+ResponsiveQuill.propTypes = {
+    value: PropTypes.string.isRequired, 
+    onChange: PropTypes.func.isRequired, 
+    placeholder: PropTypes.string,        
+    className: PropTypes.string,         
+    style: PropTypes.object,             
+};
+
 export default ResponsiveQuill;
+

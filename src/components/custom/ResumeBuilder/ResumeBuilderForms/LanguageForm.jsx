@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getLanguages, saveLanguage, updateLanguage, deleteLanguage } from '@/services/ApiService';
 import { FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.css';
 
 const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, editingIndex, setEditingIndex, resume }) => {
@@ -10,8 +11,13 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
      const [isLoading, setIsLoading] = useState(false)
 
      useEffect(() => {
-          getAllLanguagesForResume()
-     }, []);
+        const fetchLanguages = async () => {
+            if (resume.id) {
+                await getAllLanguagesForResume();
+            }
+        };
+        fetchLanguages();
+    }, [resume.id]); 
 
      const getAllLanguagesForResume = async () => {
           const languages = await getLanguages(resume.id);
@@ -150,6 +156,25 @@ const LanguageForm = ({ language, setLanguage, languagesList, setLanguagesList, 
                </div>
           </>
      );
+};
+
+LanguageForm.propTypes = {
+    language: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        proficiencyLevel: PropTypes.string.isRequired,
+    }).isRequired,
+    setLanguage: PropTypes.func.isRequired,
+    languagesList: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        proficiencyLevel: PropTypes.string.isRequired,
+    })).isRequired,
+    setLanguagesList: PropTypes.func.isRequired,
+    editingIndex: PropTypes.number,
+    setEditingIndex: PropTypes.func.isRequired,
+    resume: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default LanguageForm;

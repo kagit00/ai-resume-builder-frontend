@@ -1,10 +1,11 @@
 import { cancelPremiumMembership, deleteAccount, updateNotificationEnabled } from '@/services/ApiService';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PricingModal from '../UpgradeToPremium/PricingModal';
 import { useQueryClient } from '@tanstack/react-query';
 import ChangePasswordModal from './ChangePasswordModal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 const ProfileSettingsModal = ({ onClose, userDetails }) => {
      const queryClient = useQueryClient();
@@ -309,6 +310,24 @@ const ProfileSettingsModal = ({ onClose, userDetails }) => {
           </div>
 
      );
+};
+
+ProfileSettingsModal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    userDetails: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        notificationEnabled: PropTypes.bool.isRequired,
+        authorities: PropTypes.arrayOf(
+            PropTypes.shape({
+                authority: PropTypes.string.isRequired,
+            })
+        ).isRequired,
+        authTypeJwt: PropTypes.bool.isRequired, 
+        username: PropTypes.string.isRequired, 
+        name: PropTypes.string.isRequired, 
+        timestamp: PropTypes.string.isRequired, 
+        bio: PropTypes.string, 
+    }).isRequired,
 };
 
 export default ProfileSettingsModal;

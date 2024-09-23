@@ -1,6 +1,6 @@
-import React from 'react';
 import './styles.css'
 import DOMPurify from 'dompurify';
+import PropTypes from 'prop-types';
 
 const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experienceList, educationList, projectsList, skills, languagesList }) => {
      const name = userDetails.name
@@ -212,5 +212,51 @@ const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experi
 
      );
 };
+
+FinalResume.propTypes = {
+    userDetails: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+    }).isRequired,
+    addedSummary: PropTypes.string.isRequired,
+    addedAdditionalDetails: PropTypes.shape({
+        phoneNumber: PropTypes.string,
+        linkedInProfileLink: PropTypes.string,
+        githubLink: PropTypes.string,
+    }).isRequired,
+    experienceList: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired, 
+            title: PropTypes.string.isRequired,
+            organization: PropTypes.string.isRequired,
+            startDate: PropTypes.string.isRequired,
+            endDate: PropTypes.string,
+            description: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    educationList: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired, 
+            organization: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    projectsList: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired, 
+            title: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+    languagesList: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired, 
+            name: PropTypes.string.isRequired,
+            proficiencyLevel: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+};
+
 
 export default FinalResume;

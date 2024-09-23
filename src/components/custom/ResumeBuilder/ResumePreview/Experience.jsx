@@ -1,5 +1,6 @@
 import DOMPurify from 'dompurify';
 import './styles.css'
+import PropTypes from 'prop-types';
 
 const Experience = ({ experienceList }) => {
      return (
@@ -42,5 +43,19 @@ const Experience = ({ experienceList }) => {
           </section>
      )
 }
+
+Experience.propTypes = {
+     experienceList: PropTypes.arrayOf(
+          PropTypes.shape({
+               id: PropTypes.string.isRequired,
+               title: PropTypes.string.isRequired,
+               location: PropTypes.string.isRequired,
+               organization: PropTypes.string.isRequired,
+               startDate: PropTypes.string.isRequired,
+               endDate: PropTypes.string,
+               description: PropTypes.string.isRequired,
+          })
+     ).isRequired,
+};
 
 export default Experience

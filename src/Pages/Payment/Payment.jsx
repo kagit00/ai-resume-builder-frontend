@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dropin from 'braintree-web-drop-in';
 import { getClientTokenForPayment, doSubscribe } from '@/services/ApiService';
 import { useLocation } from 'react-router-dom';

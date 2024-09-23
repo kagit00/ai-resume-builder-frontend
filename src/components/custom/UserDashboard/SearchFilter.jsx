@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const SearchFilter = ({ onApply, onReset, placeholderTitle = "Filter by title", placeholderDate = "Filter by date" }) => {
   const [titleFilter, setTitleFilter] = useState('');
@@ -97,6 +98,13 @@ const SearchFilter = ({ onApply, onReset, placeholderTitle = "Filter by title", 
       )}
     </>
   );
+};
+
+SearchFilter.propTypes = {
+  onApply: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired,
+  placeholderTitle: PropTypes.string,
+  placeholderDate: PropTypes.string,
 };
 
 export default SearchFilter;

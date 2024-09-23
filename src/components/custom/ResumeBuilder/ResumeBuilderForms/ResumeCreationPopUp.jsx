@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChevronRight } from 'lucide-react';
+import PropTypes from 'prop-types';
 
 const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit }) => {
   const [resumeTitle, setResumeTitle] = useState('');
@@ -47,6 +48,12 @@ const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit }) => {
       </DialogContent>
     </Dialog>
   );
+};
+
+ResumeCreationPopUp.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default ResumeCreationPopUp;

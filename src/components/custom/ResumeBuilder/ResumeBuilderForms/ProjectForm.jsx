@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { saveProject, updateProject, deleteProject, getProjects } from '@/services/ApiService';
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
@@ -14,8 +15,13 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
      const [isLoading, setIsLoading] = useState(false)
 
      useEffect(() => {
-          getAllProjectsForResume()
-     }, []);
+        const fetchProjects = async () => {
+            if (resume.id) {
+                await getAllProjectsForResume();
+            }
+        };
+        fetchProjects();
+    }, [resume.id]);
 
      const handleReset = () => {
           setProject({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' })
@@ -285,5 +291,33 @@ const ProjectForm = ({ project, setProject, projectsList, setProjectsList, editi
           </>
      );
 };
+
+ProjectForm.propTypes = {
+    project: PropTypes.shape({
+        id: PropTypes.string, 
+        title: PropTypes.string.isRequired,
+        startDate: PropTypes.string.isRequired,
+        endDate: PropTypes.string.isRequired, 
+        location: PropTypes.string, 
+        organization: PropTypes.string, 
+        description: PropTypes.string.isRequired,
+    }).isRequired,
+    setProject: PropTypes.func.isRequired,
+    projectsList: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        startDate: PropTypes.string.isRequired,
+        endDate: PropTypes.string.isRequired, 
+        location: PropTypes.string, 
+        organization: PropTypes.string, 
+        description: PropTypes.string.isRequired,
+    })).isRequired,
+    setProjectsList: PropTypes.func.isRequired,
+    editingIndex: PropTypes.number,
+    setEditingIndex: PropTypes.func.isRequired,
+    resume: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }).isRequired,
+    }
 
 export default ProjectForm;

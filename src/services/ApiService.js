@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { doNormalLogOut, getJwtToken, logUserOut, setExpiryForJwtToken, setJwtToken, setAuthTypeForOAuth2 } from '@/utils/AuthUtils';
 
-const API_BASE_URL = 'https://resumed-433110.uc.r.appspot.com'
+const API_BASE_URL = 'http://localhost:8080'
 const jWtToken = getJwtToken()
 const headers = jWtToken ? { Authorization: `Bearer ${jWtToken}`, 'Content-Type': 'application/json', } : { 'Content-Type': 'application/json', };
 
@@ -41,26 +41,20 @@ export const getGenerateSuggestions = async (title, sectionType) => {
 };
 
 export const registerUser = async (formData) => {
-     try {
-          const response = await axios.post(`${API_BASE_URL}/user`, formData);
-          return response.data;
-     } catch (error) {
-          throw error;
-     }
+    const response = await axios.post(`${API_BASE_URL}/user`, formData);
+    return response.data;
 };
 
+
 export const doJWtLogIn = async (creds) => {
-     try {
-          const response = await axios.post(`${API_BASE_URL}/auth/log-in`, creds);
-          if (response.status === 200) {
-               setJwtToken(response.data.token)
-               setExpiryForJwtToken(response.data.expiry)
-               window.location.href = "/user/dashboard"
-          }
-     } catch (error) {
-          throw error;
-     }
-}
+    const response = await axios.post(`${API_BASE_URL}/auth/log-in`, creds);
+    if (response.status === 200) {
+        setJwtToken(response.data.token);
+        setExpiryForJwtToken(response.data.expiry);
+        window.location.href = "/user/dashboard";
+    }
+};
+
 
 export const createResume = async (resume, userId) => {
      try {
@@ -591,7 +585,7 @@ export const deleteAccount = async (userId) => {
      }
 }
 
-export const getClientTokenForPayment = async (userId) => {
+export const getClientTokenForPayment = async () => {
      try {
           const response = await axios.get(`${API_BASE_URL}/user/subscription/client-token`, {
                headers: { ...headers },
@@ -659,20 +653,13 @@ export const analyzeResume = async (formData) => {
 }
 
 export const changePassword = async (currentPassword, newPassword, confirmPassword, userId) => {
-     try {
-          await axios.put(`${API_BASE_URL}/user/change-password`, {currentPassword, newPassword, confirmPassword, userId}, {
-               headers: { ...headers },
-               withCredentials: !jWtToken,
-          })
-     } catch (error) {
-          throw error
-     }
-}
+    await axios.put(`${API_BASE_URL}/user/change-password`, { currentPassword, newPassword, confirmPassword, userId }, {
+        headers: { ...headers },
+        withCredentials: !jWtToken,
+    });
+};
+
 
 export const checkServerStatus = async () => {
-     try {
-          await axios.get(`${API_BASE_URL}/heartbeat`);
-     } catch (err) {
-          throw err
-     }
-}
+    await axios.get(`${API_BASE_URL}/heartbeat`);
+};

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import GlobalHeader from '@/components/custom/Home/Header/GlobalHeader.jsx';
-import { fetchUserDetailsFromToken, getResumeListByUserId } from '@/services/ApiService.js';
+import { fetchUserDetailsFromToken } from '@/services/ApiService.js';
 import DownloadableResumes from '@/components/custom/UserDashboard/DownloadableResumes';
 import PendingResumes from '@/components/custom/UserDashboard/PendingResumes';
 import SkeletonUserDashboard from './SkeletonUserDashboard';
@@ -31,17 +31,13 @@ const UserDashboard = () => {
 
   return (
     <>
-      {!isSkeletonLoading ? (
-        <div className="bg-gray-900 text-white min-h-screen flex flex-col font-sans overflow-x-hidden scroll-smooth">
-          <GlobalHeader onSectionChange={handleSectionChange} activeSection={activeSection} />
-          {activeSection === "section1" && <ProfileSection userDetails={userDetails} />}
-          {activeSection === "section2" && <PendingResumes userDetails={userDetails} />}
-          {activeSection === "section3" && <DownloadableResumes userDetails={userDetails} />}
-          {activeSection === "section4" && <ResumeAnalysis userDetails={userDetails} />}
-        </div>
-      ) : (
-        <Skeleton />
-      )}
+      <div className="bg-gray-900 text-white min-h-screen flex flex-col font-sans overflow-x-hidden scroll-smooth">
+        <GlobalHeader onSectionChange={handleSectionChange} activeSection={activeSection} />
+        {activeSection === "section1" && <ProfileSection userDetails={userDetails} />}
+        {activeSection === "section2" && <PendingResumes userDetails={userDetails} />}
+        {activeSection === "section3" && <DownloadableResumes userDetails={userDetails} />}
+        {activeSection === "section4" && <ResumeAnalysis userDetails={userDetails} />}
+      </div>
     </>
   )
 }

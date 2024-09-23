@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie';
 import CryptoJS from 'crypto-js';
 import { doLogOut } from '@/services/ApiService';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const isGoogleAuthTokenExpired = (expiresAt) => {

@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { doNormalLogOut } from '@/utils/AuthUtils';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import PropTypes from 'prop-types';
 
 function GlobalHeader({ onSectionChange, activeSection }) {
     const [isLoading, setIsLoading] = useState(false)
@@ -23,8 +24,8 @@ function GlobalHeader({ onSectionChange, activeSection }) {
         try {
             setIsLoading(true)
             doNormalLogOut()
-        } catch (err) {
-
+        } catch {
+            // 
         } finally {
             setIsLoading(false)
         }
@@ -167,5 +168,10 @@ function GlobalHeader({ onSectionChange, activeSection }) {
         </>
     )
 }
+
+GlobalHeader.propTypes = {
+    onSectionChange: PropTypes.func, 
+    activeSection: PropTypes.string, 
+};
 
 export default GlobalHeader

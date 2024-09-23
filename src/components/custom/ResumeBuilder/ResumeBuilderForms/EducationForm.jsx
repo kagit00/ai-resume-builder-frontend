@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { saveEducation, updateEducation, deleteEducation, getEducations } from '@/services/ApiService';
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 import 'react-quill/dist/quill.snow.css';
 import DOMPurify from 'dompurify';
 import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
@@ -13,8 +14,10 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        getAllEducationsForResume(resume.id);
-    }, []);
+        if (resume.id) {
+            getAllEducationsForResume(resume.id);
+        }
+    }, [resume.id]);
 
     const handleEditorChange = (value) => {
         setEducation(prev => ({
@@ -247,6 +250,34 @@ const EducationForm = ({ education, setEducation, educationList, setEducationLis
             </div>
         </>
     );
+};
+
+EducationForm.propTypes = {
+    education: PropTypes.shape({
+        id: PropTypes.string,
+        title: PropTypes.string.isRequired,
+        location: PropTypes.string.isRequired,
+        organization: PropTypes.string.isRequired,
+        startDate: PropTypes.string.isRequired,
+        endDate: PropTypes.string,
+        description: PropTypes.string,
+    }).isRequired,
+    setEducation: PropTypes.func.isRequired,
+    educationList: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string,
+        location: PropTypes.string,
+        organization: PropTypes.string,
+        startDate: PropTypes.string,
+        endDate: PropTypes.string,
+        description: PropTypes.string,
+    })).isRequired,
+    setEducationList: PropTypes.func.isRequired,
+    editingIndex: PropTypes.number,
+    setEditingIndex: PropTypes.func.isRequired,
+    resume: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default EducationForm;

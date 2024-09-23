@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function PlanCard({ title, subHeader, features, buttonLabel, onClick, isActive }) {
   return (
     <div className="bg-transparent p-4 rounded-lg shadow-md border border-blue-400 w-full max-w-sm flex flex-col justify-between hover:shadow-lg transition-shadow duration-300">
@@ -34,4 +36,13 @@ export default function PlanCard({ title, subHeader, features, buttonLabel, onCl
     </div>
   );
 }
+
+PlanCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  subHeader: PropTypes.string.isRequired,
+  features: PropTypes.arrayOf(PropTypes.string).isRequired,
+  buttonLabel: PropTypes.string,
+  onClick: PropTypes.func,
+  isActive: PropTypes.bool,
+};
 

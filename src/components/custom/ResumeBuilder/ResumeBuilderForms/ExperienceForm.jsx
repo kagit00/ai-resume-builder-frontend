@@ -3,6 +3,7 @@ import { getGenerateSuggestions, saveExperience, updateExperience, deleteExperie
 import AISuggestionsButton from '../Buttons/AISuggestionButton.jsx'
 import CustomDatePicker from '../../CustomDatePicker/CustomDatePicker';
 import { FiTrash2 } from 'react-icons/fi';
+import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,8 +16,14 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
      const isDisabled = !experience.title || !experience.location || !experience.organization || !experience.startDate || !experience.description;
 
      useEffect(() => {
-          getAllExperiencesForResume()
-     }, []);
+        const fetchExperiences = async () => {
+            if (resume.id) {
+                await getAllExperiencesForResume(resume.id);
+            }
+        };
+
+        fetchExperiences();
+    }, [resume.id]);
 
      const handleReset = () => {
           setExperience({ title: '', location: '', organization: '', startDate: '', endDate: '', description: '' })
@@ -289,5 +296,34 @@ const ExperienceForm = ({ experience, setExperience, experienceList, setExperien
 
      );
 };
+
+ExperienceForm.propTypes = {
+    experience: PropTypes.shape({
+        id: PropTypes.string,
+        title: PropTypes.string.isRequired,
+        location: PropTypes.string.isRequired,
+        organization: PropTypes.string.isRequired,
+        startDate: PropTypes.string.isRequired,
+        endDate: PropTypes.string,
+        description: PropTypes.string.isRequired,
+    }).isRequired,
+    setExperience: PropTypes.func.isRequired,
+    experienceList: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string,
+        location: PropTypes.string,
+        organization: PropTypes.string,
+        startDate: PropTypes.string,
+        endDate: PropTypes.string,
+        description: PropTypes.string,
+    })).isRequired,
+    setExperienceList: PropTypes.func.isRequired,
+    editingIndex: PropTypes.number,
+    setEditingIndex: PropTypes.func.isRequired,
+    resume: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+    }).isRequired,
+};
+
 
 export default ExperienceForm;

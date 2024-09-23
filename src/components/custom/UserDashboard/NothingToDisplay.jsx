@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ResumeCreationPopUp from '../ResumeBuilder/ResumeBuilderForms/ResumeCreationPopUp';
 import { createResume } from '@/services/ApiService';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const NothingToDisplay = ({ text, userDetails }) => {
      const navigate = useNavigate();
@@ -56,6 +57,13 @@ const NothingToDisplay = ({ text, userDetails }) => {
                />
           </div>
      );
+};
+
+NothingToDisplay.propTypes = {
+    text: PropTypes.string.isRequired,
+    userDetails: PropTypes.shape({
+        id: PropTypes.number.isRequired, 
+    }).isRequired,
 };
 
 export default NothingToDisplay;

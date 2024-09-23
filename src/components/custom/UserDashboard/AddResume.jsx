@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ResumeCreationPopUp from '../ResumeBuilder/ResumeBuilderForms/ResumeCreationPopUp';
 import { createResume } from '@/services/ApiService';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 function AddResume({ userDetails }) {
   const navigate = useNavigate();
@@ -70,5 +71,11 @@ function AddResume({ userDetails }) {
     </div>
   );
 }
+
+AddResume.propTypes = {
+  userDetails: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 export default AddResume;

@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 
 const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm }) => {
      if (!isOpen) return null;
@@ -47,6 +47,12 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm }) => {
           </div>
 
      );
+};
+
+ConfirmDeleteModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,     
+    onClose: PropTypes.func.isRequired,   
+    onConfirm: PropTypes.func.isRequired, 
 };
 
 export default ConfirmDeleteModal;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaFilePdf, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { SiIndeed } from 'react-icons/si';
 import Header from '@/components/custom/Home/Header/GlobalHeader.jsx';
@@ -52,7 +51,7 @@ const ResumeSuccessPage = () => {
             <Header />
             <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
                 {/* Success Message */}
-                <h2 className="text-5xl font-thin mb-4 leading-relaxed">You've Finished Your Resume Editing Successfully!</h2>
+                <h2 className="text-5xl font-thin mb-4 leading-relaxed">You have Finished Your Resume Editing Successfully!</h2>
                 <p className="text-lg text-gray-300 mb-8 text-center font-normal">
                     Now you can download your resume and share it with your potential employers.
                 </p>

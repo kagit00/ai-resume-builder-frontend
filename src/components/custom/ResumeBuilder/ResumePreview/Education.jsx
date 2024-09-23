@@ -1,5 +1,6 @@
 import DOMPurify from 'dompurify';
 import './styles.css'
+import PropTypes from 'prop-types';
 
 const Education = ({ educationList }) => {
      return (
@@ -41,5 +42,20 @@ const Education = ({ educationList }) => {
           </section>
      )
 }
+
+
+Education.propTypes = {
+     educationList: PropTypes.arrayOf(
+          PropTypes.shape({
+               id: PropTypes.string.isRequired,
+               title: PropTypes.string,
+               location: PropTypes.string,
+               organization: PropTypes.string,
+               startDate: PropTypes.string,
+               endDate: PropTypes.string,
+               description: PropTypes.string,
+          })
+     ).isRequired,
+};
 
 export default Education

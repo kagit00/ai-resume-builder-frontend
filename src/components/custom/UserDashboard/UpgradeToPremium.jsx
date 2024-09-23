@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PricingModal from '../UpgradeToPremium/PricingModal';
+import PropTypes from 'prop-types';
 
 const UpgradeToPremium = ({ isOpen, onClose, userId }) => {
      const [showPricingModal, setShowPricingModal] = useState(false);
@@ -66,6 +67,12 @@ const UpgradeToPremium = ({ isOpen, onClose, userId }) => {
                )}
           </div>
      );
+};
+
+UpgradeToPremium.propTypes = {
+    isOpen: PropTypes.bool,
+    onClose: PropTypes.func,
+    userId: PropTypes.number,
 };
 
 export default UpgradeToPremium;

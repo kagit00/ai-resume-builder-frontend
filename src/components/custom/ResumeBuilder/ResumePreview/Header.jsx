@@ -1,4 +1,4 @@
-
+import PropTypes from 'prop-types';
 
 const Header = ({name, email, addedAdditionalDetails }) => {
      return (
@@ -17,5 +17,15 @@ const Header = ({name, email, addedAdditionalDetails }) => {
           </header>
      )
 }
+
+Header.propTypes = {
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    addedAdditionalDetails: PropTypes.shape({
+        phoneNumber: PropTypes.string,
+        linkedInProfileLink: PropTypes.string,
+        githubLink: PropTypes.string,
+    }),
+};
 
 export default Header;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 function ResumeTipsModal({ onClose }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -71,5 +72,9 @@ function ResumeTipsModal({ onClose }) {
     </div>
   );
 }
+
+ResumeTipsModal.propTypes = {
+  onClose: PropTypes.func.isRequired, 
+};
 
 export default ResumeTipsModal;

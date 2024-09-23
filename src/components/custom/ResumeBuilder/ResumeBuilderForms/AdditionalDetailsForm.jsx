@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { saveAdditionalDetails, getAdditionalDetails, updateAdditionalDetails } from '@/services/ApiService';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedAdditionalDetails, setAddedAdditionalDetails, resume }) => {
      const [isLoading, setIsLoading] = useState(false)
 
      useEffect(() => {
-          getResumeAddtionalDetails(resume.id);
-     }, []);
+          if (resume.id) {
+               getResumeAddtionalDetails(resume.id);
+          }
+     }, [resume.id]);
 
      const isValidMobileNumber = () => {
           const regex = /^\+?[0-9. ()-]{10,13}$/
@@ -168,5 +171,21 @@ const AdditionalDetailsForm = ({ additionalDetails, setAdditionalDetails, addedA
           </div>
      );
 };
+
+AdditionalDetailsForm.propTypes = {
+     additionalDetails: PropTypes.shape({
+          id: PropTypes.string,
+          phoneNumber: PropTypes.string,
+          githubLink: PropTypes.string,
+          linkedInProfileLink: PropTypes.string,
+     }).isRequired,
+     setAdditionalDetails: PropTypes.func.isRequired,
+     addedAdditionalDetails: PropTypes.any,
+     setAddedAdditionalDetails: PropTypes.func.isRequired,
+     resume: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+     }).isRequired,
+};
+
 
 export default AdditionalDetailsForm;

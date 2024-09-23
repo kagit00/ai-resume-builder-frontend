@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { updateSkills, getSkills } from '@/services/ApiService';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 const skillOptions = [
   'JavaScript', 'Python', 'Java', 'C#', 'C++', 'TypeScript', 'HTML', 'CSS', 'React', 'Angular',
@@ -18,8 +19,14 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
   const [searchQuery, setSearchQuery] = useState(''); // Add search query state
 
   useEffect(() => {
-    getResumeSkills(resume.id);
-  }, []);
+    const fetchSkills = () => {
+      if (resume.id) {
+        getResumeSkills(resume.id);
+      }
+    };
+
+    fetchSkills();
+  }, [resume.id]);
 
   const getResumeSkills = async () => {
     try {
@@ -148,6 +155,15 @@ const SkillsDropdown = ({ handleSkillsUpdate, selectedSkills, setSelectedSkills,
       </div>
     </>
   );
+};
+
+SkillsDropdown.propTypes = {
+  handleSkillsUpdate: PropTypes.func.isRequired,
+  selectedSkills: PropTypes.array.isRequired,
+  setSelectedSkills: PropTypes.func.isRequired,
+  resume: PropTypes.shape({
+    id: PropTypes.string.isRequired, 
+  }).isRequired,
 };
 
 export default SkillsDropdown;

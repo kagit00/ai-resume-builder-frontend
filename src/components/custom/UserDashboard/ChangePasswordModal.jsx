@@ -2,6 +2,7 @@ import { changePassword } from "@/services/ApiService";
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { useQueryClient } from '@tanstack/react-query';
+import PropTypes from 'prop-types';
 
 function ChangePasswordModal({ isOpen, userId, setChangePassword }) {
      const queryClient = useQueryClient();
@@ -205,5 +206,11 @@ function ChangePasswordModal({ isOpen, userId, setChangePassword }) {
           </div>
      );
 }
+
+ChangePasswordModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired, 
+  userId: PropTypes.number.isRequired, 
+  setChangePassword: PropTypes.func.isRequired, 
+};
 
 export default ChangePasswordModal;

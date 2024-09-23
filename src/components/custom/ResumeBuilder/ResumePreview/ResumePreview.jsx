@@ -1,5 +1,4 @@
-import React from 'react';
-import Header from './Header';
+import PropTypes from 'prop-types';
 import Experience from './Experience';
 import Project from './Project';
 import Language from './Language';
@@ -96,5 +95,24 @@ const ResumePreview = ({ userDetails, addedSummary, addedAdditionalDetails, expe
 
      );
 };
+
+ResumePreview.propTypes = {
+    userDetails: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+    }).isRequired,
+    addedSummary: PropTypes.string.isRequired,
+    addedAdditionalDetails: PropTypes.shape({
+        phoneNumber: PropTypes.string,
+        linkedInProfileLink: PropTypes.string,
+        githubLink: PropTypes.string,
+    }).isRequired,
+    experienceList: PropTypes.array.isRequired,
+    educationList: PropTypes.array.isRequired,
+    projectsList: PropTypes.array.isRequired,
+    skills: PropTypes.arrayOf(PropTypes.string).isRequired,
+    languagesList: PropTypes.array.isRequired,
+};
+
 
 export default ResumePreview;

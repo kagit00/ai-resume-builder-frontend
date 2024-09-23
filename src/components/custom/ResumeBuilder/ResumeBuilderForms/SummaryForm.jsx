@@ -3,10 +3,11 @@ import AISuggestionsButton from '@/components/custom/ResumeBuilder/Buttons/AISug
 import { getGenerateSuggestions, saveSummary, deleteSummary, updateSummary, getSummary } from '@/services/ApiService';
 import ResponsiveQuill from '@/components/custom/ResponsiveQuill/ResponsiveQuill';
 import DOMPurify from 'dompurify';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSummary }) => {
+const SummaryForm = ({ resume, section, addedSummary, setAddedSummary }) => {
      const [summary, setSummary] = useState('');
      const [isLoading, setIsLoading] = useState(false)
 
@@ -56,11 +57,10 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
      };
 
      const handleSaveSummary = async () => {
-          if (currentStep !== 0) return;
           if (summary.trim()) {
                try {
                     setIsLoading(true)
-                    if (summary && summary !== sections[currentStep].value && addedSummary) {
+                    if (summary && summary !== section.value && addedSummary) {
                          await updateSummary({ details: summary }, resume.id);
                     } else if (!addedSummary && summary) {
                          await saveSummary({ details: summary }, resume.id);
@@ -81,7 +81,6 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
      };
 
      const handleDeleteSummary = async () => {
-          if (currentStep !== 0) return;
           try {
                setIsLoading(true)
                await deleteSummary(resume.id);
@@ -107,13 +106,13 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                     </div>
                )}
                <div className="relative mb-6">
-                    <label className="block text-gray-400 text-sm mb-2" htmlFor={sections[currentStep].title.toLowerCase()}>
-                         {sections[currentStep].title}
+                    <label className="block text-gray-400 text-sm mb-2" htmlFor={section.title.toLowerCase()}>
+                         {section.title}
                     </label>
                     <div className="relative">
                          <ResponsiveQuill
-                              id={sections[currentStep].title.toLowerCase()}
-                              name={sections[currentStep].title.toLowerCase()}
+                              id={section.title.toLowerCase()}
+                              name={section.title.toLowerCase()}
                               value={summary}
                               onChange={handleEditorChange}
                               placeholder="Put summary or write with AI"
@@ -131,7 +130,7 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                                    onClick={handleSaveSummary}
                                    className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 flex items-center space-x-2"
                               >
-                                   <span>{summary && summary !== sections[currentStep].value && addedSummary ? 'Update' : 'Add'}</span>
+                                   <span>{summary && summary !== section.value && addedSummary ? 'Update' : 'Add'}</span>
                               </button>
                               {addedSummary && (<button
                                    onClick={handleDeleteSummary}
@@ -145,6 +144,16 @@ const SummaryForm = ({ resume, currentStep, sections, addedSummary, setAddedSumm
                </div>
           </>
      );
+};
+
+SummaryForm.propTypes = {
+    resume: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+    }).isRequired,
+    section: PropTypes.object, 
+    addedSummary: PropTypes.string.isRequired,
+    setAddedSummary: PropTypes.func.isRequired,
 };
 
 export default SummaryForm;

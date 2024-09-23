@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { SiIndeed } from 'react-icons/si';
 import SearchFilter from './SearchFilter';
@@ -9,6 +9,7 @@ import { getResumeListByUserId } from '@/services/ApiService.js';
 import PricingModal from '../UpgradeToPremium/PricingModal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 const DownloadableResumes = ({ userDetails }) => {
   const [showPricingModal, setShowPricingModal] = useState(false);
@@ -19,15 +20,11 @@ const DownloadableResumes = ({ userDetails }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [downloadableResumes, setDownloadableResumes] = useState([])
 
-  useEffect(() => {
-    fetchDownloadableResumesOfUser()
-  }, [userDetails]);
-
-  const fetchDownloadableResumesOfUser = async () => {
+  const fetchDownloadableResumesOfUser = useCallback(async () => {
     try {
-      setIsLoading(true)
-      const data = await getResumeListByUserId(userDetails?.id, 'completed')
-      setDownloadableResumes(data)
+      setIsLoading(true);
+      const data = await getResumeListByUserId(userDetails?.id, 'completed');
+      setDownloadableResumes(data);
     } catch (err) {
       toast.error(err?.response?.data?.errorMsg, {
         style: {
@@ -36,9 +33,14 @@ const DownloadableResumes = ({ userDetails }) => {
         },
       });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  }, [userDetails?.id]); 
+
+  useEffect(() => {
+    fetchDownloadableResumesOfUser();
+  }, [fetchDownloadableResumesOfUser]);
+
 
   const filteredCards = downloadableResumes.filter(card => {
     const titleMatch = card.title.toLowerCase().includes(titleFilter.toLowerCase());
@@ -266,6 +268,17 @@ const DownloadableResumes = ({ userDetails }) => {
       }
     </>
   );
+};
+
+DownloadableResumes.propTypes = {
+  userDetails: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    authorities: PropTypes.arrayOf(
+      PropTypes.shape({
+        authority: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
 };
 
 export default DownloadableResumes;

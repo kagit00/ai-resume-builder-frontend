@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const Language = ({ languagesList }) => {
      return (
           <section className="mb-2">
@@ -20,5 +22,14 @@ const Language = ({ languagesList }) => {
           </section>
      )
 }
+
+Language.propTypes = {
+    languagesList: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            proficiencyLevel: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+};
 
 export default Language;

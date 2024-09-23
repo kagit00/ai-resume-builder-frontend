@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
-import Typewriter from 'react-typewriter-effect';
 
 function Hero() {
   const [showFloatingPage, setShowFloatingPage] = useState(false);
@@ -44,7 +43,7 @@ function Hero() {
                   style={{ height: '200px', width: '400px' }}
                 >
                   <h2 className="text-xl font-thin mb-4">More Information</h2>
-                  <p className='font-normal text-gray-300 text-xs  text-left leading-relaxed'>When you will click on 'Get Started', you primarily have to sign up either with google or manually. Once 
+                  <p className="font-normal text-gray-300 text-xs  text-left leading-relaxed">When you will click on 'Get Started', you primarily have to sign up either with google or manually. Once 
                     you are logged in, you can start the journey of your resume creation process.
                   </p>
                   <button

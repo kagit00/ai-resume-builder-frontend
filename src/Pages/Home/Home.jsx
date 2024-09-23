@@ -3,7 +3,7 @@ import Features from '@/components/custom/Home/Features/Features.jsx'
 import HowItWorks from '@/components/custom/Home/HowItWorks/HowItWorks.jsx'
 import Footer from '@/components/custom/Home/Footer/Footer.jsx'
 import Pricing from '@/components/custom/Home/Pricing/Pricing.jsx'
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';

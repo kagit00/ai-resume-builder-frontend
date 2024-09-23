@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './custom-datepicker.css';
+import PropTypes from 'prop-types';
 
 const CustomDatePicker = ({ selectedDate, onDateChange, placeholder, maxDate, disabled, minDate  }) => {
     useEffect(() => {
@@ -37,6 +38,16 @@ const CustomDatePicker = ({ selectedDate, onDateChange, placeholder, maxDate, di
             disabled={disabled}
         />
     );
+};
+
+
+CustomDatePicker.propTypes = {
+    selectedDate: PropTypes.string.isRequired,
+    onDateChange: PropTypes.func.isRequired,   
+    placeholder: PropTypes.string,             
+    maxDate: PropTypes.instanceOf(Date),       
+    disabled: PropTypes.bool,                  
+    minDate: PropTypes.instanceOf(Date),       
 };
 
 export default CustomDatePicker;
