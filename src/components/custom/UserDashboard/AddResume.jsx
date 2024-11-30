@@ -34,9 +34,13 @@ function AddResume({ userDetails }) {
   };
 
   return (
-
     <div>
-      <div
+      {isLoading && (
+        <div className="loader-overlay">
+          <div className="loader"></div>
+        </div>
+      )}
+      {!isLoading && <div
         className="flex items-center justify-center  p-6 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer"
         onClick={() => setOpenDialog(true)}
       >
@@ -56,13 +60,8 @@ function AddResume({ userDetails }) {
             />
           </svg>
         </div>
-      </div>
+      </div>}
       <div>
-        {isLoading && (
-          <div className="loader-overlay">
-            <div className="loader"></div>
-          </div>
-        )}
 
         <ResumeCreationPopUp
           isOpen={openDialog}
