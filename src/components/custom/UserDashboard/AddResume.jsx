@@ -34,16 +34,12 @@ function AddResume({ userDetails }) {
   };
 
   return (
+
     <div>
       <div
         className="flex items-center justify-center  p-6 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer"
         onClick={() => setOpenDialog(true)}
       >
-        {isLoading && (
-        <div className="loader-overlay">
-          <div className="loader"></div>
-        </div>
-      )}
         <div className="flex items-center justify-center mb-4 bg-gray-900 rounded-full p-4 shadow-lg">
           <svg
             className="h-16 w-16 text-white"
@@ -61,13 +57,21 @@ function AddResume({ userDetails }) {
           </svg>
         </div>
       </div>
+      <div>
+        {isLoading && (
+          <div className="loader-overlay">
+            <div className="loader"></div>
+          </div>
+        )}
 
-      <ResumeCreationPopUp
-        isOpen={openDialog}
-        onClose={() => setOpenDialog(false)}
-        onSubmit={buildResume}
-        errorMessage={errorMessage}
-      />
+        <ResumeCreationPopUp
+          isOpen={openDialog}
+          onClose={() => setOpenDialog(false)}
+          onSubmit={buildResume}
+          errorMessage={errorMessage}
+        />
+      </div>
+
     </div>
   );
 }
