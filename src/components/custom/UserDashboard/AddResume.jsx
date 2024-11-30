@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 function AddResume({ userDetails }) {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const resumeDetails = {
     userDetails: userDetails,
@@ -35,11 +34,6 @@ function AddResume({ userDetails }) {
 
   return (
     <div>
-      {isLoading && (
-        <div className="loader-overlay">
-          <div className="loader"></div>
-        </div>
-      )}
       <div
         className="flex items-center justify-center  p-6 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer"
         onClick={() => setOpenDialog(true)}
