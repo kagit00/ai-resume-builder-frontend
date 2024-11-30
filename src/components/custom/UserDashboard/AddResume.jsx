@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 function AddResume({ userDetails }) {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const resumeDetails = {
     userDetails: userDetails,
@@ -17,6 +18,7 @@ function AddResume({ userDetails }) {
 
   const buildResume = async (title) => {
     try {
+      setIsLoading(true)
       const response = await createResume({ 'title': title }, userDetails.id);
       navigate('/user/dashboard/resumeBuilder', { state: { resume: response, resumeDetails } });
     } catch (err) {
@@ -27,6 +29,7 @@ function AddResume({ userDetails }) {
         },
       });
     } finally {
+      setIsLoading(false)
     }
   };
 
@@ -36,6 +39,11 @@ function AddResume({ userDetails }) {
         className="flex items-center justify-center  p-6 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 cursor-pointer"
         onClick={() => setOpenDialog(true)}
       >
+        {isLoading && (
+        <div className="loader-overlay">
+          <div className="loader"></div>
+        </div>
+      )}
         <div className="flex items-center justify-center mb-4 bg-gray-900 rounded-full p-4 shadow-lg">
           <svg
             className="h-16 w-16 text-white"

@@ -8,7 +8,6 @@ import { useState } from 'react';
 const ProfileSection = ({ userDetails }) => {
      const [isProfileModalOpen, setProfileModalOpen] = useState(false);
      const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
-     const [isLoading, setIsLoading] = useState(false)
 
      const handleOpenProfileModal = () => {
           setProfileModalOpen(true);
@@ -43,11 +42,6 @@ const ProfileSection = ({ userDetails }) => {
 
                               {/* Main Grid */}
                               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                                   {isLoading && (
-                                        <div className="loader-overlay">
-                                             <div className="loader"></div>
-                                        </div>
-                                   )}
                                    {/* Add Resume Section */}
                                    <div className="flex items-center justify-center bg-transparent rounded-3xl hover:scale-105">
                                         <AddResume userDetails={userDetails} />
