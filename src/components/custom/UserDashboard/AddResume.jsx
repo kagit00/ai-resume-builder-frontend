@@ -17,7 +17,6 @@ function AddResume({ userDetails }) {
 
   const buildResume = async (title) => {
     try {
-      setIsLoading(true)
       const response = await createResume({ 'title': title }, userDetails.id);
       navigate('/user/dashboard/resumeBuilder', { state: { resume: response, resumeDetails } });
     } catch (err) {
@@ -28,7 +27,6 @@ function AddResume({ userDetails }) {
         },
       });
     } finally {
-      setIsLoading(false)
     }
   };
 
