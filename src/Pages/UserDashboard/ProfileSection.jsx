@@ -8,6 +8,7 @@ import { useState } from 'react';
 const ProfileSection = ({ userDetails }) => {
      const [isProfileModalOpen, setProfileModalOpen] = useState(false);
      const [isResumeTipsModalOpen, setResumeTipsModalOpen] = useState(false);
+     const [isLoading, setIsLoading] = useState(false)
 
      const handleOpenProfileModal = () => {
           setProfileModalOpen(true);
@@ -27,6 +28,12 @@ const ProfileSection = ({ userDetails }) => {
 
      return (
           <>
+               {isLoading && (
+                    <div className="loader-overlay">
+                         <div className="loader"></div>
+                    </div>
+               )}
+               
                {userDetails &&
                     <section id="home" className="relative flex-1 py-16 px-10">
                          <div className="max-w-7xl mx-auto">
@@ -47,7 +54,7 @@ const ProfileSection = ({ userDetails }) => {
                                         <AddResume userDetails={userDetails} />
                                    </div>
 
-                                    {/* Profile Settings Card */}
+                                   {/* Profile Settings Card */}
                                    <div className="relative p-6 rounded-xl shadow-2xl bg-gradient-to-l from-gray-800 to-gray-900 overflow-hidden duration-300">
                                         <div className="absolute inset-0 opacity-10 bg-pattern-background"></div>
                                         <h4 className="text-xl font-semibold text-white mb-4">Profile Settings</h4>
@@ -108,7 +115,7 @@ const ProfileSection = ({ userDetails }) => {
 }
 
 ProfileSection.propTypes = {
-     userDetails: PropTypes.object.isRequired, 
+     userDetails: PropTypes.object.isRequired,
 };
 
 export default ProfileSection;
