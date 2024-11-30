@@ -28,12 +28,6 @@ const ProfileSection = ({ userDetails }) => {
 
      return (
           <>
-               {isLoading && (
-                    <div className="loader-overlay">
-                         <div className="loader"></div>
-                    </div>
-               )}
-               
                {userDetails &&
                     <section id="home" className="relative flex-1 py-16 px-10">
                          <div className="max-w-7xl mx-auto">
@@ -49,6 +43,11 @@ const ProfileSection = ({ userDetails }) => {
 
                               {/* Main Grid */}
                               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                                   {isLoading && (
+                                        <div className="loader-overlay">
+                                             <div className="loader"></div>
+                                        </div>
+                                   )}
                                    {/* Add Resume Section */}
                                    <div className="flex items-center justify-center bg-transparent rounded-3xl hover:scale-105">
                                         <AddResume userDetails={userDetails} />
