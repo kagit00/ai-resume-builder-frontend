@@ -65,14 +65,13 @@ const DownloadableResumes = ({ userDetails }) => {
   const downloadResume = async (resume) => {
     const addedSummary = resume.resumeSummary.details || ''
     const addedAdditionalDetails = resume.additionalDetails
-    const skills = resume.skills.split(',');
+    const skills = resume.skills?.split(',');
     const resumeSectionsData = resume.resumeSections
     const educationList = resumeSectionsData.filter(item => item.sectionType === 'EDUCATION');
     const experienceList = resumeSectionsData.filter(item => item.sectionType === 'EXPERIENCE');
     const projectsList = resumeSectionsData.filter(item => item.sectionType === 'PROJECT');
     const languagesList = resume.languages
     const resumePdfTitle = transformToSnakeCase(resume.title)
-    console.log({resume})
     generatePdf(resumePdfTitle,
       <FinalResume
         userDetails={userDetails}
