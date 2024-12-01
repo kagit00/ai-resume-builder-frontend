@@ -58,7 +58,7 @@ const FinalResume = ({ userDetails, addedSummary, addedAdditionalDetails, experi
                          <h5 className="text-base font-semibold border-b border-gray-300 pb-2">Summary</h5>
 
                          {/* Summary Content */}
-                         <div className="text-xs font-normal leading-relaxed cust mt-1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(addedSummary) }} />
+                         <div className="text-xs font-normal leading-tight cust mt-1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(addedSummary) }} />
                     </section>
 
                     {/* Experience */}

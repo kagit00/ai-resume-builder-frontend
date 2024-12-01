@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { ChevronRight } from 'lucide-react';
 import PropTypes from 'prop-types';
 
-const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit }) => {
+const ResumeCreationPopUp = ({ isOpen, onClose, onSubmit}) => {
   const [resumeTitle, setResumeTitle] = useState('');
 
   const isValidTitle = (title) => {

@@ -62,7 +62,7 @@ const ResumePreview = ({ userDetails, addedSummary, addedAdditionalDetails, expe
                          <h5 className="text-xs font-semibold border-b border-gray-300 pb-1">Summary</h5>
 
                          {/* Summary Content */}
-                         <div className="custom font-normal leading-relaxed mt-1 cust" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(addedSummary) }} />
+                         <div className="custom font-normal leading-tight mt-1 cust" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(addedSummary) }} />
                     </section>
 
                     {/* Experience */}
