@@ -72,6 +72,7 @@ const DownloadableResumes = ({ userDetails }) => {
     const projectsList = resumeSectionsData.filter(item => item.sectionType === 'PROJECT');
     const languagesList = resume.languages
     const resumePdfTitle = transformToSnakeCase(resume.title)
+    console.log({resume})
     generatePdf(resumePdfTitle,
       <FinalResume
         userDetails={userDetails}
