@@ -58,28 +58,14 @@ const ResumeBuilder = () => {
           if (isFreeUser) {
                openUpgradeToPremiumModal()
           } else {
-               navigate('/user/dashboard/resume/success', {
-                    state: {
-                         resumePdfTitle: resumeTitle,
-                         userDetails: userDetails,
-                         addedSummary: addedSummary,
-                         addedAdditionalDetails: addedAdditionalDetails,
-                         experienceList: experienceList,
-                         educationList: educationList,
-                         projectsList: projectsList,
-                         skills: skills,
-                         languagesList: languagesList
-                    }
-               });
+               setTimeout(() => {
+                    // Navigate to dashboard and clear history
+                    navigate('/user/dashboard', { replace: true });
+               }, 5000);
           }
           await updateResumeStatus(resume.id)
           if (isNotificationEnabled)
                await sendEmail(userDetails.username, userDetails.name, isFreeUser)
-
-          setTimeout(() => {
-               // Navigate to dashboard and clear history
-               navigate('/user/dashboard', { replace: true });
-          }, 5000);
      }
 
      const closeUpgradeToPremiumModal = () => {
