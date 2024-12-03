@@ -59,10 +59,10 @@ const ResumeBuilder = () => {
                openUpgradeToPremiumModal()
           } else {
                setTimeout(() => {
-                    // Navigate to dashboard and clear history
                     navigate('/user/dashboard', { replace: true });
-               }, 5000);
+               }, 500);
           }
+
           await updateResumeStatus(resume.id)
           if (isNotificationEnabled)
                await sendEmail(userDetails.username, userDetails.name, isFreeUser)
@@ -75,7 +75,7 @@ const ResumeBuilder = () => {
 
      const confirmUpgradeToPremium = () => {
           navigate('/user/upgradetopremium')
-          closeUpgradeToPremiumModal();
+          setIsUpgradeToPremiumModalOpen(false);
      };
 
      const handleNext = () => {
