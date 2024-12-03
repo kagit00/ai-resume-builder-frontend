@@ -75,10 +75,16 @@ const ResumeBuilder = () => {
           await updateResumeStatus(resume.id)
           if (isNotificationEnabled)
                await sendEmail(userDetails.username, userDetails.name, isFreeUser)
+
+          setTimeout(() => {
+               // Navigate to dashboard and clear history
+               navigate('/user/dashboard', { replace: true });
+          }, 5000);
      }
 
      const closeUpgradeToPremiumModal = () => {
           setIsUpgradeToPremiumModalOpen(false);
+          navigate('/user/dashboard')
      };
 
      const confirmUpgradeToPremium = () => {
@@ -225,7 +231,7 @@ const ResumeBuilder = () => {
                                                   disabled={isResumeSubmitDisabled}
                                              >
                                                   <CheckCircleIcon className="w-6 h-6" />
-                                                  
+
                                              </button>
 
                                              {isResumeSubmitDisabled && (
