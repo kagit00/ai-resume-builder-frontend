@@ -73,13 +73,13 @@ const SearchFilter = ({ onApply, onReset, placeholderTitle = "Filter by title", 
             onChange={(e) => setTitleFilter(e.target.value)}
             className="border-b-2 p-2 text-xs mb-4 w-full bg-transparent"
           />
-          <input
+          {/* <input
             type="text"
             placeholder={placeholderDate}
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
             className="border-b-2 p-2 text-xs mb-4 w-full bg-transparent"
-          />
+          /> */}
           <div className="flex justify-end space-x-2">
             <button
               onClick={handleReset}
